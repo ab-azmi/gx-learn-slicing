@@ -1,0 +1,8 @@
+.hover {
+    transition: all 0.3s ease;
+    &_darker {
+        &:hover {
+            filter: brightness(0.9);
+        }
+    }
+}

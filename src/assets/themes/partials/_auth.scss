@@ -1,8 +1,58 @@
-.login-image-gradient-layer {
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.login-image{
+    &-gradient-layer {
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &-caption {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &-nav {
+        border: none;
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        button {
+            border: none;
+            width: 2rem;
+            height: .3rem;
+            border-radius: 10rem;
+            opacity: 0.5;
+
+            &.active {
+                opacity: 1;
+                background-color: white;
+            }
+        }
+    }
 }
+
+.button {
+    padding: .3rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+
+    &-outline {
+        background-color: transparent !important;
+        border: 2px solid $yellow;
+    }
+}
+
+input::placeholder {
+    color: $muted !important;
+}
+input::-webkit-input-placeholder {
+    color: $muted !important; 
+  }
