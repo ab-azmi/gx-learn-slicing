@@ -1,2 +1,11 @@
 // Import all of Bootstrap's CSS
 @import "~bootstrap/scss/bootstrap";
+@import "./partials/variables";
+@import "./partials/typography";
+@import "./partials/background";
+@import "./partials/sizing";
+@import "./partials/auth";
+
+body {
+    font-family: 'Inter', sans-serif;
+}
