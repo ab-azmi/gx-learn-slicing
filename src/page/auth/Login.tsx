@@ -1,8 +1,10 @@
 import Mountain from "../../assets/images/mountain.jpg";
+import Pakis from "../../assets/images/pakis.jpg";
 import LogoVerical from "../../assets/images/logo-vertical.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 const Login = () => {
+
   return (
     <div className="vh-100 vw-100 p-3 overflow-hidden">
       <div className="d-flex h-100 w-100">
@@ -50,11 +52,11 @@ const Login = () => {
               />
             </div>
 
-            <div className="text-white login-image-caption d-flex flex-column w-80">
-              <h6>- Gordon B. Hinckley</h6>
+            <div className="text-white login-image-caption d-flex flex-column gap-2 w-80">
+              <h6 className="fw-light">- Gordon B. Hinckley</h6>
               <h3>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Eveniet, maiores!
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Eveniet, maiores!"
               </h3>
             </div>
             <div className="login-image-nav">
