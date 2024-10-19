@@ -13,7 +13,7 @@ const SideBar = () => {
         {expand ? (
           <img src={LogoHitam} alt="" style={{ width: "11rem" }} />
         ) : (
-          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }} />
+          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }}/>
         )}
       </div>
       <ul className="px-4 d-flex flex-column gap-4">
