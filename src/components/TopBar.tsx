@@ -1,11 +1,14 @@
 import { HambergerMenu, Notification } from "iconsax-react";
 import User from '../assets/images/user.jpg';
+import sideBarStore from "../store/SidebarStore";
 
 const TopBar = () => {
+    const {expand, setExpand} = sideBarStore();
+
   return (
-    <div className=" top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">
+    <div className="top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">
       <div className="d-flex gap-4 align-items-center">
-        <button className="hamburger"><HambergerMenu size="24" /></button>
+        <button className="hamburger" onClick={() => setExpand(!expand)}><HambergerMenu size="24" /></button>
         <span className="fs-6">Dashboard</span>
       </div>
       <div className="d-flex gap-4 align-items-center">

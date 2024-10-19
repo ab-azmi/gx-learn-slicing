@@ -2,22 +2,20 @@ import SideBarLink from "./SideBarLink";
 import LogoHitam from "../assets/images/logo-hitam.svg";
 import SimpleLogo from "../assets/images/simple-logo.svg";
 import { Bill, Calculator, Edit, Home, Setting } from "iconsax-react";
-import { useState } from "react";
+import sideBarStore from "../store/SidebarStore";
 
 const SideBar = () => {
-  const [expand, setExpand] = useState(false);
+  const { expand } = sideBarStore();
 
   return (
     <nav className="py-4 bg-white h-100 sidenav">
-      {expand ? (
-        <div className="w-100 d-flex justify-content-center mb-5">
+      <div className="w-100 d-flex justify-content-center mb-5">
+        {expand ? (
           <img src={LogoHitam} alt="" style={{ width: "11rem" }} />
-        </div>
-      ) : (
-        <div className="w-100 d-flex justify-content-center mb-5">
-        <img src={SimpleLogo} alt="" style={{ width:"1.5rem" }}/>
+        ) : (
+          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }} />
+        )}
       </div>
-      )}
       <ul className="px-4 d-flex flex-column gap-4">
         <li>
           <SideBarLink link="/" active={true}>

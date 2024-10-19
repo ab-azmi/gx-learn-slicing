@@ -1,4 +1,6 @@
 .sidenav {
+    transition: all 0.3s ease;
+
     ul {
         list-style-type: none;
         padding: 0;
@@ -11,6 +13,10 @@
         gap: 1rem;
         font-weight: 400;
         text-wrap: nowrap;
+
+        &:hover {
+            color: $yellow !important;
+        }
     }
 }
 
