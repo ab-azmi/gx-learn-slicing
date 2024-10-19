@@ -1,5 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
+import TopBar from "../components/TopBar";
 
 const Layout = () => {
   const authenticated: boolean = true;
@@ -10,10 +11,13 @@ const Layout = () => {
 
   return (
     <div className="d-flex w-100 bg-background vh-100">
-      <div className="col-md-2">
+      <div className="">
         <SideBar />
       </div>
-      <Outlet />
+      <div className="w-100">
+        <TopBar />
+        <Outlet />
+      </div>
     </div>
   );
 };

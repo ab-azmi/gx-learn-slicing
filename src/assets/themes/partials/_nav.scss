@@ -10,5 +10,13 @@
         align-items: center;
         gap: 1rem;
         font-weight: 400;
+        text-wrap: nowrap;
+    }
+}
+
+.top-bar {
+    .hamburger {
+        border: none;
+        background-color: transparent;
     }
 }
