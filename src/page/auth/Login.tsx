@@ -1,9 +1,10 @@
-import Mountain from "../../assets/images/mountain.jpg";
 import Pakis from "../../assets/images/pakis.jpg";
 import LogoVerical from "../../assets/images/logo-vertical.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
 
   return (
     <div className="vh-100 vw-100 p-3 overflow-hidden">
@@ -21,7 +22,7 @@ const Login = () => {
             <form action="" className="d-flex flex-column gap-3">
               <Input label="Email" placeholder="you@gmail.com" type="email" />
               <Input label="Password" placeholder="password" type="password" />
-              <Button>
+              <Button onClick={() => navigate('/')}>
                 <span style={{ fontWeight: "500" }}>Sign In</span>
               </Button>
               <span className="text-muted text-center text-xs">
@@ -45,7 +46,7 @@ const Login = () => {
             <div className="h-100 position-relative">
               <div className="login-image-gradient-layer rounded-4"></div>
               <img
-                src={Mountain}
+                src={Pakis}
                 alt="logo"
                 className="object-fit-cover rounded-4"
                 style={{ width: "100%", height: "100%" }}
