@@ -1,10 +1,17 @@
-import { HambergerMenu, Logout, Notification } from "iconsax-react";
+import { HambergerMenu, Logout, Moon, Notification, Sun } from "iconsax-react";
 import User from "../assets/images/user.jpg";
 import sideBarStore from "../store/SidebarStore";
 import { Link } from "react-router-dom";
+import darkModeStore from "../store/DarkModeStore";
+import { useEffect } from "react";
 
 const TopBar = () => {
   const { expand, setExpand } = sideBarStore();
+  const {darkMode, setDarkMode} = darkModeStore();
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", darkMode);
+  }, [darkMode])
 
   return (
     <div className="top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">
@@ -21,6 +28,16 @@ const TopBar = () => {
           </span>
           <Notification size="24" className="text-muted" variant="Bulk" />
         </div>
+        <button onClick={() => setDarkMode(darkMode == "dark" ? "light" : "dark")} type="button" className="d-flex align-items-center gap-2 bg-transparent border-0">
+          {darkMode == "dark" ? (
+            <Moon size="24" className="text-muted" variant="Bulk" />
+          ) : (
+            <Sun size="24" className="text-muted" variant="Bulk" />
+          )}
+          <span className="text-xs">
+            {darkMode == "dark" ? "Dark" : "Light"}
+          </span>
+        </button>
         <div className="dropdown">
           <img
             src={User}

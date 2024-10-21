@@ -5,3 +5,15 @@
 .bg-background {
     background-color: $background;
 }
+
+$color-mode-type: data;
+
+@include color-mode(dark) {
+    .bg-background {
+        background-color: #343434;
+    }
+
+    .bg-white {
+        background-color: #1b1b1b !important;
+    }
+}

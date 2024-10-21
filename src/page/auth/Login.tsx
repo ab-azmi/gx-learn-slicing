@@ -30,7 +30,7 @@ const Login = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [slides.length])
+  }, [slides.length]);
 
   return (
     <div className="vh-100 vw-100 p-3 overflow-hidden">
@@ -94,6 +94,7 @@ const Login = () => {
             <div className="login-image-nav">
               {slides.map((_, index) => (
                 <button
+                  key={index}
                   type="button"
                   onClick={() => setCurrentSlide(index)}
                   className={currentSlide == index ? "active" : ""}
