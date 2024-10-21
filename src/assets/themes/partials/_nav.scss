@@ -14,11 +14,26 @@
         font-weight: 400;
         text-wrap: nowrap;
         font-size: 14px;
+        position: relative;
 
         &:hover {
             color: $yellow !important;
         }
     }
+
+    &-tooltip {
+        padding: 0.3rem .5rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: .8rem;
+        left: 30px;
+        background-color: $yellow;
+        color: black;
+        display: none;
+    }
+
+   
 }
 
 .top-bar {

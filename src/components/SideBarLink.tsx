@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 type Props = {
   link: string;
   active?: boolean;
+  tooltip?: string
 };
 
-const SideBarLink = ({ link, active, children }: PropsWithChildren<Props>) => {
+const SideBarLink = ({ link, active, tooltip, children }: PropsWithChildren<Props>) => {
   return (
     <Link
       className={clsx(
@@ -16,6 +17,7 @@ const SideBarLink = ({ link, active, children }: PropsWithChildren<Props>) => {
       )}
       to={link}
     >
+      {tooltip && <span className="sidenav-tooltip">{tooltip}</span>}
       {children}
     </Link>
   );

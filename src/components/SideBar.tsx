@@ -13,36 +13,36 @@ const SideBar = () => {
         {expand ? (
           <img src={LogoHitam} alt="" style={{ width: "11rem" }} />
         ) : (
-          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }}/>
+          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }} />
         )}
       </div>
       <ul className="px-4 d-flex flex-column gap-4">
         <li>
-          <SideBarLink link="/" active={true}>
+          <SideBarLink tooltip="Dashboard" link="/" active={true}>
             <Home size="24" variant="Bulk" />
             {expand && "Dashboard"}
           </SideBarLink>
         </li>
         <li>
-          <SideBarLink link="/">
+          <SideBarLink tooltip="Schedule" link="/">
             <Edit size="24" variant="Bulk" />
             {expand && "Employee Schedule"}
           </SideBarLink>
         </li>
         <li>
-          <SideBarLink link="/">
+          <SideBarLink tooltip="Attendance" link="/">
             <Bill size="24" variant="Bulk" />
             {expand && "Employee Attendance"}
           </SideBarLink>
         </li>
         <li>
-          <SideBarLink link="/">
+          <SideBarLink tooltip="Analytic" link="/">
             <Calculator size="24" variant="Bulk" />
             {expand && "Analytic Summary"}
           </SideBarLink>
         </li>
         <li>
-          <SideBarLink link="/">
+          <SideBarLink tooltip="Setting" link="/">
             <Setting size="24" variant="Bulk" />
             {expand && "Settings"}
           </SideBarLink>
