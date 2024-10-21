@@ -5,6 +5,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import clsx from "clsx";
 const Login = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -47,11 +48,13 @@ const Login = () => {
             </div>
             <form action="" className="d-flex flex-column gap-3">
               <Input
+                name="email"
                 label="Email"
                 placeholder="you@globalxtreme.net"
                 type="email"
               />
               <Input
+                name="password"
                 label="Password"
                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                 type="password"
@@ -82,7 +85,7 @@ const Login = () => {
               <img
                 src={slides[currentSlide].image}
                 alt="slide"
-                className="object-fit-cover rounded-4"
+                className={clsx("object-fit-cover rounded-4")}
                 style={{ width: "100%", height: "100%" }}
               />
             </div>

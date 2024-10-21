@@ -32,7 +32,7 @@ const TopBar = () => {
           {darkMode == "dark" ? (
             <Moon size="24" className="text-muted" variant="Bulk" />
           ) : (
-            <Sun size="24" className="text-muted" variant="Bulk" />
+            <Sun size="24" className="text-yellow" variant="Bulk" />
           )}
           <span className="text-xs">
             {darkMode == "dark" ? "Dark" : "Light"}

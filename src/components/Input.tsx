@@ -7,14 +7,15 @@ type Props = {
   label: string;
   placeholder: string;
   type: string;
+  name: string;
 };
-const Input = ({ value, onChange, label, placeholder, type }: Props) => {
+const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="d-flex flex-column gap-1 form-group">
       <label
-        htmlFor="email"
+        htmlFor={name}
         className="fw-lighter text-muted"
         style={{ fontSize: "14px" }}
       >
@@ -27,6 +28,8 @@ const Input = ({ value, onChange, label, placeholder, type }: Props) => {
           type={type === "password" && showPassword ? "text" : type}
           className="form-control"
           placeholder={placeholder}
+          name={name}
+          id={name}
         />
         {type === "password" && (
           <span
