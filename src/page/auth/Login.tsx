@@ -1,10 +1,36 @@
-import Pakis from "../../assets/images/pakis.jpg";
+import Pakis from "./assets/images/pakis.jpg";
+import Mountain from "./assets/images/mountain.jpg";
 import LogoVerical from "../../assets/images/logo-vertical.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+
+  const slides = [
+    {
+      image: Pakis,
+      caption:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!",
+      by: "Gordon B. Hinckley",
+    },
+    {
+      image: Mountain,
+      caption:
+        "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama",
+      by: "John D Doe",
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [slides.length])
 
   return (
     <div className="vh-100 vw-100 p-3 overflow-hidden">
@@ -20,9 +46,17 @@ const Login = () => {
               <span className="text-muted">Login to your account below</span>
             </div>
             <form action="" className="d-flex flex-column gap-3">
-              <Input label="Email" placeholder="you@gmail.com" type="email" />
-              <Input label="Password" placeholder="password" type="password" />
-              <Button onClick={() => navigate('/')}>
+              <Input
+                label="Email"
+                placeholder="you@globalxtreme.net"
+                type="email"
+              />
+              <Input
+                label="Password"
+                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                type="password"
+              />
+              <Button onClick={() => navigate("/")}>
                 <span style={{ fontWeight: "500" }}>Sign In</span>
               </Button>
               <span className="text-muted text-center text-xs">
@@ -42,27 +76,29 @@ const Login = () => {
           </div>
         </div>
         <div className="col-md-6 h-100">
-          <div className="position-relative h-100 w-100">
+          <div className="position-relative h-100 w-100 slides">
             <div className="h-100 position-relative">
               <div className="login-image-gradient-layer rounded-4"></div>
               <img
-                src={Pakis}
-                alt="logo"
+                src={slides[currentSlide].image}
+                alt="slide"
                 className="object-fit-cover rounded-4"
                 style={{ width: "100%", height: "100%" }}
               />
             </div>
 
             <div className="text-white login-image-caption d-flex flex-column gap-2 w-80">
-              <h6 className="fw-light">- Gordon B. Hinckley</h6>
-              <h3>
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Eveniet, maiores!"
-              </h3>
+              <h6 className="fw-light">- {slides[currentSlide].by}</h6>
+              <h3>"{slides[currentSlide].caption}"</h3>
             </div>
             <div className="login-image-nav">
-              <button className="active"></button>
-              <button ></button>
+              {slides.map((_, index) => (
+                <button
+                  type="button"
+                  onClick={() => setCurrentSlide(index)}
+                  className={currentSlide == index ? "active" : ""}
+                ></button>
+              ))}
             </div>
           </div>
         </div>
