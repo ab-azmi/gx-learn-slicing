@@ -3,11 +3,11 @@ import Mountain from "./assets/images/mountain.jpg";
 import LogoVerical from "../../assets/images/logo-vertical.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import useLogin from "./hooks/useLogin";
 const Login = () => {
-  const navigate = useNavigate();
+  const {input, hanldleSubmit, handleInput} = useLogin();
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   const slides = [
@@ -46,26 +46,30 @@ const Login = () => {
               <h1 className="fs-2 fw-bold lh-1">Work Schedule System v1.0</h1>
               <span className="text-muted">Login to your account below</span>
             </div>
-            <form action="" className="d-flex flex-column gap-3">
+            <form onSubmit={hanldleSubmit} className="d-flex flex-column gap-3">
               <Input
+                value={input.email}
+                onChange={handleInput}
                 name="email"
                 label="Email"
                 placeholder="you@globalxtreme.net"
                 type="email"
               />
               <Input
+                value={input.password}
+                onChange={handleInput}
                 name="password"
                 label="Password"
                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                 type="password"
               />
-              <Button onClick={() => navigate("/")}>
+              <Button type="submit">
                 <span style={{ fontWeight: "500" }}>Sign In</span>
               </Button>
               <span className="text-muted text-center text-xs">
                 Or Sign In Using
               </span>
-              <Button style="outline">
+              <Button type="button" style="outline">
                 <span style={{ fontWeight: "500" }}>GX Employee OAuth 2.0</span>
               </Button>
             </form>
