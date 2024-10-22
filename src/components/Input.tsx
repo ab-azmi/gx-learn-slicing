@@ -32,8 +32,10 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
           id={name}
         />
         {type === "password" && (
-          <span
-            className="position-absolute top-50 translate-middle-y text-muted"
+          <button
+            type="button"
+            className="position-absolute top-50 translate-middle-y text-muted bg-transparent border-0"
+            data-testid="show-password-toggle"
             style={{ cursor: "pointer", right: "10px" }}
             onClick={() => setShowPassword(!showPassword)}
           >
@@ -42,7 +44,7 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
             ) : (
               <Eye size="20" variant="Outline" />
             )}
-          </span>
+          </button>
         )}
       </div>
     </div>

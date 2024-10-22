@@ -24,8 +24,7 @@ const TopBar = () => {
       </div>
       <div className="d-flex gap-4 align-items-center">
         <div className="position-relative">
-          <span className="position-absolute top-0 start-100 translate-middle badge text-xs rounded-pill bg-danger">
-            1
+          <span className="position-absolute translate-middle text-xs bg-danger rounded-circle" style={{ width: "10px", height:"10px", top:"0", right: "-4px" }}>
           </span>
           <Notification size="24" className="text-muted" variant="Bulk" />
         </div>

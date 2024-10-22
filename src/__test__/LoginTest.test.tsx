@@ -61,5 +61,11 @@ describe("Button Component", () => {
     expect(mockedUseNavigate).toBeCalledWith("/");
   });
 
+  test("should toggle show and hide password", async () => {
+    expect(screen.getByLabelText(/password/i)).toHaveProperty('type', 'password');
+    await userEvent.click(screen.getByTestId("show-password-toggle"));
+    expect(screen.getByLabelText(/password/i)).toHaveProperty('type', 'text');
+  })
+
 
 });
