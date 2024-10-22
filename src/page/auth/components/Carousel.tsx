@@ -35,11 +35,9 @@ const Carousel = () => {
 
   const slideVariants = {
     hiddenLeft: {
-      scale: .9,
       opacity: 0,
     },
     visible: {
-      scale: 1,
       opacity: 1,
       transition: {
         duration: 0.6,
