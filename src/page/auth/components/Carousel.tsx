@@ -24,7 +24,7 @@ const Carousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [slides.length]);
@@ -35,11 +35,11 @@ const Carousel = () => {
 
   const slideVariants = {
     hiddenLeft: {
-      x: "-5%",
+      scale: .9,
       opacity: 0,
     },
     visible: {
-      x: "0",
+      scale: 1,
       opacity: 1,
       transition: {
         duration: 0.6,
