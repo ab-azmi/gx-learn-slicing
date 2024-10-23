@@ -2,17 +2,12 @@ import { HambergerMenu, Logout, Moon, Notification, Sun } from "iconsax-react";
 import User from "../assets/images/user.jpg";
 import sideBarStore from "../store/SidebarStore";
 import darkModeStore from "../store/DarkModeStore";
-import { useEffect } from "react";
 import useLogout from "../hooks/useLogout";
 
 const TopBar = () => {
   const {signout} = useLogout();
   const { expand, setExpand } = sideBarStore();
   const {darkMode, setDarkMode} = darkModeStore();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-bs-theme", darkMode);
-  }, [darkMode])
 
   return (
     <div className="top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">

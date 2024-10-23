@@ -16,8 +16,8 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
     <div className="d-flex flex-column gap-1 form-group">
       <label
         htmlFor={name}
-        className="fw-lighter text-muted"
-        style={{ fontSize: "14px" }}
+        className=""
+        style={{ fontSize: "14px", fontWeight: "400" }}
       >
         {label}
       </label>

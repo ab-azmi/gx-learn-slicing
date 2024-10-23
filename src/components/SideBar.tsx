@@ -27,9 +27,9 @@ const SideBar = () => {
     <nav className="py-4 bg-white h-100 sidenav">
       <div className="w-100 d-flex justify-content-center mb-5">
         {expand ? (
-          <img src={LogoHitam} alt="" style={{ width: "11rem" }} />
+          <img src={LogoHitam} alt="" style={{ width: "9rem" }} />
         ) : (
-          <img src={SimpleLogo} alt="" style={{ width: "1.5rem" }} />
+          <img src={SimpleLogo} alt="" style={{ width: "1.4rem" }} />
         )}
       </div>
       <ul className="px-4 d-flex flex-column gap-4">
