@@ -10,10 +10,8 @@ const Layout = () => {
   }
 
   return (
-    <div className="d-flex w-100 bg-background vh-100">
-      <div className="">
-        <SideBar />
-      </div>
+    <div className="d-flex w-100 vh-100 bg-background">
+      <SideBar />
       <div className="w-100">
         <TopBar />
         <Outlet />

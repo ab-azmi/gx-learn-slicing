@@ -14,8 +14,8 @@ const Button = ({
   onClick,
   children,
 }: PropsWithChildren<Props>) => {
-  const classFill = "bg-yellow text-black";
-  const classOutline = "border-yellow button-outline";
+  const classFill = "bg-primary text-black";
+  const classOutline = "border-primary button-outline";
   return (
     <button
       type={type}

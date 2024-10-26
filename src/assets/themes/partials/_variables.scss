@@ -1,4 +1,38 @@
-$yellow: #F8C900;
-$muted: #ACADC1;
-$background: #F4F6F9;
+$yellow: #f8c900;
+$muted: #acadc1;
+$background: #f4f6f9;
+$darker: #1b1b1b;
+$soft-dark: #343434;
 
+$theme-colors: (
+  "primary": $yellow,
+  "light": $background,
+  "secondary": white,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "dark": $dark,
+);
+
+$custom-colors: (
+  "muted": $muted,
+  "soft-dark": $soft-dark,
+  "darker": $darker,
+  "background": $background,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+$color-mode-type: data;
+
+
+@include color-mode(dark) {
+    .bg-background {
+        background-color: $soft-dark !important;
+    }
+
+    .bg-secondary {
+        background-color: $darker !important;
+    }
+}

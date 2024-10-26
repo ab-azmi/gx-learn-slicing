@@ -3,15 +3,8 @@ import Register from "./auth/Register";
 import Home from "./Home";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
-import darkModeStore from "../store/DarkModeStore";
-import { useEffect } from "react";
-
+import { loginPath } from "../path/auth.path";
 function App() {
-  const { darkMode } = darkModeStore();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-bs-theme", darkMode);
-  }, [darkMode]);
   
   return (
     <>
@@ -19,7 +12,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path={loginPath} element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </>

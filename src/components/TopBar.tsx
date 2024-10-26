@@ -1,22 +1,24 @@
 import { HambergerMenu, Logout, Moon, Notification, Sun } from "iconsax-react";
 import User from "../assets/images/user.jpg";
 import sideBarStore from "../store/SidebarStore";
-import darkModeStore from "../store/DarkModeStore";
 import useLogout from "../hooks/useLogout";
+import { useContext } from "react";
+import { DarkModeContext } from "../context/DarkModeProvider";
 
 const TopBar = () => {
   const {signout} = useLogout();
   const { expand, setExpand } = sideBarStore();
-  const {darkMode, setDarkMode} = darkModeStore();
+  const {darkMode, setDarkMode} = useContext(DarkModeContext);
 
   return (
-    <div className="top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">
+    <div className="top-bar w-100 bg-secondary d-flex justify-content-between px-4 py-3">
       <div className="d-flex gap-4 align-items-center">
         <button className="hamburger" onClick={() => setExpand(!expand)}>
           <HambergerMenu size="24" />
         </button>
         <span className="fs-6">Dashboard</span>
       </div>
+
       <div className="d-flex gap-4 align-items-center">
         <div className="position-relative">
           <span className="position-absolute translate-middle text-xs bg-danger rounded-circle" style={{ width: "10px", height:"10px", top:"0", right: "-4px" }}>
@@ -37,8 +39,9 @@ const TopBar = () => {
           <img
             src={User}
             alt=""
+            role="button"
             className="rounded-circle object-fit-cover"
-            style={{ width: "2.3rem", height: "2.3rem", cursor: "pointer" }}
+            style={{ width: "2.3rem", height: "2.3rem"}}
             data-bs-toggle="dropdown"
             aria-expanded="false"
           />

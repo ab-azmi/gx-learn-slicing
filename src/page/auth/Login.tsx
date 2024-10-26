@@ -57,8 +57,8 @@ const Login = () => {
             </form>
           </div>
           <div className="w-90 mx-auto">
-            <hr style={{ opacity: "0.1" }}/>
-            <div className="d-flex justify-content-between align-items-center text-xs text-muted">
+            {/* <hr style={{ opacity: "0.1" }}/> */}
+            <div className="d-flex justify-content-between align-items-center text-xs text-muted pt-3 border-top">
               <span>©️ 2024 GX APP - Committed to better quality</span>
               <span>Design & Development by GlobalXtreme</span>
             </div>

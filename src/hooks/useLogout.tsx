@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import AuthStore from "../store/AuthStore";
+import { loginPath } from "../path/auth.path";
 
 const useLogout = () => {
   const store = AuthStore();
@@ -7,7 +8,7 @@ const useLogout = () => {
 
   const signout = () => {
     store.logout();
-    navigate("/login", { replace: true });
+    navigate(loginPath, { replace: true });
   };
   return {
     signout,

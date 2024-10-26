@@ -66,13 +66,12 @@ const Carousel = () => {
           <motion.img
             key={currentSlide}
             variants={slideVariants}
-            initial={"hiddenLeft"}
+            initial="hiddenLeft"
             animate="visible"
-            exit={"exitLeft"}
+            exit="exitLeft"
             src={slides[currentSlide].image}
             alt="slide"
-            className="object-fit-cover rounded-4 position-absolute"
-            style={{ width: "100%", height: "100%" }}
+            className="object-fit-cover rounded-4 position-absolute h-100 w-100"
           />
         </div>
 
