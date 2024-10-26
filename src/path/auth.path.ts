@@ -1,3 +1,3 @@
-export const loginPath = '/auth/login';
+export const loginPath = '/login';
 
 export const signUpPath = '/signup';

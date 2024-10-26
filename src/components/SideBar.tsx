@@ -1,7 +1,7 @@
 import SideBarLink from "@/components/SideBarLink";
 import LogoHitam from "@/assets/images/logo-hitam.svg";
 import SimpleLogo from "@/assets/images/simple-logo.svg";
-import { Bill, Calculator, Edit, Home, Setting } from "iconsax-react";
+import { Bill, Calculator, HierarchySquare2, Home, Setting } from "iconsax-react";
 import sideBarStore from "@/store/SidebarStore";
 import { ReactNode } from "react";
 
@@ -17,10 +17,10 @@ const SideBar = () => {
   const { expand } = sideBarStore();
   const menus = [
     menuObject({title: "Dashboard", icon: <Home size="24" variant="Bulk" />, link: "/"}),
-    menuObject({title: "Employee Schedule", icon: <Edit size="24" variant="Bulk" />, link: "/"}),
-    menuObject({title: "Employee Attendance", icon: <Bill size="24" variant="Bulk" />, link: "/"}),
-    menuObject({title: "Analytic Summary", icon: <Calculator size="24" variant="Bulk" />, link: "/"}),
-    menuObject({title: "Settings", icon: <Setting size="24" variant="Bulk" />, link: "/"}),
+    menuObject({title: "Leads", icon: <HierarchySquare2 size="24" variant="Bulk" />, link: "/leads"}),
+    menuObject({title: "Employee Attendance", icon: <Bill size="24" variant="Bulk" />, link: "/empl"}),
+    menuObject({title: "Analytic Summary", icon: <Calculator size="24" variant="Bulk" />, link: "/analytic"}),
+    menuObject({title: "Settings", icon: <Setting size="24" variant="Bulk" />, link: "/sett"}),
   ]
 
   return (
@@ -35,7 +35,7 @@ const SideBar = () => {
       <ul className="px-4 d-flex flex-column gap-4">
         {menus.map((menu, index) => (
           <li key={index}>
-          <SideBarLink tooltip={menu.title} link={menu.link} active={index == 0 ? true : false}>
+          <SideBarLink tooltip={menu.title} link={menu.link}>
             {menu.icon}
             {expand && menu.title}
           </SideBarLink>

@@ -1,25 +1,26 @@
-import clsx from "clsx";
 import { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 type Props = {
   link: string;
-  active?: boolean;
-  tooltip?: string
+  tooltip?: string;
 };
 
-const SideBarLink = ({ link, active, tooltip, children }: PropsWithChildren<Props>) => {
+const SideBarLink = ({
+  link,
+  tooltip,
+  children,
+}: PropsWithChildren<Props>) => {
   return (
-    <Link
-      className={clsx(
-        "sidenav-link",
-        active ? "text-primary fw-semibold" : "text-muted"
-      )}
+    <NavLink
+      className={({ isActive }) =>
+        `sidenav-link ${isActive ? "text-primary fw-semibold" : "text-muted"}`
+      }
       to={link}
     >
       {tooltip && <span className="sidenav-tooltip">{tooltip}</span>}
       {children}
-    </Link>
+    </NavLink>
   );
 };
 
