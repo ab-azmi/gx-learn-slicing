@@ -4,28 +4,19 @@ import Mountain from "@/assets/images/mountain.jpg";
 import Cat from "@/assets/images/cat.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 
+const carouselObj = (image: string, caption: string, by: string) => {
+  return {
+    image, caption, by
+  }
+}
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   const slides = [
-    {
-      image: Pakis,
-      caption:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!",
-      by: "Gordon B. Hinckley",
-    },
-    {
-      image: Mountain,
-      caption:
-        "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama",
-      by: "John D Doe",
-    },
-    {
-      image: Cat,
-      caption:
-        "Consectetur adipisicing elit. Eveniet, lainnya, disini juga sama",
-      by: "Meaowrice L",
-    },
+    carouselObj(Pakis, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!", "Gordon B. Hinckley"),
+    carouselObj(Mountain, "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama", "John D Doe"),
+    carouselObj(Cat, "Consectetur adipisicing elit. Eveniet, lainnya, disini juga sama", "Meaowrice L"),
   ];
 
   useEffect(() => {
