@@ -3,16 +3,18 @@ import { persist } from 'zustand/middleware';
 
 type Props = {
     authenticated: boolean;
-    login: () => void;
-    logout: () => void;
+    token: string | null;
+    setToken: (token: string) => void;
+    clearToken: () => void;
 }
 
 const AuthStore = create<Props>()(
     persist(
         (set) => ({
             authenticated: false,
-            login: () => set({ authenticated: true }),
-            logout: () => set({ authenticated: false }),
+            token: null,
+            setToken: (token: string) => set({ token, authenticated: true }),
+            clearToken: () => set({ token: null, authenticated: false }),
         }),
         {
             name: 'auth-storage',

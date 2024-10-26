@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import useLogin from "@/page/auth/hooks/useLogin";
 import Carousel from "@/page/auth/components/Carousel";
 const Login = () => {
-  const { input, hanldleSubmit, handleInput } = useLogin();
+  const { input,errors, loading, hanldleSubmit, handleInput } = useLogin();
 
   return (
     <div className="vh-100 vw-100 p-3">
@@ -32,6 +32,7 @@ const Login = () => {
                 label="Email"
                 placeholder="you@globalxtreme.net"
                 type="email"
+                errors={errors?.email}
               />
               <Input
                 value={input.password}
@@ -40,10 +41,11 @@ const Login = () => {
                 label="Password"
                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                 type="password"
+                errors={errors?.password}
               />
               <div className="mt-3 w-100 d-flex flex-column gap-3">
-                <Button type="submit">
-                  <span>Sign In</span>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Loading..." : "Sign In"}
                 </Button>
                 <span className="text-muted text-center text-xs">
                   Or Sign In Using

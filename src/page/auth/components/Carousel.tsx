@@ -6,17 +6,31 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const carouselObj = (image: string, caption: string, by: string) => {
   return {
-    image, caption, by
-  }
-}
+    image,
+    caption,
+    by,
+  };
+};
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   const slides = [
-    carouselObj(Pakis, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!", "Gordon B. Hinckley"),
-    carouselObj(Mountain, "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama", "John D Doe"),
-    carouselObj(Cat, "Consectetur adipisicing elit. Eveniet, lainnya, disini juga sama", "Meaowrice L"),
+    carouselObj(
+      Pakis,
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!",
+      "Gordon B. Hinckley"
+    ),
+    carouselObj(
+      Mountain,
+      "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama",
+      "John D Doe"
+    ),
+    carouselObj(
+      Cat,
+      "Consectetur adipisicing elit. Eveniet, lainnya, disini juga sama",
+      "Meaowrice L"
+    ),
   ];
 
   useEffect(() => {
@@ -44,18 +58,18 @@ const Carousel = () => {
     exitLeft: {
       opacity: 0,
       transition: {
-        duration: 1
-      }
+        duration: 1,
+      },
     },
   };
 
   return (
     <div className="position-relative h-100 w-100 slides">
-      <AnimatePresence>
-        <div className="h-100 position-relative">
-          <div className="login-image-gradient-layer rounded-4"></div>
+      <div className="h-100 position-relative">
+        <div className="login-image-gradient-layer rounded-4"></div>
+        <AnimatePresence>
           <motion.img
-            key={currentSlide}
+            key={slides[currentSlide].image}
             variants={slideVariants}
             initial="hiddenLeft"
             animate="visible"
@@ -64,11 +78,13 @@ const Carousel = () => {
             alt="slide"
             className="object-fit-cover rounded-4 position-absolute h-100 w-100"
           />
-        </div>
+        </AnimatePresence>
+      </div>
 
-        <div className="text-white login-image-caption d-flex flex-column gap-2 w-80">
+      <div className="text-white login-image-caption d-flex flex-column gap-2 w-80">
+        <AnimatePresence>
           <motion.div
-            key={currentSlide}
+            key={slides[currentSlide].image}
             variants={slideVariants}
             initial={"hiddenLeft"}
             animate="visible"
@@ -77,18 +93,19 @@ const Carousel = () => {
             <h6 className="fw-light">- {slides[currentSlide].by}</h6>
             <h3>"{slides[currentSlide].caption}"</h3>
           </motion.div>
-        </div>
-        <div className="login-image-nav">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => handleClick(index)}
-              className={currentSlide == index ? "active" : ""}
-            ></button>
-          ))}
-        </div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
+
+      <div className="login-image-nav">
+        {slides.map((_, index) => (
+          <button
+            key={_.by}
+            type="button"
+            onClick={() => handleClick(index)}
+            className={currentSlide == index ? "active" : ""}
+          ></button>
+        ))}
+      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ const useLogout = () => {
   const navigate = useNavigate();
 
   const signout = () => {
-    store.logout();
+    store.clearToken();
     navigate(loginPath, { replace: true });
   };
   return {

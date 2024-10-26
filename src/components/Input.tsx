@@ -8,8 +8,9 @@ type Props = {
   placeholder: string;
   type: string;
   name: string;
+  errors?: string;
 };
-const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
+const Input = ({ value, onChange, label, placeholder, type, name, errors }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -45,6 +46,13 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
           </button>
         )}
       </div>
+      {
+        errors && (
+          <span className="text-danger text-xs">
+            {errors}
+          </span>
+        )
+      }
     </div>
   );
 };

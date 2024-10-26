@@ -1,26 +1,32 @@
 import { API_ENDPOINTS } from "@/service/api/config.api";
 
-export const login = async () => {
-    const response = await fetch(API_ENDPOINTS.login, {
+type credentials = {
+    email: string;
+    password: string;
+    password_confirmation?: string;
+}
+
+export const login = async (data: credentials) => {
+    return await fetch(API_ENDPOINTS.login, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            email: "",
-            password: "",
-        }),
-    });
-
-    return response.json();
+        body: JSON.stringify(data),
+    })
+    .then((res) =>{
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error("Login failed");
+    })
 }
 
 export const logout = async () => {
-    const response = await fetch(API_ENDPOINTS.logout, {
+    return await fetch(API_ENDPOINTS.logout, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
     });
-    return response.json();
 }
