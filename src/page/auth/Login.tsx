@@ -43,13 +43,13 @@ const Login = () => {
               />
               <div className="mt-3 w-100 d-flex flex-column gap-3">
                 <Button type="submit">
-                  <span style={{ fontWeight: "540" }}>Sign In</span>
+                  <span>Sign In</span>
                 </Button>
                 <span className="text-muted text-center text-xs">
                   Or Sign In Using
                 </span>
                 <Button type="button" style="outline">
-                  <span style={{ fontWeight: "540" }}>
+                  <span>
                     GX Employee OAuth 2.0
                   </span>
                 </Button>
@@ -57,7 +57,6 @@ const Login = () => {
             </form>
           </div>
           <div className="w-90 mx-auto">
-            {/* <hr style={{ opacity: "0.1" }}/> */}
             <div className="d-flex justify-content-between align-items-center text-xs text-muted pt-3 border-top">
               <span>©️ 2024 GX APP - Committed to better quality</span>
               <span>Design & Development by GlobalXtreme</span>

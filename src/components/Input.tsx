@@ -16,8 +16,7 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
     <div className="d-flex flex-column gap-1 form-group">
       <label
         htmlFor={name}
-        className=""
-        style={{ fontSize: "14px", fontWeight: "400" }}
+        className="fw-light fs-xs"
       >
         {label}
       </label>
@@ -34,9 +33,8 @@ const Input = ({ value, onChange, label, placeholder, type, name }: Props) => {
         {type === "password" && (
           <button
             type="button"
-            className="position-absolute top-50 translate-middle-y text-muted bg-transparent border-0"
+            className="position-absolute top-50 translate-middle-y text-muted bg-transparent border-0 end-2"
             data-testid="show-password-toggle"
-            style={{ cursor: "pointer", right: "10px" }}
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (

@@ -36,3 +36,16 @@ $color-mode-type: data;
         background-color: $darker !important;
     }
 }
+
+
+$position-values: (
+  0: 0,
+  50: 50%,
+  100: 100%
+);
+
+$custom-position-values: (
+  2: 2%,
+);
+
+$position-values: map-merge($position-values, $custom-position-values);
