@@ -1,8 +1,8 @@
-import SideBarLink from "./SideBarLink";
-import LogoHitam from "../assets/images/logo-hitam.svg";
-import SimpleLogo from "../assets/images/simple-logo.svg";
+import SideBarLink from "@/components/SideBarLink";
+import LogoHitam from "@/assets/images/logo-hitam.svg";
+import SimpleLogo from "@/assets/images/simple-logo.svg";
 import { Bill, Calculator, Edit, Home, Setting } from "iconsax-react";
-import sideBarStore from "../store/SidebarStore";
+import sideBarStore from "@/store/SidebarStore";
 import { ReactNode } from "react";
 
 const menuObject = ({title, icon, link}:{title: string, icon: ReactNode, link: string}) => {

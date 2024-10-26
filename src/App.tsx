@@ -1,9 +1,9 @@
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import Home from "./Home";
+import Login from "@/page/auth/Login";
+import Register from "@/page/auth/Register";
+import Home from "@/page/Home";
 import { Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
-import { loginPath } from "../path/auth.path";
+import Layout from "@/components/Layout";
+import { loginPath } from "@/path/auth.path";
 function App() {
   
   return (

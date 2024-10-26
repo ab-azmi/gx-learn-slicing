@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Pakis from "../assets/images/pakis.jpg";
-import Mountain from "../assets/images/mountain.jpg";
-import Cat from "../assets/images/cat.jpg";
+import Pakis from "@/assets/images/pakis.jpg";
+import Mountain from "@/assets/images/mountain.jpg";
+import Cat from "@/assets/images/cat.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Carousel = () => {

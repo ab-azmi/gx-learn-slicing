@@ -1,8 +1,8 @@
-import LogoVerical from "../../assets/images/logo-vertical.svg";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import useLogin from "./hooks/useLogin";
-import Carousel from "./components/Carousel";
+import LogoVerical from "@/assets/images/logo-vertical.svg";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import useLogin from "@/page/auth/hooks/useLogin";
+import Carousel from "@/page/auth/components/Carousel";
 const Login = () => {
   const { input, hanldleSubmit, handleInput } = useLogin();
 

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import App from "../page/App";
+import App from "@/App";
 import userEvent from "@testing-library/user-event";
 
 const mockedUseNavigate = vi.fn();

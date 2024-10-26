@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthStore from "../../../store/AuthStore";
+import AuthStore from "@/store/AuthStore";
 
 const useLogin = () => {
     const store = AuthStore();

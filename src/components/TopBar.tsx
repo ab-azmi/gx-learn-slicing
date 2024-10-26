@@ -1,9 +1,9 @@
 import { HambergerMenu, Logout, Moon, Notification, Sun } from "iconsax-react";
-import User from "../assets/images/user.jpg";
-import sideBarStore from "../store/SidebarStore";
-import useLogout from "../hooks/useLogout";
+import User from "@/assets/images/user.jpg";
+import sideBarStore from "@/store/SidebarStore";
+import useLogout from "@/hooks/useLogout";
 import { useContext } from "react";
-import { DarkModeContext } from "../context/DarkModeProvider";
+import { DarkModeContext } from "@/context/DarkModeProvider";
 
 const TopBar = () => {
   const {signout} = useLogout();

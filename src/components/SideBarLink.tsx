@@ -13,7 +13,7 @@ const SideBarLink = ({ link, active, tooltip, children }: PropsWithChildren<Prop
     <Link
       className={clsx(
         "sidenav-link",
-        active ? "text-yellow fw-semibold" : "text-muted"
+        active ? "text-primary fw-semibold" : "text-muted"
       )}
       to={link}
     >

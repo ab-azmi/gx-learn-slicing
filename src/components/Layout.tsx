@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
-import SideBar from "../components/SideBar";
-import TopBar from "../components/TopBar";
+import SideBar from "@/components/SideBar";
+import TopBar from "@/components/TopBar";
 
 const Layout = () => {
   const authenticated: boolean = true;
