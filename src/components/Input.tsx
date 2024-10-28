@@ -10,15 +10,20 @@ type Props = {
   name: string;
   errors?: string;
 };
-const Input = ({ value, onChange, label, placeholder, type, name, errors }: Props) => {
+const Input = ({
+  value,
+  onChange,
+  label,
+  placeholder,
+  type,
+  name,
+  errors,
+}: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="d-flex flex-column gap-1 form-group">
-      <label
-        htmlFor={name}
-        className="fw-light fs-xs"
-      >
+      <label htmlFor={name} className="fw-light fs-xs">
         {label}
       </label>
       <div className="position-relative">
@@ -46,13 +51,7 @@ const Input = ({ value, onChange, label, placeholder, type, name, errors }: Prop
           </button>
         )}
       </div>
-      {
-        errors && (
-          <span className="text-danger text-xs">
-            {errors}
-          </span>
-        )
-      }
+      {errors && <span className="text-danger text-xs">{errors}</span>}
     </div>
   );
 };

@@ -36,12 +36,18 @@ export const createLead = async (data: Lead) => {
 };
 
 export const updateLead = async (data: Lead) => {
-  const response = await fetch(`${API_ENDPOINTS.lead}/${data.id}`, {
-    method: "PUT",
+  return await fetch(`${API_ENDPOINTS.lead}/${data.id}`, {
+    method: "PATCH",
     headers: headers,
     body: JSON.stringify(data),
+  })
+  .then((res) => {
+    if(res.ok){
+        return res.json();
+    }
+
+    throw new Error("Update failed");
   });
-  return response.json();
 };
 
 export const deleteLead = async (id: number) => {

@@ -1,4 +1,4 @@
-import { Edit, SearchStatus, Trash } from "iconsax-react";
+import { Edit, Trash } from "iconsax-react";
 import TablePagination from "./TablePagination";
 import { useState } from "react";
 

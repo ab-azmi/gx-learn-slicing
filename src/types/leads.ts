@@ -27,9 +27,12 @@ export type Lead = {
     address: string;
     note: string;
     phone: string;
-    created_at: string;
-    updated_at: string;
-    probability: Probability;
-    status: Status;
-    type: Type;
+    created_at?: string;
+    updated_at?: string;
+    probability?: Probability;
+    status?: Status;
+    type?: Type;
+    lead_probability_id?: number;
+    lead_status_id?: number;
+    lead_type_id?: number;
 }

@@ -1,9 +1,22 @@
 import { Lead } from "@/types/leads";
 import Table from "../../components/Table";
 import useLeads from "./hooks/useLeads";
+import ModalForm from "./components/ModalForm";
+import Input from "@/components/Input";
 
 const Leads = () => {
-  const { leads, handleDelete, handleEdit, loading, handleSearch } = useLeads();
+  const {
+    leads,
+    handleDelete,
+    handleEdit,
+    loading,
+    handleSearch,
+    input,
+    showModal,
+    setShowModal,
+    handleInput,
+    handleUpdate
+  } = useLeads();
 
   const columns: { key: string; title: string }[] = [
     { key: "code", title: "#" },
@@ -42,6 +55,51 @@ const Leads = () => {
           onSearch={handleSearch}
         />
       )}
+
+      <ModalForm show={showModal} setShow={setShowModal} onSave={handleUpdate}>
+        <form action="">
+          <Input
+            type="text"
+            label="Name"
+            placeholder="name"
+            name="name"
+            value={input.name}
+            onChange={handleInput}
+          />
+          <Input
+            type="text"
+            label="Branch"
+            placeholder="branch"
+            name="branch"
+            value={input.branch}
+            onChange={handleInput} 
+          />
+          <Input
+            type="text"
+            label="Address"
+            placeholder="address"
+            name="address"
+            value={input.address}
+            onChange={handleInput}
+          />
+          <Input
+            type="text"
+            label="Note"
+            placeholder="note"
+            name="note"
+            value={input.note}
+            onChange={handleInput}
+          />
+          <Input
+            type="text"
+            label="Phone"
+            placeholder="phone"
+            name="phone"
+            value={input.phone}
+            onChange={handleInput}
+          />
+        </form>
+      </ModalForm>
     </div>
   );
 };
