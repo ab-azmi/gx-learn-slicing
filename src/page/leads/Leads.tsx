@@ -3,7 +3,7 @@ import Table from "../../components/Table";
 import useLeads from "./hooks/useLeads";
 
 const Leads = () => {
-  const { leads, handleDelete, handleEdit, loading } = useLeads();
+  const { leads, handleDelete, handleEdit, loading, handleSearch } = useLeads();
 
   const columns: { key: string; title: string }[] = [
     { key: "code", title: "#" },
@@ -39,6 +39,7 @@ const Leads = () => {
           onDelete={handleDelete}
           onEdit={handleEdit}
           limit={10}
+          onSearch={handleSearch}
         />
       )}
     </div>
