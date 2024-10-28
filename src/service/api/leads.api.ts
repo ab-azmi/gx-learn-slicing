@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/service/api/config.api";
-import { Leads } from "@/types/leads";
+import { Lead } from "@/types/leads";
 
 const headers = {
     "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const getLead = async (id: number) => {
   return response.json();
 };
 
-export const createLead = async (data: Leads) => {
+export const createLead = async (data: Lead) => {
   const response = await fetch(API_ENDPOINTS.lead, {
     method: "POST",
     headers: headers,
@@ -35,7 +35,7 @@ export const createLead = async (data: Leads) => {
   return response.json();
 };
 
-export const updateLead = async (data: Leads) => {
+export const updateLead = async (data: Lead) => {
   const response = await fetch(`${API_ENDPOINTS.lead}/${data.id}`, {
     method: "PUT",
     headers: headers,
@@ -45,9 +45,14 @@ export const updateLead = async (data: Leads) => {
 };
 
 export const deleteLead = async (id: number) => {
-  const response = await fetch(`${API_ENDPOINTS.lead}/${id}`, {
+  return await fetch(`${API_ENDPOINTS.lead}/${id}`, {
     method: "DELETE",
     headers: headers,
+  }).then((res) => {
+    if(res.ok){
+        return res.json();
+    }
+
+    throw new Error("Delete failed");
   });
-  return response.json();
 };

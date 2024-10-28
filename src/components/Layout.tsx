@@ -12,9 +12,9 @@ const Layout = () => {
   }
 
   return (
-    <div className="d-flex w-100 vh-100 bg-background">
+    <div className="d-flex min-vh-100 bg-background">
       <SideBar />
-      <div className="w-100">
+      <div className="overflow-auto w-100">
         <TopBar />
         <Outlet />
       </div>
