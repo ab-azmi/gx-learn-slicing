@@ -17,8 +17,7 @@ const Leads = () => {
     { key: "probability.name", title: "Probability" },
     { key: "status.name", title: "Status" },
     { key: "type.name", title: "Type" },
-  ]
-  
+  ];
 
   return (
     <div className="p-4">
@@ -28,11 +27,21 @@ const Leads = () => {
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, ipsum.
       </p>
-      {loading && <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>}
-      {leads && (<Table<Lead> data={leads} columns={columns} onDelete={handleDelete} onEdit={handleEdit}/>)}
-  </div>
+      {loading && (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+      {leads && (
+        <Table<Lead>
+          data={leads}
+          columns={columns}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          limit={10}
+        />
+      )}
+    </div>
   );
 };
 
