@@ -132,6 +132,22 @@ const useLeads = () => {
     })
   }
 
+  const handleFilter = (name: string, value: string) => {
+    if(value === "-1") {
+      setFilteredLeads(leads);
+      return;
+    }
+
+    if (name === "probability") {
+      const filtered = leads?.filter((l) => l.probability?.id === Number(value));
+      setFilteredLeads(filtered);
+    }
+    if (name === "status") {
+      const filtered = leads?.filter((l) => l.status?.id === Number(value));
+      setFilteredLeads(filtered);
+    }
+  };
+
   return {
     leads: filteredLeads,
     setLeads,
@@ -146,7 +162,8 @@ const useLeads = () => {
     handleEdit,
     handleSearch,
     handleInput,
-    handleUpdate
+    handleUpdate,
+    handleFilter
   };
 };
 

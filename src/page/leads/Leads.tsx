@@ -5,6 +5,8 @@ import ModalForm from "./components/ModalForm";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 
+const objColumn = (key: string, title: string) => ({ key, title });
+
 const Leads = () => {
   const {
     leads,
@@ -19,20 +21,21 @@ const Leads = () => {
     handleDelete,
     handleUpdate,
     handleSelect,
+    handleFilter,
   } = useLeads();
 
   const columns: { key: string; title: string }[] = [
-    { key: "code", title: "#" },
-    { key: "name", title: "Name" },
-    { key: "branch", title: "Branch" },
-    { key: "address", title: "Address" },
-    { key: "note", title: "Note" },
-    { key: "phone", title: "Phone" },
-    { key: "created_at", title: "Created" },
-    { key: "updated_at", title: "Updated" },
-    { key: "probability.name", title: "Probability" },
-    { key: "status.name", title: "Status" },
-    { key: "type.name", title: "Type" },
+    objColumn("code", "#"),
+    objColumn("name", "Name"),
+    objColumn("branch", "Branch"),
+    objColumn("address", "Address"),
+    objColumn("note", "Note"),
+    objColumn("phone", "Phone"),
+    objColumn("created_at", "Created"),
+    objColumn("updated_at", "Updated"),
+    objColumn("probability.name", "Probability"),
+    objColumn("status.name", "Status"),
+    objColumn("type.name", "Type"),
   ];
 
   return (
@@ -49,13 +52,18 @@ const Leads = () => {
         </div>
       )}
       {leads && (
-        <Table<Lead>
+        <Table
+          <Lead>
           data={leads}
           columns={columns}
           onDelete={handleDelete}
           onEdit={handleEdit}
           limit={10}
           onSearch={handleSearch}
+          filter={[
+            { name: "probability", options: probabilities || [], onSelect: handleFilter },
+            { name: "status", options: [{id: 3, name: 'junk'}, {id:1, name:'consideration'}], onSelect: handleFilter },
+          ]}
         />
       )}
 
