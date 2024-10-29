@@ -17,6 +17,7 @@ const useLeads = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead>();
   const [probabilities, setProbabilities] = useState<Probability[]>();
+  const [filters, setFilters] = useState<{[key:string]: string}>({});
   const [input, setInput] = useState<Lead>({
     code: "",
     name: "",
@@ -106,7 +107,7 @@ const useLeads = () => {
     setFilteredLeads((prev) => {
       if (prev) {
         const index = prev.findIndex((l) => l.id === input.id);
-        console.log(input.lead_probability_id);
+      
         prev[index] = {
           ...input,
           probability: probabilities?.find(
@@ -147,22 +148,34 @@ const useLeads = () => {
   };
 
   const handleFilter = (name: string, value: string) => {
-    if (value === "-1") {
-      setFilteredLeads(leads);
-      return;
-    }
-
-    if (name === "probability") {
-      const filtered = leads?.filter(
-        (l) => l.probability?.id === Number(value)
-      );
-      setFilteredLeads(filtered);
-    }
-    if (name === "status") {
-      const filtered = leads?.filter((l) => l.status?.id === Number(value));
-      setFilteredLeads(filtered);
-    }
+    //add filter to filters state
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  useEffect(() => {
+    let filtered = leads;
+
+    //get all keys of filters. like ['probability', 'status']
+    Object.keys(filters).forEach((key) => {
+      //get value of key. like '1'
+      const value = filters[key];
+      //if value is -1 then return all leads
+      if(value === "-1") return;
+
+      //filter leads based on key and value
+      if(key === "probability") {
+        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
+      } else if(key === "status") {
+        filtered = filtered?.filter((l) => l.status?.id === Number(value));
+      }
+    });
+
+    //set filtered leads
+    setFilteredLeads(filtered);
+  }, [filters, leads]);
 
   return {
     leads: filteredLeads,
