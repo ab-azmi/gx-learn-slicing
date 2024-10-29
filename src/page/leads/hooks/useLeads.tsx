@@ -46,6 +46,26 @@ const useLeads = () => {
     }
   }, [token]);
 
+  const openModal = (item? : Lead) => {
+    if(item){
+      setSelectedLead(item);
+      setInput(item);
+  
+      setInput({
+        ...item,
+        lead_probability_id: item?.probability?.id || 0,
+        lead_status_id: item?.status?.id || 0,
+        lead_type_id: item?.type?.id || 0,
+      });
+    }
+
+    setShowModal(true);
+  }
+
+  const handleCreate = () => {
+    alert("Create");
+  }
+
   const handleDelete = (item: Lead) => {
     setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     if (confirm("Are you sure?")) {
@@ -59,48 +79,6 @@ const useLeads = () => {
           setFilteredLeads((prev) => [...prev!, item]);
         });
     }
-  };
-
-  const handleEdit = (item: Lead) => {
-    setSelectedLead(item);
-    setShowModal(true);
-    setInput(item);
-
-    setInput({
-      ...item,
-      lead_probability_id: item?.probability?.id || 0,
-      lead_status_id: item?.status?.id || 0,
-      lead_type_id: item?.type?.id || 0,
-    });
-  };
-
-  const handleSearch = (value: string) => {
-    const filtered = leads?.filter((l) => {
-      //get values of objext l and check if any value includes the search value
-      return Object.values(l).some((v) => {
-        if (typeof v === "string") {
-          return v.toLowerCase().includes(value.toLowerCase());
-        }
-        return false;
-      });
-    });
-    setFilteredLeads(filtered);
-  };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
   };
 
   const handleUpdate = () => {
@@ -147,6 +125,43 @@ const useLeads = () => {
       });
   };
 
+  const handleForm = () => {
+    if (input.id) {
+      handleUpdate();
+    } else {
+      handleCreate();
+    }
+  }
+
+  const handleSearch = (value: string) => {
+    const filtered = leads?.filter((l) => {
+      //get values of objext l and check if any value includes the search value
+      return Object.values(l).some((v) => {
+        if (typeof v === "string") {
+          return v.toLowerCase().includes(value.toLowerCase());
+        }
+        return false;
+      });
+    });
+    setFilteredLeads(filtered);
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
   const handleFilter = (name: string, value: string) => {
     //add filter to filters state
     setFilters((prev) => ({
@@ -175,7 +190,7 @@ const useLeads = () => {
 
     //set filtered leads
     setFilteredLeads(filtered);
-  }, [filters, leads]);
+  }, [filters]);
 
   return {
     leads: filteredLeads,
@@ -188,10 +203,10 @@ const useLeads = () => {
     probabilities,
     handleSelect,
     handleDelete,
-    handleEdit,
+    openModal ,
     handleSearch,
     handleInput,
-    handleUpdate,
+    handleForm,
     handleFilter,
   };
 };

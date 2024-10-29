@@ -21,11 +21,12 @@ type TableFilter = {
 type TableProps<T> = {
   data: T[];
   columns: { key: string; title: string }[];
+  limit: number;
+  filter?: TableFilter[];
+  onAdd?: () => void;
   onDelete?: (item: T) => void;
   onEdit?: (item: T) => void;
-  limit: number;
   onSearch: (value: string) => void;
-  filter?: TableFilter[];
 };
 
 const Table = <T,>({
@@ -36,6 +37,7 @@ const Table = <T,>({
   onDelete,
   onEdit,
   onSearch,
+  onAdd,
 }: TableProps<T>) => {
   const [skip, setSkip] = useState(0);
   const [page, setPage] = useState(1);
@@ -91,6 +93,15 @@ const Table = <T,>({
               value={filterValue[idx].value.toString()}
             />
           ))}
+        {onAdd && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={onAdd}
+          >
+            Add
+          </button>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table table-striped">

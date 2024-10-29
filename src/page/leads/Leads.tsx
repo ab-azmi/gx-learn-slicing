@@ -14,12 +14,12 @@ const Leads = () => {
     loading,
     showModal,
     probabilities,
-    handleEdit,
+    openModal,
     handleInput,
     handleSearch,
     setShowModal,
     handleDelete,
-    handleUpdate,
+    handleForm,
     handleSelect,
     handleFilter,
   } = useLeads();
@@ -52,29 +52,41 @@ const Leads = () => {
         </div>
       )}
       {leads && (
-        <Table
-          <Lead>
+        <Table<Lead>
           data={leads}
           columns={columns}
           onDelete={handleDelete}
-          onEdit={handleEdit}
+          onEdit={openModal}
+          onAdd={openModal}
           limit={10}
           onSearch={handleSearch}
           filter={[
-            { name: "probability", options: probabilities || [], onSelect: handleFilter },
-            { name: "status", options: [{id: 2, name: 'scheduled'}, {id: 3, name: 'junk'}, {id:1, name:'consideration'}], onSelect: handleFilter },
+            {
+              name: "probability",
+              options: probabilities || [],
+              onSelect: handleFilter,
+            },
+            {
+              name: "status",
+              options: [
+                { id: 2, name: "scheduled" },
+                { id: 3, name: "junk" },
+                { id: 1, name: "consideration" },
+              ],
+              onSelect: handleFilter,
+            },
           ]}
         />
       )}
 
-      <ModalForm show={showModal} setShow={setShowModal} onSave={handleUpdate}>
+      <ModalForm show={showModal} setShow={setShowModal} onSave={handleForm}>
         <form action="" className="d-flex flex-column gap-2">
           <Input
             type="text"
             label="Name"
             placeholder="name"
             name="name"
-            value={input.name}
+            value={input.name || ""}
             onChange={handleInput}
           />
           <Input
@@ -82,7 +94,7 @@ const Leads = () => {
             label="Branch"
             placeholder="branch"
             name="branch"
-            value={input.branch}
+            value={input.branch || ""}
             onChange={handleInput}
           />
           <Input
@@ -90,7 +102,7 @@ const Leads = () => {
             label="Address"
             placeholder="address"
             name="address"
-            value={input.address}
+            value={input.address || ""}
             onChange={handleInput}
           />
           <Input
@@ -98,7 +110,7 @@ const Leads = () => {
             label="Note"
             placeholder="note"
             name="note"
-            value={input.note}
+            value={input.note || ""}
             onChange={handleInput}
           />
           <Input
@@ -106,7 +118,7 @@ const Leads = () => {
             label="Phone"
             placeholder="phone"
             name="phone"
-            value={input.phone}
+            value={input.phone || ""}
             onChange={handleInput}
           />
           <Select
