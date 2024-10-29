@@ -62,7 +62,7 @@ const Leads = () => {
           onSearch={handleSearch}
           filter={[
             { name: "probability", options: probabilities || [], onSelect: handleFilter },
-            { name: "status", options: [{id: 3, name: 'junk'}, {id:1, name:'consideration'}], onSelect: handleFilter },
+            { name: "status", options: [{id: 2, name: 'scheduled'}, {id: 3, name: 'junk'}, {id:1, name:'consideration'}], onSelect: handleFilter },
           ]}
         />
       )}

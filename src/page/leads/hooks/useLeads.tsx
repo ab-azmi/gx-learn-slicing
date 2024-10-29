@@ -1,5 +1,11 @@
 import AuthStore from "@/store/AuthStore";
-import { setTokenHeader, getLeads, deleteLead, updateLead, getProbabilities } from "@/service/api/leads.api";
+import {
+  setTokenHeader,
+  getLeads,
+  deleteLead,
+  updateLead,
+  getProbabilities,
+} from "@/service/api/leads.api";
 import { useEffect, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 
@@ -21,7 +27,7 @@ const useLeads = () => {
     lead_probability_id: 0,
     lead_status_id: 0,
     lead_type_id: 0,
-  })
+  });
 
   useEffect(() => {
     if (token) {
@@ -32,20 +38,25 @@ const useLeads = () => {
         setFilteredLeads(res);
         setLoading(false);
       });
-      
+
       getProbabilities().then((res) => {
         setProbabilities(res);
-      })
+      });
     }
   }, [token]);
 
   const handleDelete = (item: Lead) => {
+    setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     if (confirm("Are you sure?")) {
-      deleteLead(item.id!).then(() => {
-        setLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
-        setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
-        alert("Deleted");
-      });
+      deleteLead(item.id!)
+        .then(() => {
+          setLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
+          alert("Deleted");
+        })
+        .catch(() => {
+          alert("Failed to delete");
+          setFilteredLeads((prev) => [...prev!, item]);
+        });
     }
   };
 
@@ -59,7 +70,7 @@ const useLeads = () => {
       lead_probability_id: item?.probability?.id || 0,
       lead_status_id: item?.status?.id || 0,
       lead_type_id: item?.type?.id || 0,
-    })
+    });
   };
 
   const handleSearch = (value: string) => {
@@ -71,9 +82,9 @@ const useLeads = () => {
         }
         return false;
       });
-    })
+    });
     setFilteredLeads(filtered);
-  }
+  };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -89,7 +100,7 @@ const useLeads = () => {
       ...input,
       [name]: value,
     });
-  }
+  };
 
   const handleUpdate = () => {
     setFilteredLeads((prev) => {
@@ -98,7 +109,9 @@ const useLeads = () => {
         console.log(input.lead_probability_id);
         prev[index] = {
           ...input,
-          probability: probabilities?.find((p) => p.id === Number(input.lead_probability_id)),
+          probability: probabilities?.find(
+            (p) => p.id === Number(input.lead_probability_id)
+          ),
         };
         return [...prev];
       }
@@ -106,40 +119,43 @@ const useLeads = () => {
     });
 
     setShowModal(false);
-    
-    updateLead(input).then((res: Lead) => {
-      setLeads((prev) => {
-        if (prev) {
-          const index = prev.findIndex((l) => l.id === input.id);
-          prev[index] = res;
-          return [...prev];
-        }
-        return prev;
+
+    updateLead(input)
+      .then((res: Lead) => {
+        setLeads((prev) => {
+          if (prev) {
+            const index = prev.findIndex((l) => l.id === input.id);
+            prev[index] = res;
+            return [...prev];
+          }
+          return prev;
+        });
+        alert("Updated");
+      })
+      .catch(() => {
+        //revert back to original value
+        setFilteredLeads((prev) => {
+          if (prev) {
+            const index = prev.findIndex((l) => l.id === input.id);
+            prev[index] = selectedLead!;
+            return [...prev];
+          }
+          return prev;
+        });
+        alert("Failed to update");
       });
-      alert("Updated");
-    })
-    .catch(() => {
-      //revert back to original value
-      setFilteredLeads((prev) => {
-        if (prev) {
-          const index = prev.findIndex((l) => l.id === input.id);
-          prev[index] = selectedLead!;
-          return [...prev];
-        }
-        return prev;
-      });
-      alert("Failed to update");
-    })
-  }
+  };
 
   const handleFilter = (name: string, value: string) => {
-    if(value === "-1") {
+    if (value === "-1") {
       setFilteredLeads(leads);
       return;
     }
 
     if (name === "probability") {
-      const filtered = leads?.filter((l) => l.probability?.id === Number(value));
+      const filtered = leads?.filter(
+        (l) => l.probability?.id === Number(value)
+      );
       setFilteredLeads(filtered);
     }
     if (name === "status") {
@@ -163,7 +179,7 @@ const useLeads = () => {
     handleSearch,
     handleInput,
     handleUpdate,
-    handleFilter
+    handleFilter,
   };
 };
 
