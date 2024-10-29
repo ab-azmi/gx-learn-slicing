@@ -3,6 +3,7 @@ import { Lead } from "@/types/leads";
 
 const headers = {
     "Content-Type": "application/json",
+    "Accept": "application/json",
     "Authorization": "",
 };
 
@@ -61,4 +62,17 @@ export const deleteLead = async (id: number) => {
 
     throw new Error("Delete failed");
   });
+};
+
+export const getProbabilities = async () => {
+  return await fetch(API_ENDPOINTS.probability, {
+    method: "GET",
+    headers: headers,
+  }).then((res) => {
+    if(res.ok){
+        return res.json();
+    }
+
+    throw new Error("Failed to fetch probabilities");
+  })
 };

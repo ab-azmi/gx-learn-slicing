@@ -5,4 +5,5 @@ export const API_ENDPOINTS = {
     login: `${API_URL}/login`,
     logout: `${API_URL}/auth/logout`,
     lead: `${API_URL}/leads`,
+    probability: `${API_URL}/probabilities`,
     };

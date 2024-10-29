@@ -3,19 +3,22 @@ import Table from "../../components/Table";
 import useLeads from "./hooks/useLeads";
 import ModalForm from "./components/ModalForm";
 import Input from "@/components/Input";
+import Select from "@/components/Select";
 
 const Leads = () => {
   const {
     leads,
-    handleDelete,
-    handleEdit,
-    loading,
-    handleSearch,
     input,
+    loading,
     showModal,
-    setShowModal,
+    probabilities,
+    handleEdit,
     handleInput,
-    handleUpdate
+    handleSearch,
+    setShowModal,
+    handleDelete,
+    handleUpdate,
+    handleSelect,
   } = useLeads();
 
   const columns: { key: string; title: string }[] = [
@@ -57,7 +60,7 @@ const Leads = () => {
       )}
 
       <ModalForm show={showModal} setShow={setShowModal} onSave={handleUpdate}>
-        <form action="">
+        <form action="" className="d-flex flex-column gap-2">
           <Input
             type="text"
             label="Name"
@@ -72,7 +75,7 @@ const Leads = () => {
             placeholder="branch"
             name="branch"
             value={input.branch}
-            onChange={handleInput} 
+            onChange={handleInput}
           />
           <Input
             type="text"
@@ -97,6 +100,14 @@ const Leads = () => {
             name="phone"
             value={input.phone}
             onChange={handleInput}
+          />
+          <Select
+            options={probabilities || []}
+            label="Probability"
+            placeholder="probability"
+            name="lead_probability_id"
+            value={input?.lead_probability_id?.toString()}
+            onChange={handleSelect}
           />
         </form>
       </ModalForm>
