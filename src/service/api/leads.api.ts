@@ -2,11 +2,15 @@ import { API_ENDPOINTS, getHeaders } from "@/service/api/config.api";
 import { Lead } from "@/types/leads";
 
 export const getLeads = async () => {
-  const response = await fetch(API_ENDPOINTS.lead, {
+  return await fetch(API_ENDPOINTS.lead, {
     method: "GET",
     headers: getHeaders(),
-  });
-  return response.json();
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    });
 };
 
 export const getLead = async (id: number) => {
@@ -23,13 +27,13 @@ export const createLead = async (data: Lead) => {
     headers: getHeaders(),
     body: JSON.stringify(data),
   })
-  .then((res) => {
-    if(res.ok){
+    .then((res) => {
+      if (res.ok) {
         return res.json();
-    }
+      }
 
-    throw new Error("Create failed");
-  });
+      throw new Error("Create failed");
+    });
 };
 
 export const updateLead = async (data: Lead) => {
@@ -38,13 +42,13 @@ export const updateLead = async (data: Lead) => {
     headers: getHeaders(),
     body: JSON.stringify(data),
   })
-  .then((res) => {
-    if(res.ok){
+    .then((res) => {
+      if (res.ok) {
         return res.json();
-    }
+      }
 
-    throw new Error("Update failed");
-  });
+      throw new Error("Update failed");
+    });
 };
 
 export const deleteLead = async (id: number) => {
@@ -52,8 +56,8 @@ export const deleteLead = async (id: number) => {
     method: "DELETE",
     headers: getHeaders(),
   }).then((res) => {
-    if(res.ok){
-        return res.json();
+    if (res.ok) {
+      return res.json();
     }
 
     throw new Error("Delete failed");
@@ -65,8 +69,8 @@ export const getProbabilities = async () => {
     method: "GET",
     headers: getHeaders(),
   }).then((res) => {
-    if(res.ok){
-        return res.json();
+    if (res.ok) {
+      return res.json();
     }
 
     throw new Error("Failed to fetch probabilities");

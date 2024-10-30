@@ -64,15 +64,27 @@ const useLeads = () => {
 
   const handleCreate = () => {
     setFilteredLeads((prev) => [input, ...prev!]);
+    setShowModal(false);
 
     createLead(input)
     .then((res) => {
       setLeads((prev) => [res.data, ...prev!]);
       alert("Created");
-      setShowModal(false);
+      setInput({
+        code: "",
+        name: "",
+        branch: "",
+        address: "",
+        note: "",
+        phone: "",
+        lead_probability_id: 1,
+        lead_status_id: 1,
+        lead_type_id: 1,
+      });
     })
     .catch(() => {
       alert("Failed to create");
+      setShowModal(true);
       //remove the created lead from filtered leads without id
       setFilteredLeads(leads);
     })
