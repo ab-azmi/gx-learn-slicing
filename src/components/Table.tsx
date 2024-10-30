@@ -97,7 +97,7 @@ const Table = <T,>({
           <button
             type="button"
             className="btn btn-primary"
-            onClick={onAdd}
+            onClick={() => onAdd()}
           >
             Add
           </button>

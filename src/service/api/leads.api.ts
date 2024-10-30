@@ -18,7 +18,7 @@ export const getLead = async (id: number) => {
 };
 
 export const createLead = async (data: Lead) => {
-  return await fetch(API_ENDPOINTS.lead, {
+  return await fetch(`${API_ENDPOINTS.lead}`, {
     method: "POST",
     headers: getHeaders(),
     body: JSON.stringify(data),

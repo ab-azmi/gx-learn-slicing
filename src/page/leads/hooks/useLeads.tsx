@@ -3,6 +3,7 @@ import {
   getLeads,
   deleteLead,
   updateLead,
+  createLead,
   getProbabilities,
 } from "@/service/api/leads.api";
 import { useEffect, useState } from "react";
@@ -24,9 +25,9 @@ const useLeads = () => {
     address: "",
     note: "",
     phone: "",
-    lead_probability_id: 0,
-    lead_status_id: 0,
-    lead_type_id: 0,
+    lead_probability_id: 1,
+    lead_status_id: 1,
+    lead_type_id: 1,
   });
 
   useEffect(() => {
@@ -52,9 +53,9 @@ const useLeads = () => {
   
       setInput({
         ...item,
-        lead_probability_id: item?.probability?.id || 0,
-        lead_status_id: item?.status?.id || 0,
-        lead_type_id: item?.type?.id || 0,
+        lead_probability_id: item?.probability?.id,
+        lead_status_id: item?.status?.id,
+        lead_type_id: item?.type?.id,
       });
     }
 
@@ -62,7 +63,20 @@ const useLeads = () => {
   }
 
   const handleCreate = () => {
-    alert("Create");
+    setFilteredLeads((prev) => [input, ...prev!]);
+
+    createLead(input)
+    .then((res) => {
+      setLeads((prev) => [res.data, ...prev!]);
+      alert("Created");
+      setShowModal(false);
+    })
+    .catch(() => {
+      alert("Failed to create");
+      //remove the created lead from filtered leads without id
+      setFilteredLeads(leads);
+    })
+    
   }
 
   const handleDelete = (item: Lead) => {
