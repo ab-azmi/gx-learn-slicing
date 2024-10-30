@@ -100,11 +100,11 @@ const useLeads = () => {
     setShowModal(false);
 
     updateLead(input)
-      .then((res: Lead) => {
+      .then((res) => {
         setLeads((prev) => {
           if (prev) {
             const index = prev.findIndex((l) => l.id === input.id);
-            prev[index] = res;
+            prev[index] = res.data;
             return [...prev];
           }
           return prev;
@@ -190,7 +190,7 @@ const useLeads = () => {
 
     //set filtered leads
     setFilteredLeads(filtered);
-  }, [filters]);
+  }, [filters, leads]);
 
   return {
     leads: filteredLeads,
