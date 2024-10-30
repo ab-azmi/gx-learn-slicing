@@ -8,6 +8,7 @@ import {
 } from "@/service/api/leads.api";
 import { useEffect, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
+import useLogout from "@/hooks/useLogout";
 
 const formInitial = {
   code: "",
@@ -22,6 +23,7 @@ const formInitial = {
 };
 
 const useLeads = () => {
+  const {signout} = useLogout();
   const { token } = AuthStore();
   const [leads, setLeads] = useState<Lead[]>();
   const [filteredLeads, setFilteredLeads] = useState<Lead[]>();
@@ -41,6 +43,13 @@ const useLeads = () => {
           setLeads(res);
           setFilteredLeads(res);
         })
+        .catch((err) => {
+          if(err.message === "Unauthorized") {
+            alert("Unauthorized");
+            signout();
+            return;
+          }
+        })
         .finally(() => {
           setLoading(false);
         });
@@ -49,6 +58,7 @@ const useLeads = () => {
         setProbabilities(res);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const openModal = (item?: Lead) => {
@@ -93,7 +103,13 @@ const useLeads = () => {
           setLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
           alert("Deleted");
         })
-        .catch(() => {
+        .catch((err) => {
+          if(err.message === "Unauthorized") {
+            alert("Unauthorized");
+            signout();
+            return;
+          }
+
           alert("Failed to delete");
           //revert back to original value
           setFilteredLeads(leads);
@@ -129,6 +145,7 @@ const useLeads = () => {
           }
           return prev;
         });
+        setInput(formInitial);
         alert("Updated");
       })
       .catch(() => {
