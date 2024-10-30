@@ -9,7 +9,7 @@ const getToken = () => {
 const headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": `Bearer ${getToken()}`,
+    "Authorization": "",
 };
 
 export const getHeaders = () => {

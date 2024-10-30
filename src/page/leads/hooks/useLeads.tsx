@@ -29,18 +29,21 @@ const useLeads = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead>();
   const [probabilities, setProbabilities] = useState<Probability[]>();
-  const [filters, setFilters] = useState<{[key:string]: string}>({});
+  const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [input, setInput] = useState<Lead>(formInitial);
 
   useEffect(() => {
     if (token) {
       setLoading(true);
 
-      getLeads().then((res) => {
-        setLeads(res);
-        setFilteredLeads(res);
-        setLoading(false);
-      });
+      getLeads()
+        .then((res) => {
+          setLeads(res);
+          setFilteredLeads(res);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
 
       getProbabilities().then((res) => {
         setProbabilities(res);
@@ -48,11 +51,11 @@ const useLeads = () => {
     }
   }, [token]);
 
-  const openModal = (item? : Lead) => {
-    if(item){
+  const openModal = (item?: Lead) => {
+    if (item) {
       setSelectedLead(item);
       setInput(item);
-  
+
       setInput({
         ...item,
         lead_probability_id: item?.probability?.id,
@@ -62,30 +65,29 @@ const useLeads = () => {
     }
 
     setShowModal(true);
-  }
+  };
 
   const handleCreate = () => {
     setFilteredLeads((prev) => [input, ...prev!]);
     setShowModal(false);
 
     createLead(input)
-    .then((res) => {
-      setLeads((prev) => [res.data, ...prev!]);
-      alert("Created");
-      setInput(formInitial);
-    })
-    .catch(() => {
-      alert("Failed to create");
-      setShowModal(true);
-      //remove the created lead from filtered leads without id
-      setFilteredLeads(leads);
-    })
-    
-  }
+      .then((res) => {
+        setLeads((prev) => [res.data, ...prev!]);
+        alert("Created");
+        setInput(formInitial);
+      })
+      .catch(() => {
+        alert("Failed to create");
+        setShowModal(true);
+        //remove the created lead from filtered leads without id
+        setFilteredLeads(leads);
+      });
+  };
 
   const handleDelete = (item: Lead) => {
-    setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     if (confirm("Are you sure?")) {
+      setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
       deleteLead(item.id!)
         .then(() => {
           setLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
@@ -93,7 +95,8 @@ const useLeads = () => {
         })
         .catch(() => {
           alert("Failed to delete");
-          setFilteredLeads((prev) => [...prev!, item]);
+          //revert back to original value
+          setFilteredLeads(leads);
         });
     }
   };
@@ -102,7 +105,7 @@ const useLeads = () => {
     setFilteredLeads((prev) => {
       if (prev) {
         const index = prev.findIndex((l) => l.id === input.id);
-      
+
         prev[index] = {
           ...input,
           probability: probabilities?.find(
@@ -148,7 +151,7 @@ const useLeads = () => {
     } else {
       handleCreate();
     }
-  }
+  };
 
   const handleSearch = (value: string) => {
     const filtered = leads?.filter((l) => {
@@ -195,12 +198,12 @@ const useLeads = () => {
       //get value of key. like '1'
       const value = filters[key];
       //if value is -1 then return all leads
-      if(value === "-1") return;
+      if (value === "-1") return;
 
       //filter leads based on key and value
-      if(key === "probability") {
+      if (key === "probability") {
         filtered = filtered?.filter((l) => l.probability?.id === Number(value));
-      } else if(key === "status") {
+      } else if (key === "status") {
         filtered = filtered?.filter((l) => l.status?.id === Number(value));
       }
     });
@@ -220,7 +223,7 @@ const useLeads = () => {
     probabilities,
     handleSelect,
     handleDelete,
-    openModal ,
+    openModal,
     handleSearch,
     handleInput,
     handleForm,
