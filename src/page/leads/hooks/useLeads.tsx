@@ -1,6 +1,5 @@
 import AuthStore from "@/store/AuthStore";
 import {
-  setTokenHeader,
   getLeads,
   deleteLead,
   updateLead,
@@ -33,7 +32,7 @@ const useLeads = () => {
   useEffect(() => {
     if (token) {
       setLoading(true);
-      setTokenHeader(token);
+
       getLeads().then((res) => {
         setLeads(res);
         setFilteredLeads(res);

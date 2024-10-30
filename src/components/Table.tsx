@@ -113,7 +113,7 @@ const Table = <T,>({
             </tr>
           </thead>
           <tbody>
-            {data.slice(skip, upper).map((item, index) => (
+            {data.length > 0 ? data?.slice(skip, upper).map((item, index) => (
               <tr key={index}>
                 {columns.map((column, idx) => (
                   <td key={idx}>{String(getNestedValue(item, column.key))}</td>
@@ -139,7 +139,13 @@ const Table = <T,>({
                   )}
                 </td>
               </tr>
-            ))}
+            )) : (
+              <tr>
+                <td colSpan={columns.length + 1} className="text-center">
+                  No data available
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

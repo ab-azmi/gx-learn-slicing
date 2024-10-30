@@ -1,20 +1,10 @@
-import { API_ENDPOINTS } from "@/service/api/config.api";
+import { API_ENDPOINTS, getHeaders } from "@/service/api/config.api";
 import { Lead } from "@/types/leads";
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "",
-};
-
-export const setTokenHeader = (token: string) => {
-    headers["Authorization"] = `Bearer ${token}`;
-};
 
 export const getLeads = async () => {
   const response = await fetch(API_ENDPOINTS.lead, {
     method: "GET",
-    headers: headers,
+    headers: getHeaders(),
   });
   return response.json();
 };
@@ -22,24 +12,30 @@ export const getLeads = async () => {
 export const getLead = async (id: number) => {
   const response = await fetch(`${API_ENDPOINTS.lead}/${id}`, {
     method: "GET",
-    headers: headers,
+    headers: getHeaders(),
   });
   return response.json();
 };
 
 export const createLead = async (data: Lead) => {
-  const response = await fetch(API_ENDPOINTS.lead, {
+  return await fetch(API_ENDPOINTS.lead, {
     method: "POST",
-    headers: headers,
+    headers: getHeaders(),
     body: JSON.stringify(data),
+  })
+  .then((res) => {
+    if(res.ok){
+        return res.json();
+    }
+
+    throw new Error("Create failed");
   });
-  return response.json();
 };
 
 export const updateLead = async (data: Lead) => {
   return await fetch(`${API_ENDPOINTS.lead}/${data.id}`, {
     method: "PATCH",
-    headers: headers,
+    headers: getHeaders(),
     body: JSON.stringify(data),
   })
   .then((res) => {
@@ -54,7 +50,7 @@ export const updateLead = async (data: Lead) => {
 export const deleteLead = async (id: number) => {
   return await fetch(`${API_ENDPOINTS.lead}/${id}`, {
     method: "DELETE",
-    headers: headers,
+    headers: getHeaders(),
   }).then((res) => {
     if(res.ok){
         return res.json();
@@ -67,7 +63,7 @@ export const deleteLead = async (id: number) => {
 export const getProbabilities = async () => {
   return await fetch(API_ENDPOINTS.probability, {
     method: "GET",
-    headers: headers,
+    headers: getHeaders(),
   }).then((res) => {
     if(res.ok){
         return res.json();
