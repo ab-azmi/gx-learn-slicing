@@ -9,6 +9,18 @@ import {
 import { useEffect, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 
+const formInitial = {
+  code: "",
+  name: "",
+  branch: "",
+  address: "",
+  note: "",
+  phone: "",
+  lead_probability_id: 1,
+  lead_status_id: 1,
+  lead_type_id: 1,
+};
+
 const useLeads = () => {
   const { token } = AuthStore();
   const [leads, setLeads] = useState<Lead[]>();
@@ -18,17 +30,7 @@ const useLeads = () => {
   const [selectedLead, setSelectedLead] = useState<Lead>();
   const [probabilities, setProbabilities] = useState<Probability[]>();
   const [filters, setFilters] = useState<{[key:string]: string}>({});
-  const [input, setInput] = useState<Lead>({
-    code: "",
-    name: "",
-    branch: "",
-    address: "",
-    note: "",
-    phone: "",
-    lead_probability_id: 1,
-    lead_status_id: 1,
-    lead_type_id: 1,
-  });
+  const [input, setInput] = useState<Lead>(formInitial);
 
   useEffect(() => {
     if (token) {
@@ -70,17 +72,7 @@ const useLeads = () => {
     .then((res) => {
       setLeads((prev) => [res.data, ...prev!]);
       alert("Created");
-      setInput({
-        code: "",
-        name: "",
-        branch: "",
-        address: "",
-        note: "",
-        phone: "",
-        lead_probability_id: 1,
-        lead_status_id: 1,
-        lead_type_id: 1,
-      });
+      setInput(formInitial);
     })
     .catch(() => {
       alert("Failed to create");
