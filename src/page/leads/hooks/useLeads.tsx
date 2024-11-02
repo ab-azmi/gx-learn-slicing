@@ -1,4 +1,3 @@
-import AuthStore from "@/store/AuthStore";
 import {
   getLeads,
   deleteLead,
@@ -23,10 +22,11 @@ const formInitial = {
 };
 
 const useLeads = () => {
-  const {signout} = useLogout();
-  const { token } = AuthStore();
+  const { signout } = useLogout();
+  
   const [leads, setLeads] = useState<Lead[]>();
   const [filteredLeads, setFilteredLeads] = useState<Lead[]>();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead>();
@@ -35,31 +35,52 @@ const useLeads = () => {
   const [input, setInput] = useState<Lead>(formInitial);
 
   useEffect(() => {
-    if (token) {
-      setLoading(true);
+    setLoading(true);
 
-      getLeads()
-        .then((res) => {
-          setLeads(res);
-          setFilteredLeads(res);
-        })
-        .catch((err) => {
-          if(err.message === "Unauthorized") {
-            alert("Unauthorized");
-            signout();
-            return;
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-
-      getProbabilities().then((res) => {
-        setProbabilities(res);
+    getLeads()
+      .then((res) => {
+        setLeads(res);
+        setFilteredLeads(res);
+      })
+      .catch((err) => {
+        if (err.message === "Unauthorized") {
+          alert("Unauthorized");
+          signout();
+          return;
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+
+    getProbabilities().then((res) => {
+      setProbabilities(res);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let filtered = leads;
+
+    //get all keys of filters. like ['probability', 'status']
+    Object.keys(filters).forEach((key) => {
+      //get value of key. like '1'
+      const value = filters[key];
+      //if value is -1 then return all leads
+      if (value === "-1") return;
+
+      //filter leads based on key and value
+      if (key === "probability") {
+        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
+      } else if (key === "status") {
+        filtered = filtered?.filter((l) => l.status?.id === Number(value));
+      }
+    });
+
+    //set filtered leads
+    setFilteredLeads(filtered);
+  }, [filters, leads]);
 
   const openModal = (item?: Lead) => {
     if (item) {
@@ -104,7 +125,7 @@ const useLeads = () => {
           alert("Deleted");
         })
         .catch((err) => {
-          if(err.message === "Unauthorized") {
+          if (err.message === "Unauthorized") {
             alert("Unauthorized");
             signout();
             return;
@@ -206,28 +227,6 @@ const useLeads = () => {
       [name]: value,
     }));
   };
-
-  useEffect(() => {
-    let filtered = leads;
-
-    //get all keys of filters. like ['probability', 'status']
-    Object.keys(filters).forEach((key) => {
-      //get value of key. like '1'
-      const value = filters[key];
-      //if value is -1 then return all leads
-      if (value === "-1") return;
-
-      //filter leads based on key and value
-      if (key === "probability") {
-        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
-      } else if (key === "status") {
-        filtered = filtered?.filter((l) => l.status?.id === Number(value));
-      }
-    });
-
-    //set filtered leads
-    setFilteredLeads(filtered);
-  }, [filters, leads]);
 
   return {
     leads: filteredLeads,
