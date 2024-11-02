@@ -1,5 +1,4 @@
 import AuthStore from "@/store/AuthStore";
-import { Lead } from "@/types/leads";
 
 export const API_URL = import.meta.env.VITE_BE_URL;
 
@@ -28,7 +27,8 @@ export const API_ENDPOINTS = {
 };
 
 
-export const endpointWrapper = async (endpoint: string, method: string, data?: Lead) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const endpointWrapper = async (endpoint: string, method: string, data?:any) => {
     try {
       const response = await fetch(endpoint, {
         method,
@@ -36,17 +36,17 @@ export const endpointWrapper = async (endpoint: string, method: string, data?: L
         body: JSON.stringify(data),
       });
   
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("Unauthorized");
-        }
-  
-        throw new Error(`Failed request: ${response.statusText}`);
+      if (response.ok) {
+        return response.json();
+      } else {
+        if (response.status === 401) throw new Error("Invalid email or password");
+        if (response.status === 404) throw new Error("User not found");
+        if (response.status === 500) throw new Error("Server error");
+        throw new Error("An error occured");
       }
-  
-      return response.json();
+      
     } catch (error) {
       console.error("Error: ", error);
-      throw error;
+      alert(error);
     }
   }

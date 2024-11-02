@@ -43,6 +43,7 @@ const useLogin = () => {
 
   const hanldleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     setLoading(true);
     if(!validate()) {
       setLoading(false);
@@ -51,16 +52,14 @@ const useLogin = () => {
 
     login({ email: input.email, password: input.password })
       .then((res) => {
-        store.setToken(res.access_token);
-        navigate("/");
-        console.log(res);
+        if(res) {
+          store.setToken(res.token);
+          navigate("/");
+        }
       })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
+      //hanya utk kelola data
+      //tidk perlu handle error api
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
