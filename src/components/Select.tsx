@@ -19,7 +19,7 @@ const Select = ({
   return (
     <div className="d-flex flex-column gap-1 form-group">
       {label && (
-        <label htmlFor={name} className="fw-light fs-xs">
+        <label htmlFor={name} className="fw-light fs-xs text-capitalize">
           {label}
         </label>
       )}

@@ -3,6 +3,7 @@ import TablePagination from "./TablePagination";
 import { useState } from "react";
 import Select from "./Select";
 import formatDate from "@/helpers/dateFormater.helper";
+import Input from "./Input";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string) => {
@@ -28,6 +29,7 @@ type TableProps<T> = {
   onDelete?: (item: T) => void;
   onEdit?: (item: T) => void;
   onSearch: (value: string) => void;
+  onClearFilter: () => void;
 };
 
 const Table = <T,>({
@@ -38,6 +40,7 @@ const Table = <T,>({
   onDelete,
   onEdit,
   onSearch,
+  onClearFilter,
   onAdd,
 }: TableProps<T>) => {
   const [skip, setSkip] = useState(0);
@@ -74,44 +77,65 @@ const Table = <T,>({
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-4">
-      <div className="d-flex gap-3 align-items-center mb-2">
+      <div className="d-flex gap-3 align-items-end justify-content-between mb-2">
+        <h5 className="fw-bold">Leads Table</h5>
+        <div>
+          {onAdd && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => onAdd()}
+            >
+              Add
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="d-flex gap-3 align-items-end mb-2">
         <div className="w-30">
-          <input
+          <Input
             type="text"
-            className="form-control"
+            name="search"
+            label="Search"
             placeholder="Search..."
             value={search}
             onChange={handleInputChange}
           />
         </div>
-        {filter &&
-          filter.map((f, idx) => (
-            <Select
-              placeholder={f.name}
-              options={f.options}
-              name={f.name}
-              onChange={handleFilterChange}
-              key={idx}
-              value={filterValue[idx].value.toString()}
-            />
-          ))}
-        {onAdd && (
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => onAdd()}
-          >
-            Add
-          </button>
+        {filter && (
+          <>
+            {filter.map((f, idx) => (
+              <Select
+                placeholder={f.name}
+                options={f.options}
+                name={f.name}
+                label={f.name}
+                onChange={handleFilterChange}
+                key={idx}
+                value={filterValue[idx].value.toString()}
+              />
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {}}
+            >
+              Search
+            </button>
+            <button className="btn" onClick={() => onClearFilter()}>
+              Clear All
+            </button>
+          </>
         )}
       </div>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table">
           <thead>
-            <tr className="text-uppercase">
+            <tr className="">
               {columns.map((column, index) => (
-                <th key={index}>{column.title}</th>
+                <th key={index} className="bg-muted fw-medium">{column.title}</th>
               ))}
+              <th className="bg-muted"></th>
             </tr>
           </thead>
           <tbody>
@@ -122,7 +146,10 @@ const Table = <T,>({
                     <td key={idx}>
                       {/* if key ends with _at */}
                       {column.key.endsWith("_at")
-                        ? formatDate(String(getNestedValue(item, column.key)), 'dd MMM yyyy')
+                        ? formatDate(
+                            String(getNestedValue(item, column.key)),
+                            "dd MMM yyyy"
+                          )
                         : String(getNestedValue(item, column.key))}
                     </td>
                   ))}

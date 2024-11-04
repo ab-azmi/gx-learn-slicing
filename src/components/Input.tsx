@@ -4,7 +4,7 @@ import { useState } from "react";
 type Props = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  label: string;
+  label?: string;
   placeholder: string;
   type: string;
   name: string;
@@ -23,9 +23,11 @@ const Input = ({
 
   return (
     <div className="d-flex flex-column gap-1 form-group">
-      <label htmlFor={name} className="fw-light fs-xs">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={name} className="fw-light fs-xs">
+          {label}
+        </label>
+      )}
       <div className="position-relative">
         <input
           value={value}

@@ -22,6 +22,7 @@ const Leads = () => {
     handleForm,
     handleSelect,
     handleFilter,
+    clearFilter,
   } = useLeads();
 
   const columns: { key: string; title: string }[] = [
@@ -60,6 +61,7 @@ const Leads = () => {
           onAdd={openModal}
           limit={10}
           onSearch={handleSearch}
+          onClearFilter={clearFilter}
           filter={[
             {
               name: "probability",
