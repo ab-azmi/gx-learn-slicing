@@ -43,23 +43,23 @@ const useLogin = () => {
 
   const hanldleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     setLoading(true);
-    if(!validate()) {
+    if (!validate()) {
       setLoading(false);
       return;
-    };
+    }
 
     login({ email: input.email, password: input.password })
       .then((res) => {
-        if(res) {
-          store.setToken(res.token);
+        if (res?.access_token) {
+          store.setToken(res.access_token);
           navigate("/");
         }
       })
       .finally(() => setLoading(false));
-      //hanya utk kelola data
-      //tidk perlu handle error api
+    //hanya utk kelola data
+    //tidk perlu handle error api
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
