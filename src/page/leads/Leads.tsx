@@ -53,7 +53,7 @@ const Leads = () => {
       )}
       {leads && (
         <Table<Lead>
-          data={leads}
+          data={leads} //sort
           columns={columns}
           onDelete={handleDelete}
           onEdit={openModal}

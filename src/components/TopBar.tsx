@@ -4,11 +4,13 @@ import sideBarStore from "@/store/SidebarStore";
 import useLogout from "@/hooks/useLogout";
 import { useContext } from "react";
 import { DarkModeContext } from "@/context/DarkModeProvider";
+import useGlobalContext from "@/hooks/useGlobalContext";
 
 const TopBar = () => {
-  const {signout} = useLogout();
+  const { signout } = useLogout();
   const { expand, setExpand } = sideBarStore();
-  const {darkMode, setDarkMode} = useContext(DarkModeContext);
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  const {state} = useGlobalContext();
 
   return (
     <div className="top-bar w-100 bg-secondary d-flex justify-content-between px-4 py-3">
@@ -21,11 +23,17 @@ const TopBar = () => {
 
       <div className="d-flex gap-4 align-items-center">
         <div className="position-relative">
-          <span className="position-absolute translate-middle text-xs bg-danger rounded-circle" style={{ width: "10px", height:"10px", top:"0", right: "-4px" }}>
-          </span>
+          <span
+            className="position-absolute translate-middle text-xs bg-danger rounded-circle"
+            style={{ width: "10px", height: "10px", top: "0", right: "-4px" }}
+          ></span>
           <Notification size="24" className="text-muted" variant="Bulk" />
         </div>
-        <button onClick={() => setDarkMode(darkMode == "dark" ? "light" : "dark")} type="button" className="d-flex align-items-center gap-2 bg-transparent border-0">
+        <button
+          onClick={() => setDarkMode(darkMode == "dark" ? "light" : "dark")}
+          type="button"
+          className="d-flex align-items-center gap-2 bg-transparent border-0"
+        >
           {darkMode == "dark" ? (
             <Moon size="24" className="text-muted" variant="Bulk" />
           ) : (
@@ -36,16 +44,23 @@ const TopBar = () => {
           </span>
         </button>
         <div className="dropdown">
-          <img
-            src={User}
-            alt=""
-            role="button"
-            className="rounded-circle object-fit-cover"
-            style={{ width: "2.3rem", height: "2.3rem"}}
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          />
+            <img
+              src={User}
+              alt=""
+              role="button"
+              className="rounded-circle object-fit-cover"
+              style={{ width: "2.3rem", height: "2.3rem" }}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            />
           <ul className="dropdown-menu border-0 shadow rounded-0">
+            {state.isAdmin && (
+              <li>
+              <a className="dropdown-item text-xs text-primary" href="#">
+                You're an Admin
+              </a>
+            </li>
+            )}
             <li>
               <a className="dropdown-item" href="#">
                 Profile
@@ -57,9 +72,12 @@ const TopBar = () => {
               </a>
             </li>
             <li>
-              <button onClick={signout} className="dropdown-item d-flex justify-content-between text-danger">
+              <button
+                onClick={signout}
+                className="dropdown-item d-flex justify-content-between text-danger"
+              >
                 Logout
-                <Logout size="24" variant="Bulk"/>
+                <Logout size="24" variant="Bulk" />
               </button>
             </li>
           </ul>

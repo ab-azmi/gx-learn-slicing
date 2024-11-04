@@ -2,6 +2,7 @@ import { Edit, Trash } from "iconsax-react";
 import TablePagination from "./TablePagination";
 import { useState } from "react";
 import Select from "./Select";
+import formatDate from "@/helpers/dateFormater.helper";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string) => {
@@ -45,9 +46,10 @@ const Table = <T,>({
   const [search, setSearch] = useState("");
 
   //make states key-value pair array with length TableFilter length
-  const [filterValue, setFilterValue] = useState<{key: number, value: number}[]>(
-    Array.from({ length: filter?.length || 0 }, () => ({key: 0, value: -1}))
-  )
+  const [filterValue, setFilterValue] = useState<
+    { key: number; value: number }[]
+  >(Array.from({ length: filter?.length || 0 }, () => ({ key: 0, value: -1 })));
+
   const handleChangePage = (page: number) => {
     setSkip((page - 1) * limit);
     setPage(page);
@@ -64,9 +66,9 @@ const Table = <T,>({
     const fil = filter?.find((f) => f.name === name);
     const idx = filter?.findIndex((f) => f.name === name);
     setFilterValue((prev) => {
-      prev[idx!] = {key: idx!, value: Number(value)};
+      prev[idx!] = { key: idx!, value: Number(value) };
       return [...prev];
-    })
+    });
     fil?.onSelect(name, value);
   };
 
@@ -113,33 +115,40 @@ const Table = <T,>({
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? data?.slice(skip, upper).map((item, index) => (
-              <tr key={index}>
-                {columns.map((column, idx) => (
-                  <td key={idx}>{String(getNestedValue(item, column.key))}</td>
-                ))}
-                <td className="">
-                  {onEdit && (
-                    <button
-                      type="button"
-                      className="btn btn-sm text-muted"
-                      onClick={() => onEdit(item)}
-                    >
-                      <Edit size="24" variant="Bulk" />
-                    </button>
-                  )}
-                  {onDelete && (
-                    <button
-                      type="button"
-                      className="btn btn-sm text-danger"
-                      onClick={() => onDelete(item)}
-                    >
-                      <Trash size="24" variant="Bulk" />
-                    </button>
-                  )}
-                </td>
-              </tr>
-            )) : (
+            {data.length > 0 ? (
+              data?.slice(skip, upper).map((item, index) => (
+                <tr key={index}>
+                  {columns.map((column, idx) => (
+                    <td key={idx}>
+                      {/* if key ends with _at */}
+                      {column.key.endsWith("_at")
+                        ? formatDate(String(getNestedValue(item, column.key)), 'dd MMM yyyy')
+                        : String(getNestedValue(item, column.key))}
+                    </td>
+                  ))}
+                  <td className="">
+                    {onEdit && (
+                      <button
+                        type="button"
+                        className="btn btn-sm text-muted"
+                        onClick={() => onEdit(item)}
+                      >
+                        <Edit size="24" variant="Bulk" />
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        type="button"
+                        className="btn btn-sm text-danger"
+                        onClick={() => onDelete(item)}
+                      >
+                        <Trash size="24" variant="Bulk" />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
                 <td colSpan={columns.length + 1} className="text-center">
                   No data available
@@ -149,12 +158,14 @@ const Table = <T,>({
           </tbody>
         </table>
       </div>
-      <TablePagination
-        total={data.length}
-        limit={limit}
-        page={page}
-        setPage={handleChangePage}
-      />
+      <div className="mt-2">
+        <TablePagination
+          total={data.length}
+          limit={limit}
+          page={page}
+          setPage={handleChangePage}
+        />
+      </div>
     </div>
   );
 };
