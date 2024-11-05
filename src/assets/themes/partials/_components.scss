@@ -1,0 +1,15 @@
+.custom-tab {
+    border-bottom: 2px solid rgb(241, 241, 241);
+    color: black;
+
+    .tab-link {
+        border: none;
+        background: none;
+        padding: 0.5rem 2rem;
+    }
+
+    .active {
+        color: $yellow !important;
+        border-bottom: 3px solid $yellow;
+    }
+}
