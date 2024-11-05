@@ -188,12 +188,12 @@ const TableLeads = ({
             <table className="table">
               <thead>
                 <tr className="">
-                  <th className="bg-muted w-20 fw-medium"># Leads</th>
-                  <th className="bg-muted w-20 fw-medium">Address</th>
-                  <th className="bg-muted w-20 fw-medium">Status</th>
-                  <th className="bg-muted w-20 fw-medium">Info</th>
-                  <th className="bg-muted w-20 fw-medium">Created</th>
-                  <th className="bg-muted"></th>
+                  <th className="bg-background w-20 fw-medium"># Leads</th>
+                  <th className="bg-background w-20 fw-medium">Address</th>
+                  <th className="bg-background w-20 fw-medium">Status</th>
+                  <th className="bg-background w-20 fw-medium">Info</th>
+                  <th className="bg-background w-20 fw-medium">Created</th>
+                  <th className="bg-background"></th>
                 </tr>
               </thead>
               <tbody>

@@ -41,12 +41,11 @@ const Leads = () => {
 
   return (
     <div className="p-4">
-      <h3>
-        Welcome to <span className="fw-bold">The Leads</span>
-      </h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, ipsum.
-      </p>
+      {loading && (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
       <div className="d-flex gap-3 w-100 mb-3">
         <div className="w-100 bg-white rounded-4 p-3">
           <h3 className="fw-bold">20</h3>
@@ -85,11 +84,6 @@ const Leads = () => {
           </h6>
         </div>
       </div>
-      {loading && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
       {leads && (
         <TableLeads
           data={leads} //sort
