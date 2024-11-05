@@ -5,7 +5,7 @@ import {
   createLead,
   getProbabilities,
 } from "@/service/api/leads.api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
 
@@ -25,7 +25,7 @@ const useLeads = () => {
   const { signout } = useLogout();
   
   const [leads, setLeads] = useState<Lead[]>();
-  const [filteredLeads, setFilteredLeads] = useState<Lead[]>();
+  const backUpLeads = useRef<Lead[]>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +40,7 @@ const useLeads = () => {
     getLeads()
       .then((res) => {
         setLeads(res);
-        setFilteredLeads(res);
+        backUpLeads.current = res;
       })
       .catch((err) => {
         if (err.message === "Unauthorized") {
@@ -60,28 +60,6 @@ const useLeads = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    let filtered = leads;
-
-    //get all keys of filters. like ['probability', 'status']
-    Object.keys(filters).forEach((key) => {
-      //get value of key. like '1'
-      const value = filters[key];
-      //if value is -1 then return all leads
-      if (value === "-1") return;
-
-      //filter leads based on key and value
-      if (key === "probability") {
-        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
-      } else if (key === "status") {
-        filtered = filtered?.filter((l) => l.status?.id === Number(value));
-      }
-    });
-
-    //set filtered leads
-    setFilteredLeads(filtered);
-  }, [filters, leads]);
-
   const openModal = (item?: Lead) => {
     if (item) {
       setSelectedLead(item);
@@ -99,12 +77,13 @@ const useLeads = () => {
   };
 
   const handleCreate = () => {
-    setFilteredLeads((prev) => [input, ...prev!]);
+    // setFilteredLeads((prev) => [input, ...prev!]);
+    const temp = [...leads!];
+    setLeads((prev) => [input, ...prev!]);
     setShowModal(false);
 
     createLead(input)
-      .then((res) => {
-        setLeads((prev) => [res.data, ...prev!]);
+      .then(() => {
         alert("Created");
         setInput(formInitial);
       })
@@ -112,16 +91,19 @@ const useLeads = () => {
         alert("Failed to create");
         setShowModal(true);
         //remove the created lead from filtered leads without id
-        setFilteredLeads(leads);
+        // setFilteredLeads(leads);
+        setLeads(temp);
       });
   };
 
   const handleDelete = (item: Lead) => {
     if (confirm("Are you sure?")) {
-      setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
+      // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
+      const temp = [...leads!];
+      const filtered = leads?.filter((lead) => lead.id !== item.id);
+      setLeads(filtered);
       deleteLead(item.id!)
         .then(() => {
-          setLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
           alert("Deleted");
         })
         .catch((err) => {
@@ -133,13 +115,15 @@ const useLeads = () => {
 
           alert("Failed to delete");
           //revert back to original value
-          setFilteredLeads(leads);
+          // setFilteredLeads(leads);
+          setLeads(temp);
         });
     }
   };
 
   const handleUpdate = () => {
-    setFilteredLeads((prev) => {
+    const temp = [...leads!];
+    setLeads((prev) => {
       if (prev) {
         const index = prev.findIndex((l) => l.id === input.id);
 
@@ -157,28 +141,13 @@ const useLeads = () => {
     setShowModal(false);
 
     updateLead(input)
-      .then((res) => {
-        setLeads((prev) => {
-          if (prev) {
-            const index = prev.findIndex((l) => l.id === input.id);
-            prev[index] = res.data;
-            return [...prev];
-          }
-          return prev;
-        });
+      .then(() => {
         setInput(formInitial);
         alert("Updated");
       })
       .catch(() => {
         //revert back to original value
-        setFilteredLeads((prev) => {
-          if (prev) {
-            const index = prev.findIndex((l) => l.id === input.id);
-            prev[index] = selectedLead!;
-            return [...prev];
-          }
-          return prev;
-        });
+        setLeads(temp);
         alert("Failed to update");
       });
   };
@@ -201,7 +170,7 @@ const useLeads = () => {
         return false;
       });
     });
-    setFilteredLeads(filtered);
+    setLeads(filtered);
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,16 +189,37 @@ const useLeads = () => {
     });
   };
 
+  const filterLeads = (filter: {[key: string]: string}) => {
+    setFilters(filter);
+    
+    //get all keys of filters. like ['probability', 'status']
+    Object.keys(filter).forEach((key) => {
+      //get value of key. like '1'
+      const value = filter[key];
+      //if value is -1 then return all leads
+      if (value === "-1") return;
+
+      //filter leads based on key and value
+      if (key === "probability") {
+        setLeads((prev) => prev?.filter((l) => l.probability?.id === Number(value)))
+      } else if (key === "status") {
+        setLeads((prev) => prev?.filter((l) => l.status?.id === Number(value)))
+      }
+    });
+  }
+
   const handleFilter = (name: string, value: string) => {
     //add filter to filters state
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    filterLeads({ ...filters, [name]: value });
   };
 
+  const clearFilter = () => {
+    setLeads(backUpLeads.current);
+    setFilters({});
+  }
+
   return {
-    leads: filteredLeads,
+    leads,
     setLeads,
     input,
     loading,
@@ -244,6 +234,7 @@ const useLeads = () => {
     handleInput,
     handleForm,
     handleFilter,
+    clearFilter,
   };
 };
 

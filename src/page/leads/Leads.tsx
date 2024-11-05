@@ -1,9 +1,8 @@
-import { Lead } from "@/types/leads";
-import Table from "../../components/Table";
 import useLeads from "./hooks/useLeads";
 import ModalForm from "./components/ModalForm";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
+import TableLeads from "@/components/TableLeads";
 
 const objColumn = (key: string, title: string) => ({ key, title });
 
@@ -53,7 +52,7 @@ const Leads = () => {
         </div>
       )}
       {leads && (
-        <Table<Lead>
+        <TableLeads
           data={leads} //sort
           columns={columns}
           onDelete={handleDelete}

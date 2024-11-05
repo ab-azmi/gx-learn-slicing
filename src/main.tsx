@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter } from "react-router-dom";
 import { DarkModeProvider } from "@/context/DarkModeProvider.tsx";
 import { GlobalProvider } from "./context/GlobalContext";
+import "react-datepicker/dist/react-datepicker.css";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

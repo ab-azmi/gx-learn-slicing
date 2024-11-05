@@ -1,9 +1,10 @@
-import { Edit, Trash } from "iconsax-react";
+import { Edit, Filter, Trash } from "iconsax-react";
 import TablePagination from "./TablePagination";
 import { useState } from "react";
 import Select from "./Select";
 import formatDate from "@/helpers/dateFormater.helper";
 import Input from "./Input";
+import DatePicker from "./DatePicker";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string) => {
@@ -115,6 +116,7 @@ const Table = <T,>({
                 value={filterValue[idx].value.toString()}
               />
             ))}
+            <DatePicker />
             <button
               type="button"
               className="btn btn-primary"
@@ -122,18 +124,23 @@ const Table = <T,>({
             >
               Search
             </button>
-            <button className="btn" onClick={() => onClearFilter()}>
+            <button className="btn px-0">
+              <Filter size="24" />
+            </button>
+            <button className="btn px-0" onClick={() => onClearFilter()}>
               Clear All
             </button>
           </>
         )}
       </div>
-      <div className="table-responsive">
+      <div className="table-responsive mt-3">
         <table className="table">
           <thead>
             <tr className="">
               {columns.map((column, index) => (
-                <th key={index} className="bg-muted fw-medium">{column.title}</th>
+                <th key={index} className="bg-muted fw-medium">
+                  {column.title}
+                </th>
               ))}
               <th className="bg-muted"></th>
             </tr>
