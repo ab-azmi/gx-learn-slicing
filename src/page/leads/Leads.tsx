@@ -14,8 +14,9 @@ const Leads = () => {
     showModal,
     probabilities,
     openModal,
+    setSearch,
     handleInput,
-    handleSearch,
+    filterLeads,
     setShowModal,
     handleDelete,
     handleForm,
@@ -97,7 +98,8 @@ const Leads = () => {
           onEdit={openModal}
           onAdd={openModal}
           limit={10}
-          onSearch={handleSearch}
+          onSearch={setSearch}
+          onFilter={filterLeads}
           onClearFilter={clearFilter}
           filter={[
             {

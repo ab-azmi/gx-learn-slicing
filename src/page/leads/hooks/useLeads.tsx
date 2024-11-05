@@ -23,11 +23,12 @@ const formInitial = {
 
 const useLeads = () => {
   const { signout } = useLogout();
-  
+
   const [leads, setLeads] = useState<Lead[]>();
   const backUpLeads = useRef<Lead[]>();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead>();
   const [probabilities, setProbabilities] = useState<Probability[]>();
@@ -160,18 +161,6 @@ const useLeads = () => {
     }
   };
 
-  const handleSearch = (value: string) => {
-    const filtered = leads?.filter((l) => {
-      //get values of objext l and check if any value includes the search value
-      return Object.values(l).some((v) => {
-        if (typeof v === "string") {
-          return v.toLowerCase().includes(value.toLowerCase());
-        }
-        return false;
-      });
-    });
-    setLeads(filtered);
-  };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -189,34 +178,49 @@ const useLeads = () => {
     });
   };
 
-  const filterLeads = (filter: {[key: string]: string}) => {
-    setFilters(filter);
+  const filterLeads = () => {
+    let filtered = leads?.filter((l) => {
+      //get values of objext l and check if any value includes the search value
+      return Object.values(l).some((v) => {
+        if (typeof v === "string") {
+          return v.toLowerCase().includes(search.toLowerCase());
+        }
+        return false;
+      });
+    });
     
+
     //get all keys of filters. like ['probability', 'status']
-    Object.keys(filter).forEach((key) => {
+    Object.keys(filters).forEach((key) => {
       //get value of key. like '1'
-      const value = filter[key];
+      const value = filters[key];
       //if value is -1 then return all leads
       if (value === "-1") return;
 
       //filter leads based on key and value
       if (key === "probability") {
-        setLeads((prev) => prev?.filter((l) => l.probability?.id === Number(value)))
+        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
       } else if (key === "status") {
-        setLeads((prev) => prev?.filter((l) => l.status?.id === Number(value)))
+        filtered = filtered?.filter((l) => l.status?.id === Number(value));
       }
     });
-  }
+    
+    setLeads(filtered);
+  };
 
   const handleFilter = (name: string, value: string) => {
     //add filter to filters state
-    filterLeads({ ...filters, [name]: value });
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const clearFilter = () => {
     setLeads(backUpLeads.current);
+    setSearch("");
     setFilters({});
-  }
+  };
 
   return {
     leads,
@@ -227,10 +231,12 @@ const useLeads = () => {
     setShowModal,
     selectedLead,
     probabilities,
+    search,
+    setSearch,
     handleSelect,
     handleDelete,
     openModal,
-    handleSearch,
+    filterLeads,
     handleInput,
     handleForm,
     handleFilter,

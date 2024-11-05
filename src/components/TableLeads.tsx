@@ -34,6 +34,7 @@ type TableProps = {
   onEdit?: (item: Lead) => void;
   onSearch: (value: string) => void;
   onClearFilter: () => void;
+  onFilter: () => void;
 };
 
 const TableLeads = ({
@@ -46,6 +47,7 @@ const TableLeads = ({
   onSearch,
   onClearFilter,
   onAdd,
+  onFilter
 }: TableProps) => {
   const [skip, setSkip] = useState(0);
   const [page, setPage] = useState(1);
@@ -78,6 +80,15 @@ const TableLeads = ({
     });
     fil?.onSelect(name, value);
   };
+
+  const handleClearFilter = () => {
+    onClearFilter();
+    setSearch("");
+    setFilterValue((prev) =>
+      prev.map((f) => {
+        return { key: f.key, value: -1 };
+      }))
+  }
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-4">
@@ -120,7 +131,7 @@ const TableLeads = ({
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => {}}
+              onClick={() => onFilter()}
             >
               Search
             </button>
@@ -129,7 +140,7 @@ const TableLeads = ({
             </button>
             <button
               className="btn px-0 text-decoration-underline"
-              onClick={() => onClearFilter()}
+              onClick={() => handleClearFilter()}
             >
               Clear All
             </button>
