@@ -81,8 +81,8 @@ const TableLeads = ({
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-4">
-      <div className="d-flex gap-3 align-items-end justify-content-between mb-2">
-        <h5 className="fw-bold">Manage Leads</h5>
+      <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
+        <h4 className="fw-bold">Manage Leads</h4>
         <div className="d-flex align-items-center gap-2">
           <Button style="outline">Generate Summary</Button>
           {onAdd && (
@@ -221,7 +221,7 @@ const TableLeads = ({
                         </div>
                       </td>
                       <td>
-                        <span className="badge fs-6 bg-info text-capitalize fw-medium">
+                        <span className="badge fs-6 bg-info text-capitalize fw-normal">
                           {getNestedValue(item, "status.name")}
                         </span>
                         <div className="d-flex flex-column gap-1 mt-3">
@@ -238,7 +238,7 @@ const TableLeads = ({
                         >
                           <span className="text-muted">Type</span>
                           <div className="d-flex gap-1">
-                            <span className="badge fs-6 bg-info text-capitalize fw-medium">
+                            <span className="badge fs-6 bg-info text-capitalize fw-normal">
                               {getNestedValue(item, "type.name")}
                             </span>
                             <button className="border-0 bg-transparent">
