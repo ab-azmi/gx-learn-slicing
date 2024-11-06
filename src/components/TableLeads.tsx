@@ -6,11 +6,11 @@ import formatDate from "@/helpers/dateFormater.helper";
 import Input from "./Input";
 import DatePicker from "./DatePicker";
 import { Lead } from "@/types/leads";
-import User from "@/assets/images/user.jpg";
 import Button from "./Button";
+import clsx from "clsx";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getNestedValue = (obj: any, path: string) => {
+const getNestedValue = (obj: any, path: string): any => {
   //return data from column path
   //if path is 'probability.name' then return obj.probability.name
   return (
@@ -47,7 +47,7 @@ const TableLeads = ({
   onSearch,
   onClearFilter,
   onAdd,
-  onFilter
+  onFilter,
 }: TableProps) => {
   const [skip, setSkip] = useState(0);
   const [page, setPage] = useState(1);
@@ -87,8 +87,23 @@ const TableLeads = ({
     setFilterValue((prev) =>
       prev.map((f) => {
         return { key: f.key, value: -1 };
-      }))
-  }
+      })
+    );
+  };
+
+  const statuses = {
+    "pending": "warning",
+    "converted": "success",
+    "consideration": "primary",
+    "scheduled": "info",
+    "junk": "bg-danger",
+    "not interested": "danger",
+    "future call back": "success",
+    "no respond": "warning",
+    "cancle": "danger",
+    "inbound": "primary",
+    "outbound": "success",
+  };
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-2">
@@ -232,12 +247,12 @@ const TableLeads = ({
                         </div>
                       </td>
                       <td>
-                        <span className="badge fs-6 bg-info text-capitalize fw-normal">
+                        <span className={clsx("badge fs-6 text-capitalize fw-normal", `bg-${statuses[getNestedValue(item, "status.name") as keyof typeof statuses]}`)}>
                           {getNestedValue(item, "status.name")}
                         </span>
                         <div className="d-flex flex-column gap-1 mt-3">
                           <span className="text-muted">Probability</span>
-                          <span className="text-uppercase fw-semibold text-decoration-underline text-info">
+                          <span className={clsx("text-uppercase fw-semibold text-decoration-underline", `text-${statuses[getNestedValue(item, "probability.name") as keyof typeof statuses]}`)}>
                             #{getNestedValue(item, "probability.name")}
                           </span>
                         </div>
@@ -249,7 +264,7 @@ const TableLeads = ({
                         >
                           <span className="text-muted">Type</span>
                           <div className="d-flex gap-1">
-                            <span className="badge fs-6 bg-info text-capitalize fw-normal">
+                            <span className={clsx("fs-6 badge text-capitalize fw-normal", `bg-${statuses[getNestedValue(item, "type.name") as keyof typeof statuses]}`)}>
                               {getNestedValue(item, "type.name")}
                             </span>
                             <button className="border-0 bg-transparent">
@@ -270,7 +285,7 @@ const TableLeads = ({
                       <td>
                         <div className="d-flex gap-2 align-items-center">
                           <img
-                            src={`https://ui-avatars.com/api/?name=${item['name']}&background=f8c900&color=1b1b1b`}
+                            src={`https://ui-avatars.com/api/?name=${item["name"]}&background=f8c900&color=1b1b1b`}
                             alt=""
                             className="rounded-circle object-fit-cover"
                             style={{ width: "40px", height: "40px" }}
