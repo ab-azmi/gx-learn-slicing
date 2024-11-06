@@ -91,7 +91,7 @@ const TableLeads = ({
   }
 
   return (
-    <div className="p-3 p-3 bg-secondary rounded-4">
+    <div className="p-3 p-3 bg-secondary rounded-2">
       <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
         <h4 className="fw-bold">Manage Leads</h4>
         <div className="d-flex align-items-center gap-2">

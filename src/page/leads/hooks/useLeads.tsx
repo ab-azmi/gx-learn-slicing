@@ -161,7 +161,6 @@ const useLeads = () => {
     }
   };
 
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInput({
