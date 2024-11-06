@@ -270,7 +270,7 @@ const TableLeads = ({
                       <td>
                         <div className="d-flex gap-2 align-items-center">
                           <img
-                            src={User}
+                            src={`https://ui-avatars.com/api/?name=${item['name']}&background=f8c900&color=1b1b1b`}
                             alt=""
                             className="rounded-circle object-fit-cover"
                             style={{ width: "40px", height: "40px" }}
