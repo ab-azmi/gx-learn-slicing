@@ -80,8 +80,11 @@ const useLeads = () => {
 
   const handleCreate = () => {
     // setFilteredLeads((prev) => [input, ...prev!]);
-    const temp = [...leads!];
-    setLeads((prev) => [input, ...prev!]);
+    const temp = leads?.data ? [...leads.data] : [];
+    setLeads((prev) => ({
+      ...prev!,
+      data: [input, ...prev!.data],
+    }));
     setShowModal(false);
 
     createLead(input)
@@ -94,7 +97,10 @@ const useLeads = () => {
         setShowModal(true);
         //remove the created lead from filtered leads without id
         // setFilteredLeads(leads);
-        setLeads(temp);
+        setLeads({
+          ...leads!,
+          data: temp,
+        });
       });
   };
 
@@ -103,9 +109,12 @@ const useLeads = () => {
   const handleDelete = (item: Lead) => {
     if (confirm("Are you sure?")) {
       // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
-      const temp = [...leads!];
-      const filtered = leads?.filter((lead) => lead.id !== item.id);
-      setLeads(filtered);
+      const temp = leads?.data ? [...leads.data] : [];
+      const filtered = leads?.data.filter((lead) => lead.id !== item.id);
+      setLeads({
+        ...leads!,
+        data: filtered || [],
+      });
       deleteLead(item.id!)
         .then(() => {
           alert("Deleted");
@@ -120,28 +129,17 @@ const useLeads = () => {
           alert("Failed to delete");
           //revert back to original value
           // setFilteredLeads(leads);
-          setLeads(temp);
+          setLeads({
+            ...leads!,
+            data: temp,
+          });
         });
     }
   };
 
   // TODO : Dont close modal if failed
   const handleUpdate = () => {
-    const temp = [...leads!];
-    setLeads((prev) => {
-      if (prev) {
-        const index = prev.findIndex((l) => l.id === input.id);
-
-        prev[index] = {
-          ...input,
-          probability: probabilities?.find(
-            (p) => p.id === Number(input.lead_probability_id)
-          ),
-        };
-        return [...prev];
-      }
-      return prev;
-    });
+    const temp = leads?.data ? [...leads.data] : [];
 
     setShowModal(false);
 
@@ -152,7 +150,10 @@ const useLeads = () => {
       })
       .catch(() => {
         //revert back to original value
-        setLeads(temp);
+        setLeads({
+          ...leads!,
+          data: temp,
+        });
         alert("Failed to update");
       });
   };
@@ -182,33 +183,9 @@ const useLeads = () => {
   };
 
   const filterLeads = () => {
-    let filtered = backUpLeads.current?.filter((l) => {
-      //get values of objext l and check if any value includes the search value
-      return Object.values(l).some((v) => {
-        if (typeof v === "string") {
-          return v.toLowerCase().includes(search.toLowerCase());
-        }
-        return false;
-      });
+    getLeads(1, search, filters).then((res) => {
+      setLeads(res);
     });
-    
-
-    //get all keys of filters. like ['probability', 'status']
-    Object.keys(filters).forEach((key) => {
-      //get value of key. like '1'
-      const value = filters[key];
-      //if value is -1 then return all leads
-      if (value === "-1") return;
-
-      //filter leads based on key and value
-      if (key === "probability") {
-        filtered = filtered?.filter((l) => l.probability?.id === Number(value));
-      } else if (key === "status") {
-        filtered = filtered?.filter((l) => l.status?.id === Number(value));
-      }
-    });
-    
-    setLeads(filtered);
   };
 
   const handleFilter = (name: string, value: string) => {
@@ -220,9 +197,8 @@ const useLeads = () => {
   };
 
   const clearFilter = () => {
-    setLeads(backUpLeads.current);
-    setSearch("");
     setFilters({});
+    setLeads(backUpLeads.current);
   };
 
   return {
