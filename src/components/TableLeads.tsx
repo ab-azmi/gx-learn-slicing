@@ -8,6 +8,7 @@ import DatePicker from "./DatePicker";
 import { Lead } from "@/types/leads";
 import Button from "./Button";
 import clsx from "clsx";
+import { Paginate } from "@/types/wraper";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string): any => {
@@ -25,7 +26,7 @@ type TableFilter = {
 };
 
 type TableProps = {
-  data: Lead[];
+  data?: Paginate<Lead>;
   columns: { key: string; title: string }[];
   limit: number;
   filter?: TableFilter[];
@@ -220,8 +221,8 @@ const TableLeads = ({
                 </tr>
               </thead>
               <tbody>
-                {data.length > 0 ? (
-                  data?.slice(skip, upper).map((item, index) => (
+                {data?.data?.length ? (
+                  data?.data.slice(skip, upper).map((item, index) => (
                     <tr key={index}>
                       <td>
                         {/* TODO : Reusable style */}
@@ -387,9 +388,9 @@ const TableLeads = ({
             </table>
           </div>
           <div className="mt-2">
-            {data.length > 0 && (
+            {data?.data?.length && (
               <TablePagination
-                total={data.length}
+                total={data.data.length}
                 limit={limit}
                 page={page}
                 setPage={handleChangePage}

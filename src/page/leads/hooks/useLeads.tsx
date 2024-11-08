@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
+import { Paginate } from "@/types/wraper";
 
 const formInitial = {
   code: "",
@@ -24,8 +25,8 @@ const formInitial = {
 const useLeads = () => {
   const { signout } = useLogout();
 
-  const [leads, setLeads] = useState<Lead[]>();
-  const backUpLeads = useRef<Lead[]>();
+  const [leads, setLeads] = useState<Paginate<Lead>>();
+  const backUpLeads = useRef<Paginate<Lead>>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");

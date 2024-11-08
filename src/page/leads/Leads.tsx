@@ -84,7 +84,7 @@ const Leads = () => {
         ))}
       </div>
       <TableLeads
-        data={leads || []} //sort
+        data={leads} //sort
         columns={columns}
         onDelete={handleDelete}
         onEdit={openModal}
