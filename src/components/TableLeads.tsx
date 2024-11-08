@@ -92,17 +92,17 @@ const TableLeads = ({
   };
 
   const statuses = {
-    "pending": "warning",
-    "converted": "success",
-    "consideration": "primary",
-    "scheduled": "info",
-    "junk": "bg-danger",
+    pending: "warning",
+    converted: "success",
+    consideration: "primary",
+    scheduled: "info",
+    junk: "bg-danger",
     "not interested": "danger",
     "future call back": "success",
     "no respond": "warning",
-    "cancle": "danger",
-    "inbound": "primary",
-    "outbound": "success",
+    cancle: "danger",
+    inbound: "primary",
+    outbound: "success",
   };
 
   return (
@@ -191,6 +191,12 @@ const TableLeads = ({
             From MyGX App
           </button>
         </li>
+        <li className="tab-item flex-grow-1">
+          <button
+            className="tab-link h-100 w-100"
+          >
+          </button>
+        </li>
       </ul>
       <div className="tab-content" id="pills-tabContent">
         <div
@@ -247,12 +253,36 @@ const TableLeads = ({
                         </div>
                       </td>
                       <td>
-                        <span className={clsx("badge fs-6 text-capitalize fw-normal", `bg-${statuses[getNestedValue(item, "status.name") as keyof typeof statuses]}`)}>
+                        <span
+                          className={clsx(
+                            "badge fs-6 text-capitalize fw-normal",
+                            `bg-${
+                              statuses[
+                                getNestedValue(
+                                  item,
+                                  "status.name"
+                                ) as keyof typeof statuses
+                              ]
+                            }`
+                          )}
+                        >
                           {getNestedValue(item, "status.name")}
                         </span>
                         <div className="d-flex flex-column gap-1 mt-3">
                           <span className="text-muted">Probability</span>
-                          <span className={clsx("text-uppercase fw-semibold text-decoration-underline", `text-${statuses[getNestedValue(item, "probability.name") as keyof typeof statuses]}`)}>
+                          <span
+                            className={clsx(
+                              "text-uppercase fw-semibold text-decoration-underline",
+                              `text-${
+                                statuses[
+                                  getNestedValue(
+                                    item,
+                                    "probability.name"
+                                  ) as keyof typeof statuses
+                                ]
+                              }`
+                            )}
+                          >
                             #{getNestedValue(item, "probability.name")}
                           </span>
                         </div>
@@ -264,7 +294,19 @@ const TableLeads = ({
                         >
                           <span className="text-muted">Type</span>
                           <div className="d-flex gap-1">
-                            <span className={clsx("fs-6 badge text-capitalize fw-normal", `bg-${statuses[getNestedValue(item, "type.name") as keyof typeof statuses]}`)}>
+                            <span
+                              className={clsx(
+                                "fs-6 badge text-capitalize fw-normal",
+                                `bg-${
+                                  statuses[
+                                    getNestedValue(
+                                      item,
+                                      "type.name"
+                                    ) as keyof typeof statuses
+                                  ]
+                                }`
+                              )}
+                            >
                               {getNestedValue(item, "type.name")}
                             </span>
                             <button className="border-0 bg-transparent">

@@ -47,7 +47,7 @@ const Leads = () => {
         </div>
       )}
       <div className="d-flex gap-3 w-100 mb-3">
-        <div className="w-100 bg-white rounded-2 p-3">
+        <div className="w-100 bg-secondary rounded-2 p-3">
           <h3 className="fw-bold">20</h3>
           <h6>  
             Total Ticket &nbsp;
@@ -56,7 +56,7 @@ const Leads = () => {
             </span>
           </h6>
         </div>
-        <div className="w-100 bg-white rounded-2 p-3">
+        <div className="w-100 bg-secondary rounded-2 p-3">
         <h3 className="fw-bold">47</h3>
           <h6>  
             WO In Progress &nbsp;
@@ -65,7 +65,7 @@ const Leads = () => {
             </span>
           </h6>
         </div>
-        <div className="w-100 bg-white rounded-2 p-3">
+        <div className="w-100 bg-secondary rounded-2 p-3">
         <h3 className="fw-bold">58</h3>
           <h6>  
             MyGX App &nbsp;
@@ -74,7 +74,7 @@ const Leads = () => {
             </span>
           </h6>
         </div>
-        <div className="w-100 bg-white rounded-2 p-3">
+        <div className="w-100 bg-secondary rounded-2 p-3">
         <h3 className="fw-bold">17</h3>
           <h6>  
             Highest Priority &nbsp;
