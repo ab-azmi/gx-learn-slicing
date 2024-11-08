@@ -2,6 +2,7 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "re
 
 interface IGlobalState {
     isAdmin: boolean;
+    online: boolean;
 }
 
 interface IGlobalContextValue {
@@ -14,7 +15,8 @@ const GlobalContext = createContext<IGlobalContextValue | undefined>(undefined);
 
 const GlobalProvider = ({children}: {children: ReactNode}) => {
     const [state, setState] = useState<IGlobalState>({
-        isAdmin: true
+        isAdmin: true,
+        online: true
     });
 
     return (

@@ -6,11 +6,9 @@
         border: none;
         background: none;
         padding: 0.5rem 2rem;
-    }
-
-    .tab-link {
         border-bottom: 3px solid $muted;
     }
+    
     .active {
         color: $yellow !important;
         border-bottom: 3px solid $yellow !important;

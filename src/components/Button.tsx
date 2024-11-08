@@ -6,24 +6,25 @@ type Props = {
   style?: "fill" | "outline";
   onClick?: () => void;
   disabled?: boolean;
+  isOutline?: boolean;
   children: React.ReactNode;
 };
 
 const Button = ({
   type = "button",
-  style = "fill",
   onClick,
   disabled,
+  isOutline = false,
   children,
 }: PropsWithChildren<Props>) => {
   const classFill = "bg-primary text-black";
-  const classOutline = "border-primary button-outline";
+  const classOutline = "btn-outline-primary";
   return (
     <button
       disabled={disabled}
       type={type}
       onClick={onClick}
-      className={clsx(style === "fill" ? classFill : classOutline, "button hover_darker")}
+      className={clsx(isOutline ? classOutline : classFill, "btn hover_darker")}
     >
       {children}
     </button>

@@ -3,6 +3,7 @@ import ModalForm from "./components/ModalForm";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import TableLeads from "@/components/TableLeads";
+import React from "react";
 
 const objColumn = (key: string, title: string) => ({ key, title });
 
@@ -39,82 +40,81 @@ const Leads = () => {
     objColumn("type.name", "Type"),
   ];
 
+  const bento = [
+    {
+      label: "Total Ticket",
+      value: 20,
+    },
+    {
+      label: "WO In Progress",
+      value: 47,
+    },
+    {
+      label: "MyGX App",
+      value: 58,
+    },
+    {
+      label: "Highest Priority",
+      value: 17,
+    },
+  ];
+
   return (
     <div className="p-4">
-      {loading && (
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
       <div className="d-flex gap-3 w-100 mb-3">
-        <div className="w-100 bg-secondary rounded-2 p-3">
-          <h3 className="fw-bold">20</h3>
-          <h6>  
-            Total Ticket &nbsp;
-            <span className="text-muted">
-              (Today<span className="text-danger">*</span>)
-            </span>
-          </h6>
-        </div>
-        <div className="w-100 bg-secondary rounded-2 p-3">
-        <h3 className="fw-bold">47</h3>
-          <h6>  
-            WO In Progress &nbsp;
-            <span className="text-muted">
-              (Today<span className="text-danger">*</span>)
-            </span>
-          </h6>
-        </div>
-        <div className="w-100 bg-secondary rounded-2 p-3">
-        <h3 className="fw-bold">58</h3>
-          <h6>  
-            MyGX App &nbsp;
-            <span className="text-muted">
-              (Today<span className="text-danger">*</span>)
-            </span>
-          </h6>
-        </div>
-        <div className="w-100 bg-secondary rounded-2 p-3">
-        <h3 className="fw-bold">17</h3>
-          <h6>  
-            Highest Priority &nbsp;
-            <span className="text-muted">
-              (Today<span className="text-danger">*</span>)
-            </span>
-          </h6>
-        </div>
+        {bento.map((item, index) => (
+          <React.Fragment key={index}>
+            {loading ? (
+              <div className="w-100 bg-secondary rounded-2 p-3">
+                <div className="bg-muted rounded-2 w-20" style={{ height: '10px' }}></div>
+                <div className="bg-muted rounded-2 w-100 mt-4" style={{ height: '8px' }}></div>
+              </div>
+            ) : (
+              <div className="w-100 bg-secondary rounded-2 p-3">
+                <h3 className="fw-bold">{item.value}</h3>
+                <h6>
+                  {item.label} &nbsp;
+                  <span className="text-muted">
+                    (Today<span className="text-danger">*</span>)
+                  </span>
+                </h6>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
       </div>
-      {leads && (
-        <TableLeads
-          data={leads} //sort
-          columns={columns}
-          onDelete={handleDelete}
-          onEdit={openModal}
-          onAdd={openModal}
-          limit={10}
-          onSearch={setSearch}
-          onFilter={filterLeads}
-          onClearFilter={clearFilter}
-          filter={[
-            {
-              name: "probability",
-              options: probabilities || [],
-              onSelect: handleFilter,
-            },
-            {
-              name: "status",
-              options: [
-                { id: 2, name: "scheduled" },
-                { id: 3, name: "junk" },
-                { id: 1, name: "consideration" },
-              ],
-              onSelect: handleFilter,
-            },
-          ]}
-        />
-      )}
+      <TableLeads
+        data={leads || []} //sort
+        columns={columns}
+        onDelete={handleDelete}
+        onEdit={openModal}
+        onAdd={openModal}
+        limit={10}
+        loading={loading}
+        onSearch={setSearch}
+        onFilter={filterLeads}
+        onClearFilter={clearFilter}
+        filter={[
+          {
+            name: "probability",
+            options: probabilities || [],
+            onSelect: handleFilter,
+          },
+          {
+            name: "status",
+            options: [
+              { id: 2, name: "scheduled" },
+              { id: 3, name: "junk" },
+              { id: 1, name: "consideration" },
+            ],
+            onSelect: handleFilter,
+          },
+        ]}
+      />
 
+      {/* TODO : Make Page */}
       <ModalForm show={showModal} setShow={setShowModal} onSave={handleForm}>
+        {/* TODO : Add validation and empty prevention */}
         <form action="" className="d-flex flex-column gap-2">
           <Input
             type="text"

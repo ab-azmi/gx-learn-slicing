@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 type Props = {
     total: number;
     limit: number;
@@ -8,13 +10,14 @@ type Props = {
 const TablePagination = ({total, limit, page, setPage}: Props) => {
   return (
     <div className='d-flex gap-2 w-100 align-items-center'>
-        <button 
-            className='btn btn-primary' 
+        {/* TODO : Hilangkan kalau kosong */}
+        <Button 
+            isOutline
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
         >
             Previous
-        </button>
+        </Button>
         <span className='text-center'>
             {page} of {Math.ceil(total / limit)}
         </span>

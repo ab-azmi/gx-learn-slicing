@@ -97,6 +97,8 @@ const useLeads = () => {
       });
   };
 
+  // TODO : Use Sweet Alert Confirmation`
+  // TODO : Add loading
   const handleDelete = (item: Lead) => {
     if (confirm("Are you sure?")) {
       // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
@@ -122,6 +124,7 @@ const useLeads = () => {
     }
   };
 
+  // TODO : Dont close modal if failed
   const handleUpdate = () => {
     const temp = [...leads!];
     setLeads((prev) => {

@@ -29,6 +29,7 @@ type TableProps = {
   columns: { key: string; title: string }[];
   limit: number;
   filter?: TableFilter[];
+  loading?: boolean;
   onAdd?: () => void;
   onDelete?: (item: Lead) => void;
   onEdit?: (item: Lead) => void;
@@ -42,6 +43,7 @@ const TableLeads = ({
   columns,
   limit,
   filter,
+  loading,
   onDelete,
   onEdit,
   onSearch,
@@ -107,6 +109,7 @@ const TableLeads = ({
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-2">
+      {/* TODO : Responsive Table & Filters */}
       <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
         <h4 className="fw-bold">Manage Leads</h4>
         <div className="d-flex align-items-center gap-2">
@@ -119,6 +122,7 @@ const TableLeads = ({
         </div>
       </div>
       <div className="d-flex gap-3 align-items-end mb-3">
+        {/* TODO : Wrap Filters input with Form tag for accesibility */}
         <div className="w-30">
           <Input
             type="text"
@@ -192,10 +196,7 @@ const TableLeads = ({
           </button>
         </li>
         <li className="tab-item flex-grow-1">
-          <button
-            className="tab-link h-100 w-100"
-          >
-          </button>
+          <button className="tab-link h-100 w-100"></button>
         </li>
       </ul>
       <div className="tab-content" id="pills-tabContent">
@@ -209,6 +210,7 @@ const TableLeads = ({
             <table className="table">
               <thead>
                 <tr className="">
+                  {/* TODO : NO repetitive class */}
                   <th className="bg-background w-20 fw-medium"># Leads</th>
                   <th className="bg-background w-20 fw-medium">Address</th>
                   <th className="bg-background w-20 fw-medium">Status</th>
@@ -222,6 +224,7 @@ const TableLeads = ({
                   data?.slice(skip, upper).map((item, index) => (
                     <tr key={index}>
                       <td>
+                        {/* TODO : Reusable style */}
                         <span className="text-primary">
                           #{getNestedValue(item, "code")}
                         </span>
@@ -373,9 +376,10 @@ const TableLeads = ({
                     </tr>
                   ))
                 ) : (
+                  // TODO : Show loading here too
                   <tr>
                     <td colSpan={columns.length + 1} className="text-center">
-                      No data available
+                      {loading ? "Loading..." : " No data available"}
                     </td>
                   </tr>
                 )}
@@ -383,12 +387,14 @@ const TableLeads = ({
             </table>
           </div>
           <div className="mt-2">
-            <TablePagination
-              total={data.length}
-              limit={limit}
-              page={page}
-              setPage={handleChangePage}
-            />
+            {data.length > 0 && (
+              <TablePagination
+                total={data.length}
+                limit={limit}
+                page={page}
+                setPage={handleChangePage}
+              />
+            )}
           </div>
         </div>
         <div
