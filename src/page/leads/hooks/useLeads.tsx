@@ -178,7 +178,7 @@ const useLeads = () => {
   };
 
   const filterLeads = () => {
-    let filtered = leads?.filter((l) => {
+    let filtered = backUpLeads.current?.filter((l) => {
       //get values of objext l and check if any value includes the search value
       return Object.values(l).some((v) => {
         if (typeof v === "string") {
