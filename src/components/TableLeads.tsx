@@ -122,8 +122,15 @@ const TableLeads = ({
           )}
         </div>
       </div>
-      <div className="d-flex gap-3 align-items-end mb-3">
-        {/* TODO : Wrap Filters input with Form tag for accesibility */}
+
+      {/* DONE : Wrap Filters input with Form tag for accesibility */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onFilter();
+        }}
+        className="d-flex gap-3 align-items-end mb-3"
+      >
         <div className="w-30">
           <Input
             type="text"
@@ -148,17 +155,14 @@ const TableLeads = ({
               />
             ))}
             <DatePicker />
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => onFilter()}
-            >
-              Search
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? "Loading..." : "Search"}
             </button>
             <button className="btn px-0">
               <Filter size="24" />
             </button>
             <button
+              type="button"
               className="btn px-0 text-decoration-underline"
               onClick={() => handleClearFilter()}
             >
@@ -166,7 +170,8 @@ const TableLeads = ({
             </button>
           </>
         )}
-      </div>
+      </form>
+
       <ul className="nav custom-tab mb-3" id="pills-tab" role="tablist">
         <li className="nav-item tab-item" role="presentation">
           <button

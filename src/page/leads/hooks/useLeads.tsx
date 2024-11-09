@@ -183,8 +183,10 @@ const useLeads = () => {
   };
 
   const filterLeads = () => {
+    setLoading(true);
     getLeads(1, search, filters).then((res) => {
       setLeads(res);
+      setLoading(false);
     });
   };
 

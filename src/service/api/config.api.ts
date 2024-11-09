@@ -39,9 +39,7 @@ export const endpointWrapper = async (endpoint: string, method: string, data?:an
       if (response.ok) {
         return response.json();
       } else {
-        if (response.status === 401) throw new Error("Invalid email or password");
-        if (response.status === 404) throw new Error("User not found");
-        if (response.status === 500) throw new Error("Server error");
+        if (response.status === 401) throw new Error("Invalid token or token expired");
         throw new Error("An error occured");
       }
       
