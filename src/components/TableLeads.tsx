@@ -9,6 +9,7 @@ import { Lead } from "@/types/leads";
 import Button from "./Button";
 import clsx from "clsx";
 import { Paginate } from "@/types/wraper";
+import ModalConfirm from "./ModalConfirm";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string): any => {
@@ -36,7 +37,7 @@ type TableProps = {
   onSearch: (value: string) => void;
   onClearFilter: () => void;
   onFilter: () => void;
-  onChangePage: (page?:number) => void;
+  onChangePage: (page?: number) => void;
 };
 
 const TableLeads = ({
@@ -146,7 +147,11 @@ const TableLeads = ({
               />
             ))}
             <DatePicker />
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               {loading ? "Loading..." : "Search"}
             </button>
             <button className="btn px-0">
@@ -360,13 +365,18 @@ const TableLeads = ({
                             </button>
                           )}
                           {onDelete && (
-                            <button
-                              type="button"
-                              className="btn btn-sm text-danger"
-                              onClick={() => onDelete(item)}
-                            >
-                              <Trash size="24" variant="Bulk" />
-                            </button>
+                            <ModalConfirm 
+                              title="Delete Confirm"
+                              message="This cannot be undone!"
+                              show
+                              onConfirm={() => onDelete(item)}>
+                              <button
+                                type="button"
+                                className="btn btn-sm text-danger"
+                              >
+                                <Trash size="24" variant="Bulk" />
+                              </button>
+                            </ModalConfirm>
                           )}
                         </div>
                       </td>

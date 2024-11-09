@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import TableLeads from "@/components/TableLeads";
 import React from "react";
+import ModalConfirm from "@/components/ModalConfirm";
 
 const objColumn = (key: string, title: string) => ({ key, title });
 
@@ -111,6 +112,8 @@ const Leads = () => {
           },
         ]}
       />
+
+      <ModalConfirm show title="Hey" message="Wow" onConfirm={() => {}}/>
 
       {/* TODO : Make Page */}
       <ModalForm show={showModal} setShow={setShowModal} onSave={handleForm}>

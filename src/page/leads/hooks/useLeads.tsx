@@ -108,33 +108,31 @@ const useLeads = () => {
   // TODO : Use Sweet Alert Confirmation`
   // TODO : Add loading
   const handleDelete = (item: Lead) => {
-    if (confirm("Are you sure?")) {
-      // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
-      const id = toast.loading("Deleting...");
-      deleteLead(item.id!)
-        .then(() => {
-          toast.update(id, {
-            render: "Deleted",
-            type: "success",
-            isLoading: false,
-            autoClose: 2000,
-          });
-        })
-        .catch((err) => {
-          if (err.message === "Unauthorized") {
-            alert("Unauthorized");
-            signout();
-            return;
-          }
-
-          toast.update(id, {
-            render: "Failed to delete",
-            type: "error",
-            isLoading: false,
-            autoClose: 2000,
-          });
+    // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
+    const id = toast.loading("Deleting...");
+    deleteLead(item.id!)
+      .then(() => {
+        toast.update(id, {
+          render: "Deleted",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
         });
-    }
+      })
+      .catch((err) => {
+        if (err.message === "Unauthorized") {
+          alert("Unauthorized");
+          signout();
+          return;
+        }
+
+        toast.update(id, {
+          render: "Failed to delete",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
+      });
   };
 
   // TODO : Dont close modal if failed
@@ -200,9 +198,8 @@ const useLeads = () => {
     getLeads(page, search, filters).then((res) => {
       setLeads(res);
       setLoading(false);
-    }
-    );
-  }
+    });
+  };
 
   return {
     leads,
