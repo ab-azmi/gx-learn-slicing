@@ -13,7 +13,7 @@ const Layout = () => {
 
   return (
     <div className="d-flex bg-background position-relative">
-      <div className="h-100 sticky-top">
+      <div className="h-100 sticky-sm-top z-2">
         <SideBar />
       </div>
 

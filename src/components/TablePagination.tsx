@@ -10,7 +10,7 @@ type Props = {
 const TablePagination = ({total, limit, page, setPage}: Props) => {
   return (
     <div className='d-flex gap-2 w-100 align-items-center'>
-        {/* TODO : Hilangkan kalau kosong */}
+        {/* DONE : Hilangkan kalau kosong */}
         <Button 
             disabled={page === 1}
             onClick={() => setPage(page - 1)}

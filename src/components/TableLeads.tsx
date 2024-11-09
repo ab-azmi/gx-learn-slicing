@@ -213,14 +213,14 @@ const TableLeads = ({
           <div className="table-responsive">
             <table className="table">
               <thead>
-                <tr className="">
-                  {/* TODO : NO repetitive class */}
-                  <th className="bg-background w-20 fw-medium"># Leads</th>
-                  <th className="bg-background w-20 fw-medium">Address</th>
-                  <th className="bg-background w-20 fw-medium">Status</th>
-                  <th className="bg-background w-20 fw-medium">Info</th>
-                  <th className="bg-background w-20 fw-medium">Created</th>
-                  <th className="bg-background"></th>
+                <tr>
+                  {/* DONE : NO repetitive class */}
+                  <th># Leads</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>Info</th>
+                  <th>Created</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -228,35 +228,35 @@ const TableLeads = ({
                   data?.data.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        {/* TODO : Reusable style */}
+                        {/* DONE : Reusable style */}
                         <span className="text-primary">
-                          #{getNestedValue(item, "code")}
+                          #{item['code']}
                         </span>
-                        <div className="d-flex flex-column gap-1 mt-3">
-                          <span className="text-muted text-xs">
+                        <div className="mt-3">
+                          <b className="text-muted text-xs">
                             Branch Office
-                          </span>
-                          <span className="text-capitalize">
+                          </b>
+                          <p className="text-capitalize">
                             Globalxtreme {getNestedValue(item, "branch")}
-                          </span>
+                          </p>
                         </div>
                       </td>
                       <td className="px-3">
-                        <div className="d-flex flex-column gap-1">
-                          <span className="text-capitalize fw-medium">
-                            {getNestedValue(item, "branch")}
-                          </span>
-                          <span className="text-muted">
-                            {getNestedValue(item, "address")}
-                          </span>
+                        <div>
+                          <b className="text-capitalize fw-medium">
+                            {item['branch']}
+                          </b>
+                          <p className="text-muted">
+                            {item['address']}
+                          </p>
                         </div>
-                        <div className="d-flex flex-column gap-1 mt-3">
-                          <span className="text-capitalize text-muted">
+                        <div className="mt-3">
+                          <h6 className="text-capitalize text-muted">
                             Phone
-                          </span>
-                          <span className="fw-medium">
-                            {getNestedValue(item, "phone")}
-                          </span>
+                          </h6>
+                          <p className="fw-medium">
+                            {item['phone']}
+                          </p>
                         </div>
                       </td>
                       <td>
@@ -387,7 +387,7 @@ const TableLeads = ({
                     </tr>
                   ))
                 ) : (
-                  // TODO : Show loading here too
+                  // DONE : Show loading here too
                   <tr>
                     <td colSpan={columns.length + 1} className="text-center">
                       {loading ? "Loading..." : " No data available"}
