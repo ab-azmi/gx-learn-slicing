@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
+import { toast } from "react-toastify";
 
 const formInitial = {
   code: "",
@@ -109,15 +110,15 @@ const useLeads = () => {
   const handleDelete = (item: Lead) => {
     if (confirm("Are you sure?")) {
       // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
-      const temp = leads?.data ? [...leads.data] : [];
-      const filtered = leads?.data.filter((lead) => lead.id !== item.id);
-      setLeads({
-        ...leads!,
-        data: filtered || [],
-      });
+      const id = toast.loading("Deleting...");
       deleteLead(item.id!)
         .then(() => {
-          alert("Deleted");
+          toast.update(id, {
+            render: "Deleted",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          });
         })
         .catch((err) => {
           if (err.message === "Unauthorized") {
@@ -126,12 +127,11 @@ const useLeads = () => {
             return;
           }
 
-          alert("Failed to delete");
-          //revert back to original value
-          // setFilteredLeads(leads);
-          setLeads({
-            ...leads!,
-            data: temp,
+          toast.update(id, {
+            render: "Failed to delete",
+            type: "error",
+            isLoading: false,
+            autoClose: 2000,
           });
         });
     }
