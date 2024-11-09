@@ -102,11 +102,11 @@ const TableLeads = ({
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-2">
-      {/* TODO : Responsive Table & Filters */}
+      {/* DONE : Responsive Table & Filters */}
       <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
         <h4 className="fw-bold">Manage Leads</h4>
         <div className="d-flex align-items-center gap-2">
-          <Button style="outline">Generate Summary</Button>
+          <Button isOutline>Generate Summary</Button>
           {onAdd && (
             <Button type="button" style="fill" onClick={() => onAdd()}>
               Add
@@ -121,7 +121,7 @@ const TableLeads = ({
           e.preventDefault();
           onFilter();
         }}
-        className="d-flex gap-3 align-items-end mb-3"
+        className="d-flex gap-3 align-items-end mb-3 flex-wrap"
       >
         <div className="w-30">
           <Input

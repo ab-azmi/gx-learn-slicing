@@ -105,8 +105,8 @@ const useLeads = () => {
       });
   };
 
-  // TODO : Use Sweet Alert Confirmation`
-  // TODO : Add loading
+  // DONE : Use Sweet Alert Confirmation`
+  // DONE : Add loading
   const handleDelete = (item: Lead) => {
     // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     const id = toast.loading("Deleting...");

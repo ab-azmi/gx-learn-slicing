@@ -62,7 +62,7 @@ const Leads = () => {
 
   return (
     <div className="p-4">
-      <div className="d-flex gap-3 w-100 mb-3">
+      <div className="d-flex gap-3 w-100 mb-3 flex-wrap flex-md-nowrap">
         {bento.map((item, index) => (
           <React.Fragment key={index}>
             {loading ? (
