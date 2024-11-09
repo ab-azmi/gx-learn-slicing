@@ -9,6 +9,7 @@ import ModalConfirm from "@/components/ModalConfirm";
 const objColumn = (key: string, title: string) => ({ key, title });
 
 const Leads = () => {
+
   const {
     leads,
     input,
@@ -24,7 +25,7 @@ const Leads = () => {
     handleSelect,
     handleFilter,
     clearFilter,
-    refetchLeads
+    refetchLeads,
   } = useLeads();
 
   const columns: { key: string; title: string }[] = [
@@ -89,7 +90,6 @@ const Leads = () => {
         columns={columns}
         onDelete={handleDelete}
         onEdit={openModal}
-        onAdd={openModal}
         onChangePage={refetchLeads}
         loading={loading}
         onSearch={setSearch}

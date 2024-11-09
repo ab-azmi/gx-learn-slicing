@@ -10,6 +10,8 @@ import Button from "./Button";
 import clsx from "clsx";
 import { Paginate } from "@/types/wraper";
 import ModalConfirm from "./ModalConfirm";
+import { useNavigate } from "react-router-dom";
+import { leadPath } from "@/path/lead.path";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string): any => {
@@ -31,7 +33,6 @@ type TableProps = {
   columns: { key: string; title: string }[];
   filter?: TableFilter[];
   loading?: boolean;
-  onAdd?: () => void;
   onDelete?: (item: Lead) => void;
   onEdit?: (item: Lead) => void;
   onSearch: (value: string) => void;
@@ -49,10 +50,10 @@ const TableLeads = ({
   onEdit,
   onSearch,
   onClearFilter,
-  onAdd,
   onFilter,
   onChangePage,
 }: TableProps) => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   //make states key-value pair array with length TableFilter length
@@ -107,11 +108,10 @@ const TableLeads = ({
         <h4 className="fw-bold">Manage Leads</h4>
         <div className="d-flex align-items-center gap-2">
           <Button isOutline>Generate Summary</Button>
-          {onAdd && (
-            <Button type="button" style="fill" onClick={() => onAdd()}>
-              Add
-            </Button>
-          )}
+
+          <Button type="button" style="fill" onClick={() => navigate(leadPath.form)}>
+            Add
+          </Button>
         </div>
       </div>
 
@@ -359,17 +359,18 @@ const TableLeads = ({
                             <button
                               type="button"
                               className="btn btn-sm text-muted"
-                              onClick={() => onEdit(item)}
+                              onClick={() => navigate(leadPath.form, { state: item })}
                             >
                               <Edit size="24" variant="Bulk" />
                             </button>
                           )}
                           {onDelete && (
-                            <ModalConfirm 
+                            <ModalConfirm
                               title="Delete Confirm"
                               message="This cannot be undone!"
                               show
-                              onConfirm={() => onDelete(item)}>
+                              onConfirm={() => onDelete(item)}
+                            >
                               <button
                                 type="button"
                                 className="btn btn-sm text-danger"

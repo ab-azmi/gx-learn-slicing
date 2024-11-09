@@ -2,7 +2,6 @@ import {
   getLeads,
   deleteLead,
   updateLead,
-  createLead,
   getProbabilities,
 } from "@/service/api/leads.api";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +9,8 @@ import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { leadPath } from "@/path/lead.path";
 
 const formInitial = {
   code: "",
@@ -24,6 +25,7 @@ const formInitial = {
 };
 
 const useLeads = () => {
+  const navigate = useNavigate();
   const { signout } = useLogout();
 
   const [leads, setLeads] = useState<Paginate<Lead>>();
@@ -77,32 +79,6 @@ const useLeads = () => {
     }
 
     setShowModal(true);
-  };
-
-  const handleCreate = () => {
-    // setFilteredLeads((prev) => [input, ...prev!]);
-    const temp = leads?.data ? [...leads.data] : [];
-    setLeads((prev) => ({
-      ...prev!,
-      data: [input, ...prev!.data],
-    }));
-    setShowModal(false);
-
-    createLead(input)
-      .then(() => {
-        alert("Created");
-        setInput(formInitial);
-      })
-      .catch(() => {
-        alert("Failed to create");
-        setShowModal(true);
-        //remove the created lead from filtered leads without id
-        // setFilteredLeads(leads);
-        setLeads({
-          ...leads!,
-          data: temp,
-        });
-      });
   };
 
   // DONE : Use Sweet Alert Confirmation`
@@ -160,7 +136,7 @@ const useLeads = () => {
     if (input.id) {
       handleUpdate();
     } else {
-      handleCreate();
+      navigate(leadPath.form);
     }
   };
 
