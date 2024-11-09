@@ -17,13 +17,13 @@ const Leads = () => {
     openModal,
     setSearch,
     handleInput,
-    filterLeads,
     setShowModal,
     handleDelete,
     handleForm,
     handleSelect,
     handleFilter,
     clearFilter,
+    refetchLeads
   } = useLeads();
 
   const columns: { key: string; title: string }[] = [
@@ -89,10 +89,10 @@ const Leads = () => {
         onDelete={handleDelete}
         onEdit={openModal}
         onAdd={openModal}
-        limit={10}
+        onChangePage={refetchLeads}
         loading={loading}
         onSearch={setSearch}
-        onFilter={filterLeads}
+        onFilter={refetchLeads}
         onClearFilter={clearFilter}
         filter={[
           {

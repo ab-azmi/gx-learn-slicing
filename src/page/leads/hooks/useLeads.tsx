@@ -182,14 +182,6 @@ const useLeads = () => {
     });
   };
 
-  const filterLeads = () => {
-    setLoading(true);
-    getLeads(1, search, filters).then((res) => {
-      setLeads(res);
-      setLoading(false);
-    });
-  };
-
   const handleFilter = (name: string, value: string) => {
     //add filter to filters state
     setFilters((prev) => ({
@@ -202,6 +194,15 @@ const useLeads = () => {
     setFilters({});
     setLeads(backUpLeads.current);
   };
+
+  const refetchLeads = (page?: number) => {
+    setLoading(true);
+    getLeads(page, search, filters).then((res) => {
+      setLeads(res);
+      setLoading(false);
+    }
+    );
+  }
 
   return {
     leads,
@@ -217,10 +218,10 @@ const useLeads = () => {
     handleSelect,
     handleDelete,
     openModal,
-    filterLeads,
     handleInput,
     handleForm,
     handleFilter,
+    refetchLeads,
     clearFilter,
   };
 };

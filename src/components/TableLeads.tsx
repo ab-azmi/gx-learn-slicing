@@ -28,7 +28,6 @@ type TableFilter = {
 type TableProps = {
   data?: Paginate<Lead>;
   columns: { key: string; title: string }[];
-  limit: number;
   filter?: TableFilter[];
   loading?: boolean;
   onAdd?: () => void;
@@ -37,12 +36,12 @@ type TableProps = {
   onSearch: (value: string) => void;
   onClearFilter: () => void;
   onFilter: () => void;
+  onChangePage: (page?:number) => void;
 };
 
 const TableLeads = ({
   data,
   columns,
-  limit,
   filter,
   loading,
   onDelete,
@@ -51,22 +50,14 @@ const TableLeads = ({
   onClearFilter,
   onAdd,
   onFilter,
+  onChangePage,
 }: TableProps) => {
-  const [skip, setSkip] = useState(0);
-  const [page, setPage] = useState(1);
-  const [upper, setUpper] = useState(limit);
   const [search, setSearch] = useState("");
 
   //make states key-value pair array with length TableFilter length
   const [filterValue, setFilterValue] = useState<
     { key: number; value: number }[]
   >(Array.from({ length: filter?.length || 0 }, () => ({ key: 0, value: -1 })));
-
-  const handleChangePage = (page: number) => {
-    setSkip((page - 1) * limit);
-    setPage(page);
-    setUpper(page * limit);
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -227,7 +218,7 @@ const TableLeads = ({
               </thead>
               <tbody>
                 {data?.data?.length ? (
-                  data?.data.slice(skip, upper).map((item, index) => (
+                  data?.data.map((item, index) => (
                     <tr key={index}>
                       <td>
                         {/* TODO : Reusable style */}
@@ -395,10 +386,10 @@ const TableLeads = ({
           <div className="mt-2">
             {data?.data?.length && (
               <TablePagination
-                total={data.data.length}
-                limit={limit}
-                page={page}
-                setPage={handleChangePage}
+                total={data.meta.total}
+                limit={data.meta.per_page}
+                page={data.meta.current_page}
+                setPage={(page) => onChangePage(page)}
               />
             )}
           </div>

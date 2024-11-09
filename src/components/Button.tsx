@@ -17,7 +17,7 @@ const Button = ({
   isOutline = false,
   children,
 }: PropsWithChildren<Props>) => {
-  const classFill = "bg-primary text-black";
+  const classFill = "btn-primary";
   const classOutline = "btn-outline-primary";
   return (
     <button
