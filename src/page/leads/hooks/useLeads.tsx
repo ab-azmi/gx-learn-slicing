@@ -96,6 +96,7 @@ const useLeads = () => {
     setLoading(true);
     createLead(input).then(() => {
       setLoading(false);
+      setInput(formInitial);
       toast.update(id, {
         render: "Created",
         type: "success",
