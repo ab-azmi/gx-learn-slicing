@@ -1,16 +1,15 @@
 import {
   getLeads,
   deleteLead,
-  updateLead,
   getProbabilities,
+  createLead,
+  updateLead,
 } from "@/service/api/leads.api";
 import { useEffect, useRef, useState } from "react";
 import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { leadPath } from "@/path/lead.path";
 
 const formInitial = {
   code: "",
@@ -25,7 +24,6 @@ const formInitial = {
 };
 
 const useLeads = () => {
-  const navigate = useNavigate();
   const { signout } = useLogout();
 
   const [leads, setLeads] = useState<Paginate<Lead>>();
@@ -34,7 +32,6 @@ const useLeads = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<Lead>();
   const [probabilities, setProbabilities] = useState<Probability[]>();
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [input, setInput] = useState<Lead>(formInitial);
@@ -64,23 +61,6 @@ const useLeads = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const openModal = (item?: Lead) => {
-    if (item) {
-      setSelectedLead(item);
-      setInput(item);
-
-      setInput({
-        ...item,
-        lead_probability_id: item?.probability?.id,
-        lead_status_id: item?.status?.id,
-        lead_type_id: item?.type?.id,
-      });
-    }
-
-    setShowModal(true);
-  };
-
   // DONE : Use Sweet Alert Confirmation`
   // DONE : Add loading
   const handleDelete = (item: Lead) => {
@@ -111,33 +91,32 @@ const useLeads = () => {
       });
   };
 
-  // TODO : Dont close modal if failed
-  const handleUpdate = () => {
-    const temp = leads?.data ? [...leads.data] : [];
-
-    setShowModal(false);
-
-    updateLead(input)
-      .then(() => {
-        setInput(formInitial);
-        alert("Updated");
-      })
-      .catch(() => {
-        //revert back to original value
-        setLeads({
-          ...leads!,
-          data: temp,
-        });
-        alert("Failed to update");
+  const handleCreate = () => {
+    const id = toast.loading("Creating...");
+    setLoading(true);
+    createLead(input).then(() => {
+      setLoading(false);
+      toast.update(id, {
+        render: "Created",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
       });
+    });
   };
 
-  const handleForm = () => {
-    if (input.id) {
-      handleUpdate();
-    } else {
-      navigate(leadPath.form);
-    }
+  const handleUpdate = () => {
+    const id = toast.loading("Updating...");
+    setLoading(true);
+    updateLead(input).then(() => {
+      setLoading(false);
+      toast.update(id, {
+        render: "Updated",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    });
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,18 +163,18 @@ const useLeads = () => {
     loading,
     showModal,
     setShowModal,
-    selectedLead,
     probabilities,
     search,
     setSearch,
+    setInput,
     handleSelect,
     handleDelete,
-    openModal,
     handleInput,
-    handleForm,
     handleFilter,
     refetchLeads,
     clearFilter,
+    handleCreate,
+    handleUpdate,
   };
 };
 

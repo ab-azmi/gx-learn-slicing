@@ -34,7 +34,6 @@ type TableProps = {
   filter?: TableFilter[];
   loading?: boolean;
   onDelete?: (item: Lead) => void;
-  onEdit?: (item: Lead) => void;
   onSearch: (value: string) => void;
   onClearFilter: () => void;
   onFilter: () => void;
@@ -47,7 +46,6 @@ const TableLeads = ({
   filter,
   loading,
   onDelete,
-  onEdit,
   onSearch,
   onClearFilter,
   onFilter,
@@ -109,7 +107,11 @@ const TableLeads = ({
         <div className="d-flex align-items-center gap-2">
           <Button isOutline>Generate Summary</Button>
 
-          <Button type="button" style="fill" onClick={() => navigate(leadPath.form)}>
+          <Button
+            type="button"
+            style="fill"
+            onClick={() => navigate(leadPath.form)}
+          >
             Add
           </Button>
         </div>
@@ -355,7 +357,7 @@ const TableLeads = ({
                           Report
                         </Button>
                         <div className="d-flex gap-1 mt-3">
-                          {onEdit && (
+                          
                             <button
                               type="button"
                               className="btn btn-sm text-muted"
@@ -363,7 +365,8 @@ const TableLeads = ({
                             >
                               <Edit size="24" variant="Bulk" />
                             </button>
-                          )}
+                          
+
                           {onDelete && (
                             <ModalConfirm
                               title="Delete Confirm"

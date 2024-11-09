@@ -25,8 +25,8 @@ const SideBar = () => {
 
   return (
     // TODO : Responsive Sidebar
-    <nav className="py-4 bg-secondary min-vh-100 sidenav">
-      {/* TODO : Fixed sidebar */}
+    <nav className="py-4 bg-secondary min-vh-100 sidenav d-sm-block d-none">
+      {/* DONE : Sticky sidebar */}
       <div className="w-100 d-flex justify-content-center mb-5">
         {expand ? (
           <img src={LogoHitam} alt="" style={{ width: "9rem" }} />

@@ -1,10 +1,6 @@
 import useLeads from "./hooks/useLeads";
-import ModalForm from "./components/ModalForm";
-import Input from "@/components/Input";
-import Select from "@/components/Select";
 import TableLeads from "@/components/TableLeads";
 import React from "react";
-import ModalConfirm from "@/components/ModalConfirm";
 
 const objColumn = (key: string, title: string) => ({ key, title });
 
@@ -12,17 +8,10 @@ const Leads = () => {
 
   const {
     leads,
-    input,
     loading,
-    showModal,
     probabilities,
-    openModal,
     setSearch,
-    handleInput,
-    setShowModal,
     handleDelete,
-    handleForm,
-    handleSelect,
     handleFilter,
     clearFilter,
     refetchLeads,
@@ -89,7 +78,6 @@ const Leads = () => {
         data={leads} //sort
         columns={columns}
         onDelete={handleDelete}
-        onEdit={openModal}
         onChangePage={refetchLeads}
         loading={loading}
         onSearch={setSearch}
@@ -112,63 +100,6 @@ const Leads = () => {
           },
         ]}
       />
-
-      <ModalConfirm show title="Hey" message="Wow" onConfirm={() => {}}/>
-
-      {/* TODO : Make Page */}
-      <ModalForm show={showModal} setShow={setShowModal} onSave={handleForm}>
-        {/* TODO : Add validation and empty prevention */}
-        <form action="" className="d-flex flex-column gap-2">
-          <Input
-            type="text"
-            label="Name"
-            placeholder="name"
-            name="name"
-            value={input.name || ""}
-            onChange={handleInput}
-          />
-          <Input
-            type="text"
-            label="Branch"
-            placeholder="branch"
-            name="branch"
-            value={input.branch || ""}
-            onChange={handleInput}
-          />
-          <Input
-            type="text"
-            label="Address"
-            placeholder="address"
-            name="address"
-            value={input.address || ""}
-            onChange={handleInput}
-          />
-          <Input
-            type="text"
-            label="Note"
-            placeholder="note"
-            name="note"
-            value={input.note || ""}
-            onChange={handleInput}
-          />
-          <Input
-            type="text"
-            label="Phone"
-            placeholder="phone"
-            name="phone"
-            value={input.phone || ""}
-            onChange={handleInput}
-          />
-          <Select
-            options={probabilities || []}
-            label="Probability"
-            placeholder="probability"
-            name="lead_probability_id"
-            value={input?.lead_probability_id?.toString()}
-            onChange={handleSelect}
-          />
-        </form>
-      </ModalForm>
     </div>
   );
 };

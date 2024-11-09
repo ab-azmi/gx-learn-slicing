@@ -8,12 +8,14 @@ type Props = {
   placeholder: string;
   type: string;
   name: string;
+  required?: boolean;
   errors?: string;
 };
 const Input = ({
   value,
   onChange,
   label,
+  required,
   placeholder,
   type,
   name,
@@ -26,6 +28,7 @@ const Input = ({
       {label && (
         <label htmlFor={name} className="fw-light fs-xs">
           {label}
+          {required && <span className="text-danger">*</span>}
         </label>
       )}
       <div className="position-relative">
@@ -35,6 +38,7 @@ const Input = ({
           type={type === "password" && showPassword ? "text" : type}
           className="form-control"
           placeholder={placeholder}
+          required={required}
           name={name}
           id={name}
         />
