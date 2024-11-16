@@ -1,60 +1,57 @@
-import {
-  getLeads,
-  deleteLead,
-  getProbabilities,
-  createLead,
-  updateLead,
-} from "@/service/api/leads.api";
 import { useEffect, useRef, useState } from "react";
-import { Lead, Probability } from "@/types/leads";
 import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
 import { toast } from "react-toastify";
+import { createTransaction, deleteTransaction, getTransactions, updateTransaction } from "@/service/api/transaction.api";
+import { Transaction } from "@/types/transaction";
 
 const formInitial = {
-  code: "",
-  name: "",
-  branch: "",
-  address: "",
-  note: "",
-  phone: "",
-  lead_probability_id: 1,
-  lead_status_id: 1,
-  lead_type_id: 1,
+  id: 0,
+  quantity: 0,
+  customerName: "",
+  tax: "",
+  orderPrice: 0,
+  totalPrice: 0,
+  totalDiscount: 0,
+  cashierId: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: "",
+  cashier: {
+    id: 0,
+    name: "",
+    email: "",
+  },
+  orders: [],
 };
 
-const useLeads = () => {
+const useTransaction = () => {
   const { signout } = useLogout();
 
-  const [leads, setLeads] = useState<Paginate<Lead>>();
-  const backUpLeads = useRef<Paginate<Lead>>();
+  const [transactions, setTransactions] = useState<Paginate<Transaction>>();
+  const backupTransactions = useRef<Paginate<Transaction>>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
-  const [probabilities, setProbabilities] = useState<Probability[]>();
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
-  const [input, setInput] = useState<Lead>(formInitial);
+  const [input, setInput] = useState<Transaction>(formInitial);
 
   useEffect(() => {
     setLoading(true);
 
-    getLeads().then((res) => {
-      setLeads(res);
-      backUpLeads.current = res;
+    getTransactions().then((res) => {
+      setTransactions(res);
+      backupTransactions.current = res;
       setLoading(false);
-    });
-
-    getProbabilities().then((res) => {
-      setProbabilities(res);
     });
   }, []);
   // DONE : Use Alert Confirmation`
   // DONE : Add loading
-  const handleDelete = (item: Lead) => {
+  const handleDelete = (item: Transaction) => {
     // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     const id = toast.loading("Deleting...");
-    deleteLead(item.id!)
+    deleteTransaction(item.id!)
       .then(() => {
         toast.update(id, {
           render: "Deleted",
@@ -82,7 +79,7 @@ const useLeads = () => {
   const handleCreate = () => {
     const id = toast.loading("Creating...");
     setLoading(true);
-    createLead(input).then(() => {
+    createTransaction(input).then(() => {
       setLoading(false);
       setInput(formInitial);
       toast.update(id, {
@@ -97,7 +94,7 @@ const useLeads = () => {
   const handleUpdate = () => {
     const id = toast.loading("Updating...");
     setLoading(true);
-    updateLead(input).then(() => {
+    updateTransaction(input).then(() => {
       setLoading(false);
       toast.update(id, {
         render: "Updated",
@@ -134,25 +131,24 @@ const useLeads = () => {
 
   const clearFilter = () => {
     setFilters({});
-    setLeads(backUpLeads.current);
+    setTransactions(backupTransactions.current);
   };
 
   const refetchLeads = (page?: number) => {
     setLoading(true);
-    getLeads(page, search, filters).then((res) => {
-      setLeads(res);
+    getTransactions(page, search, filters).then((res) => {
+      setTransactions(res);
       setLoading(false);
     });
   };
 
   return {
-    leads,
-    setLeads,
+    transactions,
+    setTransactions,
     input,
     loading,
     showModal,
     setShowModal,
-    probabilities,
     search,
     setSearch,
     setInput,
@@ -167,4 +163,4 @@ const useLeads = () => {
   };
 };
 
-export default useLeads;
+export default useTransaction;

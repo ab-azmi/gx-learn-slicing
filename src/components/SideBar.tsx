@@ -2,10 +2,10 @@ import SideBarLink from "@/components/SideBarLink";
 import LogoHitam from "@/assets/images/logo-hitam.svg";
 import SimpleLogo from "@/assets/images/simple-logo.svg";
 import {
-  Bill,
+  Cake,
   Calculator,
-  HierarchySquare2,
   Home,
+  ReceiptItem,
   Setting,
 } from "iconsax-react";
 import sideBarStore from "@/store/SidebarStore";
@@ -37,13 +37,13 @@ const SideBar = () => {
       link: "/",
     }),
     menuObject({
-      title: "Leads",
-      icon: <HierarchySquare2 size="24" variant="Bulk" />,
-      link: "/leads",
+      title: "Transactions",
+      icon: <ReceiptItem size="24" variant="Bulk" />,
+      link: "/transactions",
     }),
     menuObject({
       title: "Employee Attendance",
-      icon: <Bill size="24" variant="Bulk" />,
+      icon: <Cake size="24" variant="Bulk" />,
       link: "/empl",
     }),
     menuObject({
@@ -81,7 +81,7 @@ const SideBar = () => {
           ))}
         </ul>
       </nav>
-      <nav className={clsx("py-4 bg-danger min-vh-100 sidenav position-fixed z-2", expand ? "d-block" : "d-none")}>
+      <nav className={clsx("py-4 bg-secondary min-vh-100 sidenav position-fixed z-2", expand ? "d-block" : "d-none")}>
         {/* DONE : Sticky sidebar */}
         <div className="w-100 d-flex justify-content-center mb-5">
           {expand ? (

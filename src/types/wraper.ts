@@ -1,23 +1,19 @@
 export type Paginate<T> = {
-    data : T[];
-    meta: {
-        current_page: number;
-        from: number;
-        last_page: number;
-        per_page: number;
-        to: number;
-        total: number;
-        path: string;
-        links: {
-            url: string;
-            label: string;
-            active: boolean;
-        }[]
+    result : T[];
+    status: {
+        code: number;
+        message: string;
+        internalMsg: string | null;
+        attributes: Array<string> | null;
     },
-    links: {
-        first: string;
-        last: string;
-        prev: string;
-        next: string;
+    pagination?: {
+        count: number;
+        currentPage: number;
+        perPage: number;
+        totalPage: number;
+        links: {
+            next: number | null;
+            previous: number | null;
+        }
     }
 }

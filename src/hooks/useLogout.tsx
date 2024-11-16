@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import AuthStore from "@/store/AuthStore";
 import { loginPath } from "@/path/auth.path";
+import { logout } from "@/service/api/auth.api";
 
 const useLogout = () => {
   const store = AuthStore();
   const navigate = useNavigate();
 
   const signout = () => {
-    store.clearToken();
-    navigate(loginPath, { replace: true });
+    logout().then(() => {
+      store.clearToken();
+      navigate(loginPath, { replace: true });
+    });
   };
   return {
     signout,

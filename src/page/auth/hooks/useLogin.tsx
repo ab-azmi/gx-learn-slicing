@@ -52,8 +52,8 @@ const useLogin = () => {
 
     login({ email: input.email, password: input.password })
       .then((res) => {
-        if (res?.access_token) {
-          store.setToken(res.access_token);
+        if (res?.token) {
+          store.setToken(res.token);
           navigate("/");
         }
       })
