@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
   lead: `${API_URL}/leads`,
   probability: `${API_URL}/probabilities`,
   transaction: `${API_URL}/transactions`,
+  cake: `${API_URL}/cakes`,
 };
 
 

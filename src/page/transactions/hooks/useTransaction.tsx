@@ -2,8 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
 import { toast } from "react-toastify";
-import { createTransaction, deleteTransaction, getTransactions, updateTransaction } from "@/service/api/transaction.api";
+import {
+  createTransaction,
+  deleteTransaction,
+  getTransactions,
+  updateTransaction,
+} from "@/service/api/transaction.api";
 import { Transaction } from "@/types/transaction";
+import AuthStore from "@/store/AuthStore";
 
 const formInitial = {
   id: 0,
@@ -26,6 +32,7 @@ const formInitial = {
 };
 
 const useTransaction = () => {
+  const store = AuthStore();
   const { signout } = useLogout();
 
   const [transactions, setTransactions] = useState<Paginate<Transaction>>();
@@ -45,6 +52,11 @@ const useTransaction = () => {
       backupTransactions.current = res;
       setLoading(false);
     });
+
+    setInput((prev) => ({
+      ...prev,
+      cashierId: store.user?.id || 0,
+    }));
   }, []);
   // DONE : Use Alert Confirmation`
   // DONE : Add loading
@@ -79,9 +91,10 @@ const useTransaction = () => {
   const handleCreate = () => {
     const id = toast.loading("Creating...");
     setLoading(true);
+    
     createTransaction(input).then(() => {
       setLoading(false);
-      setInput(formInitial);
+      // setInput(formInitial);
       toast.update(id, {
         render: "Created",
         type: "success",
@@ -118,6 +131,31 @@ const useTransaction = () => {
     setInput({
       ...input,
       [name]: value,
+    });
+  };
+
+  const handleOrderChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    const { name, value } = e.target;
+    const orderExist = input.orders.find((order) => order.cakeId === id);
+    let newOrders = [...input.orders];
+   
+    if (orderExist) {
+      newOrders = newOrders.map((order) =>
+        order.cakeId === id ? { ...order, [name]: value } : order
+      );
+    } else {
+      newOrders.push({
+        cakeId: id,
+        quantity: parseInt(value),
+      });
+    }
+
+    setInput({
+      ...input,
+      orders: newOrders,
     });
   };
 
@@ -160,6 +198,7 @@ const useTransaction = () => {
     clearFilter,
     handleCreate,
     handleUpdate,
+    handleOrderChange,
   };
 };
 

@@ -54,12 +54,11 @@ const useLogin = () => {
       .then((res) => {
         if (res?.token) {
           store.setToken(res.token);
+          store.setUser(res.user);
           navigate("/");
         }
       })
       .finally(() => setLoading(false));
-    //hanya utk kelola data
-    //tidk perlu handle error api
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
