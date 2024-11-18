@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 import {
   createTransaction,
   deleteTransaction,
+  getCakes,
   getTransactions,
   updateTransaction,
 } from "@/service/api/transaction.api";
-import { Transaction } from "@/types/transaction";
+import { Cake, Transaction } from "@/types/transaction";
 import AuthStore from "@/store/AuthStore";
 
 const formInitial = {
@@ -16,9 +17,9 @@ const formInitial = {
   quantity: 0,
   customerName: "",
   tax: "",
-  orderPrice: 0,
-  totalPrice: 0,
-  totalDiscount: 0,
+  orderPrice: null,
+  totalPrice: null,
+  totalDiscount: null,
   cashierId: 0,
   createdAt: "",
   updatedAt: "",
@@ -43,6 +44,7 @@ const useTransaction = () => {
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [input, setInput] = useState<Transaction>(formInitial);
+  const [cakes, setCakes] = useState<Cake[]>();
 
   useEffect(() => {
     setLoading(true);
@@ -57,6 +59,10 @@ const useTransaction = () => {
       ...prev,
       cashierId: store.user?.id || 0,
     }));
+
+    getCakes().then((res) => {
+      setCakes(res.result);
+    });
   }, []);
   // DONE : Use Alert Confirmation`
   // DONE : Add loading
@@ -92,14 +98,26 @@ const useTransaction = () => {
     const id = toast.loading("Creating...");
     setLoading(true);
     
-    createTransaction(input).then(() => {
+    createTransaction(input).then((res) => {
       setLoading(false);
       // setInput(formInitial);
+      setInput((prev) => ({
+        ...prev,
+        orderPrice: res.result.orderPrice,
+        totalPrice: res.result.totalPrice,
+        totalDiscount: res.result.totalDiscount,
+        tax: res.result.tax,
+      }));
+      
       toast.update(id, {
         render: "Created",
         type: "success",
         isLoading: false,
         autoClose: 2000,
+      });
+
+      getCakes().then((res) => {
+        setCakes(res.result);
       });
     });
   };
@@ -180,6 +198,10 @@ const useTransaction = () => {
     });
   };
 
+  const clearInput = () => {
+    setInput(formInitial);
+  };
+  
   return {
     transactions,
     setTransactions,
@@ -189,6 +211,7 @@ const useTransaction = () => {
     setShowModal,
     search,
     setSearch,
+    cakes,
     setInput,
     handleSelect,
     handleDelete,
@@ -197,6 +220,7 @@ const useTransaction = () => {
     refetchLeads,
     clearFilter,
     handleCreate,
+    clearInput,
     handleUpdate,
     handleOrderChange,
   };

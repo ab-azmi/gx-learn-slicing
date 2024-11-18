@@ -41,7 +41,8 @@ export const endpointWrapper = async (endpoint: string, method: string, data?: a
     if (response.ok) {
       return response.json();
     } else {
-      if (response.status === 401) throw new Error("Invalid token or token expired");
+      if (response.status === 401) 
+        throw new Error("Invalid token or token expired");
       throw new Error("An error occured");
     }
 

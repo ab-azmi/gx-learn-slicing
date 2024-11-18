@@ -19,9 +19,9 @@ export type Transaction = {
     id: number;
     quantity: number;
     customerName: string;
-    tax: string;
-    orderPrice: number;
-    totalPrice: number;
+    tax: string | null;
+    orderPrice: number | null;
+    totalPrice: number | null;
     totalDiscount: number | null;
     cashierId: number;
     createdAt: string;
