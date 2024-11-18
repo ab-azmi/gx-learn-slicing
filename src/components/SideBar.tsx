@@ -44,7 +44,7 @@ const SideBar = () => {
     menuObject({
       title: "Employee Attendance",
       icon: <Cake size="24" variant="Bulk" />,
-      link: "/empl",
+      link: "/cakes",
     }),
     menuObject({
       title: "Analytic Summary",

@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import {
   createTransaction,
   deleteTransaction,
-  getCakes,
   getTransactions,
   updateTransaction,
 } from "@/service/api/transaction.api";
 import { Cake, Transaction } from "@/types/transaction";
 import AuthStore from "@/store/AuthStore";
+import { getCakes } from "@/service/api/cake.api";
 
 const formInitial = {
   id: 0,

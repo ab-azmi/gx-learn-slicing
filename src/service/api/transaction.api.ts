@@ -22,5 +22,3 @@ export const createTransaction = (data: Transaction) => endpointWrapper(API_ENDP
 export const updateTransaction = (data: Transaction) => endpointWrapper(`${API_ENDPOINTS.transaction}/${data.id}`, "PATCH", data);
 
 export const deleteTransaction = (id: number) => endpointWrapper(`${API_ENDPOINTS.transaction}/${id}`, "DELETE");
-
-export const getCakes = () => endpointWrapper(API_ENDPOINTS.cake, "GET");

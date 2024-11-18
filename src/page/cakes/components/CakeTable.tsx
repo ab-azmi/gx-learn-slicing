@@ -1,20 +1,20 @@
 import { Edit, Filter, Trash } from "iconsax-react";
-import TablePagination from "./TablePagination";
 import { useState } from "react";
-import Select from "./Select";
-import Input from "./Input";
-import DatePicker from "./DatePicker";
-import Button from "./Button";
 import { Paginate } from "@/types/wraper";
-import ModalConfirm from "./ModalConfirm";
 import { useNavigate } from "react-router-dom";
-import { Transaction } from "@/types/transaction";
+import { Cake } from "@/types/transaction";
 import { transactionPath } from "@/path/transaction.path";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
+import DatePicker from "@/components/DatePicker";
+import ModalConfirm from "@/components/ModalConfirm";
+import TablePagination from "@/components/TablePagination";
+import priceFormater from "@/helpers/priceFormater.helper";
+import { cakePath } from "@/path/cakes.path";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string): any => {
-  //return data from column path
-  //if path is 'probability.name' then return obj.probability.name
   return (
     obj[path] || path.split(".").reduce((acc, key) => acc && acc[key], obj)
   );
@@ -27,18 +27,18 @@ type TableFilter = {
 };
 
 type TableProps = {
-  data?: Paginate<Transaction>;
+  data?: Paginate<Cake>;
   columns: number;
   filter?: TableFilter[];
   loading?: boolean;
-  onDelete?: (item: Transaction) => void;
+  onDelete?: (item: Cake) => void;
   onSearch: (value: string) => void;
   onClearFilter: () => void;
   onFilter: () => void;
   onChangePage: (page?: number) => void;
 };
 
-const TableTransaction = ({
+const TableCake = ({
   data,
   columns,
   filter,
@@ -94,7 +94,7 @@ const TableTransaction = ({
           <Button
             type="button"
             style="fill"
-            onClick={() => navigate(transactionPath.form)}
+            onClick={() => navigate(cakePath.form)}
           >
             Add
           </Button>
@@ -199,11 +199,11 @@ const TableTransaction = ({
               <thead>
                 <tr>
                   {/* DONE : NO repetitive class */}
-                  <th># Transaction</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Cashier</th>
-                  <th>Total Price</th>
+                  <th>Name</th>
+                  <th>Stock</th>
+                  <th>Variant</th>
+                  <th>Profit Margin</th>
+                  <th>Sell Price</th>
                   <th>Created</th>
                   <th></th>
                 </tr>
@@ -215,63 +215,39 @@ const TableTransaction = ({
                       <td>
                         {/* DONE : Reusable style */}
                         <div className="mt-3">
-                          <b className="text-muted text-xs">Customer</b>
                           <p className="text-capitalize">
-                            {getNestedValue(item, "customerName")}
+                            {item['name']}
                           </p>
                         </div>
                       </td>
                       <td className="px-3">
                         <div>
-                          <b className="text-capitalize fw-medium">Tax</b>
-                          <p className="text-muted">{item["tax"]}</p>
-                        </div>
-                        <div className="mt-3">
-                          <h6 className="text-capitalize text-muted">
-                            Discount
-                          </h6>
-                          <p className="fw-medium">
-                            {item["totalDiscount"] || 0}
-                          </p>
+                          <p className="text-muted">{item['stock']}</p>
                         </div>
                       </td>
                       <td>
                        <div className="d-flex flex-column gap-1">
                           <span className="text-uppercase fw-semibold text-decoration-underline text-success">
-                            #{item['quantity']}
+                            #{getNestedValue(item, 'variant.name')}
                           </span>
                         </div>
                         <span className="badge fs-6 text-capitalize fw-normal bg-primary mt-2">
-                          Show Orders
+                          Show Ingridients
                         </span>
                       </td>
 
                       <td>
-                        <div className="d-flex gap-2 align-items-center">
-                          <img
-                            src={`https://ui-avatars.com/api/?name=${getNestedValue(
-                              item,
-                              "cashier.name"
-                            )}&background=f8c900&color=1b1b1b`}
-                            alt=""
-                            className="rounded-circle object-fit-cover"
-                            style={{ width: "40px", height: "40px" }}
-                          />
-                          <div className="text-xs text-capitalize d-flex flex-column">
-                            <span className="fw-bold">
-                              {getNestedValue(item, "cashier.name")}
-                            </span>
-                            <span className="fw-light">
-                              {getNestedValue(item, "createdAt")}
-                            </span>
-                          </div>
+                      <div>
+                          <b className="text-capitalize fw-medium">
+                            {item["profitMargin"] ? item["profitMargin"] : "default"}
+                          </b>
                         </div>
                       </td>
 
                       <td className="px-3">
                         <div>
                           <b className="text-capitalize fw-medium">
-                            Rp {item["totalPrice"]}
+                            {priceFormater(item["sellPrice"])}
                           </b>
                         </div>
                       </td>
@@ -347,4 +323,4 @@ const TableTransaction = ({
   );
 };
 
-export default TableTransaction;
+export default TableCake;
