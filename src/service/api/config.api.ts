@@ -24,8 +24,10 @@ export const API_ENDPOINTS = {
   logout: `${API_URL}/auth/logout`,
   lead: `${API_URL}/leads`,
   probability: `${API_URL}/probabilities`,
+  cake: `${API_URL}/`,
   transaction: `${API_URL}/transactions`,
-  cake: `${API_URL}/cakes`,
+  variant: `${API_URL}/variants`,
+  ingidient: `${API_URL}/ingridients`,
 };
 
 

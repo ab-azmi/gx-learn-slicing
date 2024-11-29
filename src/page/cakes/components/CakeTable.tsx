@@ -87,7 +87,7 @@ const TableCake = ({
     <div className="p-3 p-3 bg-secondary rounded-2">
       {/* DONE : Responsive Table & Filters */}
       <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
-        <h4 className="fw-bold">Manage Transaction</h4>
+        <h4 className="fw-bold">Manage Cakes</h4>
         <div className="d-flex align-items-center gap-2">
           <Button isOutline>Generate Summary</Button>
 

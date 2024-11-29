@@ -4,64 +4,74 @@ export type User = {
     email: string;
 }
 
+export type Employee = {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    bankNumber: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+}
+
 export type Order = {
+    id?: number;
+    totalPrice: number;
     price?: number;
     quantity: number;
     discount?: number | null;
     transactionId?: number;
-    cakeId: number;
+    cakeVariantId: number;
     createdAt?: string;
     updatedAt?: string;
     deletedAt?: string | null;
+    cakeVariant: CakeVariant
 }
 
 export type Transaction = {
     id: number;
     quantity: number;
-    customerName: string;
+    number: string;
     tax: string | null;
     orderPrice: number | null;
     totalPrice: number | null;
     totalDiscount: number | null;
-    cashierId: number;
+    employeeId: number;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;
-    cashier: {
-        id: number;
-        name: string;
-        email: string;
-    },
+    employee: Employee,
     orders: Order[]
+}
+
+export type CakeVariant = {
+    id: number;
+    name: string;
+    price: number;
+    cakeId: number;
 }
 
 export type Ingridient = {
     id: number;
-    name: string;
-    unit: string;
-    pricePerUnit: number;
-    expirationDate: string;
+    name?: string;
+    unit?: string;
+    pricePerUnit?: number;
+    expirationDate?: string;
     quantity: number;
-    supplier: string;
+    supplier?: string;
     used? : {
         quantity: number;
-        cakeId: number;
-        unit: string;
     }
 }
 
 export type Cake = {
-    id: number;
+    id?: number;
     name: string;
     profitMargin: string;
     cogs: number;
-    sellPrice: number;
+    sellingPrice: number;
     images: string;
     stock: number;
-    cakeVariantId: number;
-    variant: {
-        id: number;
-        name: string;
-    }
-    ingridients: Ingridient[];
+    ingridients?: Ingridient[];
 }

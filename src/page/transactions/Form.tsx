@@ -52,7 +52,7 @@ const Form = () => {
               </p>
               <span>{priceFormater(cake.sellPrice)}</span>
               <input
-                onChange={(e) => handleOrderChange(e, cake.id)}
+                onChange={(e) => handleOrderChange(e, cake.id!)}
                 name="quantity"
                 type="number"
                 disabled={cake.stock === 0}

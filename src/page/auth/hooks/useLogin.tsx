@@ -41,7 +41,7 @@ const useLogin = () => {
     return isValid;
   };
 
-  const hanldleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
@@ -52,9 +52,9 @@ const useLogin = () => {
 
     login({ email: input.email, password: input.password })
       .then((res) => {
-        if (res?.token) {
-          store.setToken(res.token);
-          store.setUser(res.user);
+        if (res?.result?.token) {
+          store.setToken(res.result.token);
+          store.setUser(res.result.user);
           navigate("/");
         }
       })
@@ -74,7 +74,7 @@ const useLogin = () => {
     loading,
     errors,
     setInput,
-    hanldleSubmit,
+    handleSubmit,
     handleInput,
   };
 };

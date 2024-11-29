@@ -1,5 +1,5 @@
+import TableTransaction from "./components/TableTransaction";
 import useTransaction from "./hooks/useTransaction";
-import TableTransaction from "@/components/TableTransaction";
 import React from "react";
 
 const Transaction = () => {

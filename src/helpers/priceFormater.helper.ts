@@ -1,16 +1,14 @@
-const priceFormater = (price: number|string): string => {
-    if (typeof price === 'number') {
-        return price.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-        });
-    }
-    if (typeof price === 'string') {
-        return parseInt(price).toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-        });
-    }
+const priceFormater = (price: number|string|null): string => {
+    const options: Intl.NumberFormatOptions = {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    };
+
+    if (price)
+        return price.toLocaleString('id-ID', options);
+    
 
     return 'Rp0';
 };

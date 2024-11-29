@@ -1,24 +1,19 @@
-import { Edit, Filter, Trash } from "iconsax-react";
-import TablePagination from "./TablePagination";
+import { Filter, Trash } from "iconsax-react";
+import TablePagination from "@/components/TablePagination";
 import { useState } from "react";
-import Select from "./Select";
-import Input from "./Input";
-import DatePicker from "./DatePicker";
-import Button from "./Button";
+import Select from "@/components/Select";
+import Input from "@/components/Input";
+import DatePicker from "@/components/DatePicker";
+import Button from "@/components/Button";
 import { Paginate } from "@/types/wraper";
-import ModalConfirm from "./ModalConfirm";
+import ModalConfirm from "@/components/ModalConfirm";
 import { useNavigate } from "react-router-dom";
-import { Transaction } from "@/types/transaction";
+import { Order, Transaction } from "@/types/transaction";
 import { transactionPath } from "@/path/transaction.path";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getNestedValue = (obj: any, path: string): any => {
-  //return data from column path
-  //if path is 'probability.name' then return obj.probability.name
-  return (
-    obj[path] || path.split(".").reduce((acc, key) => acc && acc[key], obj)
-  );
-};
+import priceFormater from "@/helpers/priceFormater.helper";
+import getNestedValue from "@/helpers/getNestedValue.helper";
+import OrderModal from "./OrderModal";
+import { getTransaction } from "@/service/api/transaction.api";
 
 type TableFilter = {
   options: Array<{ id: number; name: string; created_at?: string }>;
@@ -51,8 +46,8 @@ const TableTransaction = ({
 }: TableProps) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  //make states key-value pair array with length TableFilter length
   const [filterValue, setFilterValue] = useState<
     { key: number; value: number }[]
   >(Array.from({ length: filter?.length || 0 }, () => ({ key: 0, value: -1 })));
@@ -83,9 +78,16 @@ const TableTransaction = ({
     );
   };
 
+  const fetchOrders = (item: Transaction) => {
+    getTransaction(item.id).then((res) => {
+      if(res?.result) {
+        setOrders(res.result.orders);
+      }
+    });
+  }
+
   return (
     <div className="p-3 p-3 bg-secondary rounded-2">
-      {/* DONE : Responsive Table & Filters */}
       <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
         <h4 className="fw-bold">Manage Transaction</h4>
         <div className="d-flex align-items-center gap-2">
@@ -101,7 +103,6 @@ const TableTransaction = ({
         </div>
       </div>
 
-      {/* DONE : Wrap Filters input with Form tag for accesibility */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -187,6 +188,7 @@ const TableTransaction = ({
           <button className="tab-link h-100 w-100"></button>
         </li>
       </ul>
+
       <div className="tab-content" id="pills-tabContent">
         <div
           className="tab-pane fade show active py-2"
@@ -198,9 +200,8 @@ const TableTransaction = ({
             <table className="table">
               <thead>
                 <tr>
-                  {/* DONE : NO repetitive class */}
                   <th># Transaction</th>
-                  <th>Price</th>
+                  <th>Discount</th>
                   <th>Quantity</th>
                   <th>Cashier</th>
                   <th>Total Price</th>
@@ -213,37 +214,45 @@ const TableTransaction = ({
                   data?.result.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        {/* DONE : Reusable style */}
                         <div className="mt-3">
-                          <b className="text-muted text-xs">Customer</b>
-                          <p className="text-capitalize">
-                            {getNestedValue(item, "customerName")}
+                          <p
+                            className="text-capitalize text-truncate"
+                            style={{ maxWidth: "100px" }}
+                          >
+                            {item["number"]}
                           </p>
                         </div>
                       </td>
+
                       <td className="px-3">
-                        <div>
-                          <b className="text-capitalize fw-medium">Tax</b>
-                          <p className="text-muted">{item["tax"]}</p>
-                        </div>
                         <div className="mt-3">
-                          <h6 className="text-capitalize text-muted">
-                            Discount
-                          </h6>
                           <p className="fw-medium">
-                            {item["totalDiscount"] || 0}
+                            {priceFormater(item["totalDiscount"])}
+                          </p>
+                        </div>
+                        <div className="text-xs">
+                          <b className="text-capitalize fw-medium">Tax</b>
+                          <p className="text-muted">
+                            {priceFormater(item["tax"])}
                           </p>
                         </div>
                       </td>
+
                       <td>
-                       <div className="d-flex flex-column gap-1">
-                          <span className="text-uppercase fw-semibold text-decoration-underline text-success">
-                            #{item['quantity']}
-                          </span>
+                        <div className="fw-semibold text-decoration-underline text-success mb-2">
+                          {item["quantity"]}{" "}
+                          {item["quantity"] > 1 ? "cakes" : "cake"}
                         </div>
-                        <span className="badge fs-6 text-capitalize fw-normal bg-primary mt-2">
-                          Show Orders
-                        </span>
+                        <OrderModal orders={orders}>
+                          <Button
+                            type="button"
+                            style="fill"
+                            size="sm"
+                            onClick={() => fetchOrders(item)}
+                          >
+                            Show Order
+                          </Button>
+                        </OrderModal>
                       </td>
 
                       <td>
@@ -251,15 +260,15 @@ const TableTransaction = ({
                           <img
                             src={`https://ui-avatars.com/api/?name=${getNestedValue(
                               item,
-                              "cashier.name"
+                              "employee.name"
                             )}&background=f8c900&color=1b1b1b`}
                             alt=""
                             className="rounded-circle object-fit-cover"
-                            style={{ width: "40px", height: "40px" }}
+                            style={{ width: "35px", height: "35px" }}
                           />
                           <div className="text-xs text-capitalize d-flex flex-column">
                             <span className="fw-bold">
-                              {getNestedValue(item, "cashier.name")}
+                              {getNestedValue(item, "employee.name")}
                             </span>
                             <span className="fw-light">
                               {getNestedValue(item, "createdAt")}
@@ -271,26 +280,16 @@ const TableTransaction = ({
                       <td className="px-3">
                         <div>
                           <b className="text-capitalize fw-medium">
-                            Rp {item["totalPrice"]}
+                            {priceFormater(item["totalPrice"])}
                           </b>
                         </div>
                       </td>
 
                       <td>
-                        <Button type="button" style="fill">
-                          Report
+                        <Button type="button" style="fill" size="sm">
+                          Receipt
                         </Button>
                         <div className="d-flex gap-1 mt-3">
-                          <button
-                            type="button"
-                            className="btn btn-sm text-muted"
-                            onClick={() =>
-                              navigate(transactionPath.form, { state: item })
-                            }
-                          >
-                            <Edit size="24" variant="Bulk" />
-                          </button>
-
                           {onDelete && (
                             <ModalConfirm
                               title="Delete Confirm"
@@ -311,7 +310,6 @@ const TableTransaction = ({
                     </tr>
                   ))
                 ) : (
-                  // DONE : Show loading here too
                   <tr>
                     <td colSpan={columns + 1} className="text-center">
                       {loading ? "Loading..." : " No data available"}

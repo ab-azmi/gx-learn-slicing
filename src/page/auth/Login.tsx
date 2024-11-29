@@ -1,10 +1,10 @@
-import LogoVerical from "@/assets/images/logo-vertical.svg";
+import LogoVertical from "@/assets/images/logo-vertical.svg";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import useLogin from "@/page/auth/hooks/useLogin";
 import Carousel from "@/page/auth/components/Carousel";
 const Login = () => {
-  const { input,errors, loading, hanldleSubmit, handleInput } = useLogin();
+  const { input,errors, loading, handleSubmit, handleInput } = useLogin();
 
   return (
     <div className="vh-100 vw-100 p-3">
@@ -12,7 +12,7 @@ const Login = () => {
         <div className="col-lg-6 px-5 d-flex flex-column justify-content-between h-100">
           <div className="w-lg-60 w-md-100 mx-auto py-3 d-flex flex-column justify-content-center gap-3 h-100">
             <img
-              src={LogoVerical}
+              src={LogoVertical}
               alt="logo"
               className="mb-5"
               style={{ width: "7rem" }}
@@ -24,7 +24,7 @@ const Login = () => {
               <h1 className="fs-3 fw-bold lh-1">Work Schedule System v1.0</h1>
               <span className="fw-light">Login to your account below</span>
             </div>
-            <form onSubmit={hanldleSubmit} className="d-flex flex-column gap-4">
+            <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
               <Input
                 value={input.email}
                 onChange={handleInput}

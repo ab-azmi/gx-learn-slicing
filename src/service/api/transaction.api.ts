@@ -17,6 +17,8 @@ export const getTransactions = (
     return endpointWrapper(`${API_ENDPOINTS.transaction}?${params.toString()}`, "GET");
 };
 
+export const getTransaction = (id: number) => endpointWrapper(`${API_ENDPOINTS.transaction}/${id}`, "GET");
+
 export const createTransaction = (data: Transaction) => endpointWrapper(API_ENDPOINTS.transaction, "POST", data);
 
 export const updateTransaction = (data: Transaction) => endpointWrapper(`${API_ENDPOINTS.transaction}/${data.id}`, "PATCH", data);
