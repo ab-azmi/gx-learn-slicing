@@ -8,27 +8,23 @@ import {
   getTransactions,
   updateTransaction,
 } from "@/service/api/transaction.api";
-import { Cake, Transaction } from "@/types/transaction";
+import { CakeVariant, Transaction } from "@/types/transaction";
 import AuthStore from "@/store/AuthStore";
-import { getCakes } from "@/service/api/cake.api";
+import { getVariants } from "@/service/api/cake.api";
 
 const formInitial = {
   id: 0,
   quantity: 0,
-  customerName: "",
+  number: "",
   tax: "",
   orderPrice: null,
   totalPrice: null,
   totalDiscount: null,
-  cashierId: 0,
+  employeeId: 0,
   createdAt: "",
   updatedAt: "",
   deletedAt: "",
-  cashier: {
-    id: 0,
-    name: "",
-    email: "",
-  },
+  cakeVariantId: 0,
   orders: [],
 };
 
@@ -44,7 +40,7 @@ const useTransaction = () => {
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [input, setInput] = useState<Transaction>(formInitial);
-  const [cakes, setCakes] = useState<Cake[]>();
+  const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -60,12 +56,11 @@ const useTransaction = () => {
       cashierId: store.user?.id || 0,
     }));
 
-    getCakes().then((res) => {
-      setCakes(res.result);
+    getVariants().then((res) => {
+      setCakeVariants(res.result);
     });
   }, []);
-  // DONE : Use Alert Confirmation`
-  // DONE : Add loading
+
   const handleDelete = (item: Transaction) => {
     // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     const id = toast.loading("Deleting...");
@@ -116,15 +111,17 @@ const useTransaction = () => {
         autoClose: 2000,
       });
 
-      getCakes().then((res) => {
-        setCakes(res.result);
+      getVariants().then((res) => {
+        setCakeVariants(res.result);
       });
     });
   };
 
   const handleUpdate = () => {
     const id = toast.loading("Updating...");
+
     setLoading(true);
+
     updateTransaction(input).then(() => {
       setLoading(false);
       toast.update(id, {
@@ -153,21 +150,34 @@ const useTransaction = () => {
   };
 
   const handleOrderChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const { name, value } = e.target;
-    const orderExist = input.orders.find((order) => order.cakeId === id);
+    variant: CakeVariant, 
+    quantity: number
+  ) => {;
+    const orderExist = input.orders.find((order) => order.cakeVariantId === variant.id);
     let newOrders = [...input.orders];
    
     if (orderExist) {
+      const price = variant.price + (variant.cake?.sellingPrice || 0);
+
       newOrders = newOrders.map((order) =>
-        order.cakeId === id ? { ...order, [name]: value } : order
+        order.cakeVariantId === variant.id ? 
+        { 
+          ...order, 
+          'quantity': order.quantity + quantity, 
+          'price': price,
+          'totalPrice': price * (order.quantity + quantity)
+        } 
+        : order
       );
     } else {
+      const price = variant.price + (variant.cake?.sellingPrice || 0);
+
       newOrders.push({
-        cakeId: id,
-        quantity: parseInt(value),
+        cakeVariantId: variant.id,
+        cakeVariant: variant,
+        price: price,
+        totalPrice: price * quantity,
+        quantity: quantity,
       });
     }
 
@@ -175,6 +185,7 @@ const useTransaction = () => {
       ...input,
       orders: newOrders,
     });
+    console.log(newOrders);
   };
 
   const handleFilter = (name: string, value: string) => {
@@ -211,7 +222,7 @@ const useTransaction = () => {
     setShowModal,
     search,
     setSearch,
-    cakes,
+    cakeVariants,
     setInput,
     handleSelect,
     handleDelete,

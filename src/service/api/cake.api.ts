@@ -23,7 +23,9 @@ export const updateCake = (data: Cake) => endpointWrapper(`${API_ENDPOINTS.cake}
 
 export const deleteCake = (id: number) => endpointWrapper(`${API_ENDPOINTS.cake}/${id}`, "DELETE");
 
+
 export const getVariants = () => endpointWrapper(API_ENDPOINTS.variant, "GET");
+
 
 export const getIngridients = () => endpointWrapper(API_ENDPOINTS.ingidient, "GET");
 

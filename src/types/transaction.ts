@@ -17,7 +17,7 @@ export type Employee = {
 
 export type Order = {
     id?: number;
-    totalPrice: number;
+    totalPrice?: number;
     price?: number;
     quantity: number;
     discount?: number | null;
@@ -26,7 +26,7 @@ export type Order = {
     createdAt?: string;
     updatedAt?: string;
     deletedAt?: string | null;
-    cakeVariant: CakeVariant
+    cakeVariant?: CakeVariant
 }
 
 export type Transaction = {
@@ -41,7 +41,7 @@ export type Transaction = {
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;
-    employee: Employee,
+    employee?: Employee,
     orders: Order[]
 }
 
@@ -50,6 +50,7 @@ export type CakeVariant = {
     name: string;
     price: number;
     cakeId: number;
+    cake?: Cake;
 }
 
 export type Ingridient = {

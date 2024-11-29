@@ -1,19 +1,18 @@
 import Button from "@/components/Button";
-import Input from "@/components/Input";
 import { useNavigate } from "react-router-dom";
 import useTransaction from "./hooks/useTransaction";
 import { transactionPath } from "@/path/transaction.path";
 import priceFormater from "@/helpers/priceFormater.helper";
+import { Add } from "iconsax-react";
 
 const Form = () => {
   const {
     input,
-    handleInput,
     handleCreate,
     handleUpdate,
     loading,
     handleOrderChange,
-    cakes,
+    cakeVariants,
     clearInput,
   } = useTransaction();
   const navigate = useNavigate();
@@ -31,57 +30,44 @@ const Form = () => {
     <div className="p-4">
       <Button onClick={() => navigate(transactionPath.index)}>Back</Button>
       <h3 className="mt-3">
-        Form <span className="fw-bold">Create</span>
+        Transaction <span className="fw-bold">Create</span>
       </h3>
-      <div className="bg-secondary mt-3 rounded-2 p-3 w-50">
-        <form onSubmit={handleSubmit} className="d-flex flex-column gap-2">
-          <Input
-            type="text"
-            label="Customer Name"
-            required
-            placeholder="John"
-            name="customerName"
-            value={input?.customerName || ""}
-            onChange={handleInput}
-          />
-          <h5 className="mt-3">Cake Orders</h5>
-          {cakes?.map((cake) => (
-            <div key={cake.id} className="d-flex w-100 justify-content-between">
-              <p>
-                [{cake.stock}] {cake.name}
-              </p>
-              <span>{priceFormater(cake.sellPrice)}</span>
-              <input
-                onChange={(e) => handleOrderChange(e, cake.id!)}
-                name="quantity"
-                type="number"
-                disabled={cake.stock === 0}
-                value={
-                  input.orders?.find((order) => order.cakeId === cake.id)
-                    ?.quantity || ""
-                }
-                className="w-20"
-              />
+      <div className="d-flex gap-3">
+        {cakeVariants?.map((variant) => (
+          <div key={variant.id} className="bg-secondary mt-3 rounded-2 p-3">
+            <h4>{variant.name}</h4>
+            <p>
+              {priceFormater((variant.cake?.sellingPrice || 0) + variant.price)}
+            </p>
+            <div className="d-flex gap-2 justify-content-end">
+              <h5>
+                {input.orders?.find((order) => order.cakeVariantId === variant.id)
+                  ?.quantity || null}
+              </h5>
+              <Button size="sm" onClick={() => handleOrderChange(variant, 1)}>
+                <Add />
+              </Button>
             </div>
-          ))}
-          <div className="mt-2 d-flex justify-content-end gap-3">
-            <Button type="button" disabled={loading} isOutline onClick={clearInput}>
-              {loading ? "Loading..." : "Clear"}
-            </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Loading..." : "Submit"}
-            </Button>
           </div>
-          <p>Tax : {priceFormater(input?.tax || 0)}</p>
-
-          <p>Order Price : {priceFormater(input?.orderPrice || 0)}</p>
-
-          <p>Total Discount : {priceFormater(input?.totalDiscount || 0)}</p>
-
-          <p className="fw-semibold">
-            Total : {priceFormater(input?.totalPrice || 0)}
-          </p>
-        </form>
+        ))}
+      </div>
+      <div className="bg-secondary mt-3 rounded-2 p-3 d-flex justify-content-between align-items-center">
+        <h5 className="fw-semibold">
+          Orders : {
+              priceFormater(input?.orders?.reduce(
+                (acc, item) =>
+                  acc +
+                  item.totalPrice!,
+                0
+              ))
+          }
+        </h5>
+        <h5 className="fw-semibold">
+          Total : {priceFormater(input?.totalPrice || 0)}
+        </h5>
+        <Button type="button" style="fill">
+          Process
+        </Button>
       </div>
     </div>
   );

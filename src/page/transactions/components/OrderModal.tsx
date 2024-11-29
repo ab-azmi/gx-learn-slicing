@@ -62,7 +62,7 @@ const OrderModal = ({ orders, children }: PropsWithChildren<Props>) => {
                     orders.map((order, index) => (
                       <tr key={index}>
                         <td>#{index + 1}</td>
-                        <td>{order.cakeVariant.name}</td>
+                        <td>{order.cakeVariant?.name}</td>
                         <td>{priceFormater(order.price!)}</td>
                         <td>{order.quantity}</td>
                         <td>{priceFormater(order.discount!)}</td>
