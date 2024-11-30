@@ -3,15 +3,15 @@ import { Transaction } from "@/types/transaction";
 
 export const getTransactions = (
     page?: number,
-    search?: string,
     filters?: { [key: string]: string }
 ) => {
     const params = new URLSearchParams();
     if (page !== undefined) params.append('page', page.toString());
-    if (search !== undefined) params.append('search', search);
     if (filters !== undefined) {
         for (const key in filters) {
-            params.append(key, filters[key]);
+            if (filters[key] !== '') {
+                params.append(key, filters[key]);
+            }
         }
     }
     return endpointWrapper(`${API_ENDPOINTS.transaction}?${params.toString()}`, "GET");

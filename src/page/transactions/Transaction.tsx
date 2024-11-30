@@ -7,9 +7,9 @@ const Transaction = () => {
   const {
     transactions,
     loading,
-    setSearch,
     handleDelete,
-    handleFilter,
+    filters,
+    setFilters,
     clearFilter,
     refetchTransaction,
   } = useTransaction();
@@ -63,20 +63,10 @@ const Transaction = () => {
         onDelete={handleDelete}
         onChangePage={refetchTransaction}
         loading={loading}
-        onSearch={setSearch}
-        onFilter={refetchTransaction}
         onClearFilter={clearFilter}
-        filter={[
-          {
-            name: "status",
-            options: [
-              { value: 2, name: "scheduled" },
-              { value: 3, name: "junk" },
-              { value: 1, name: "consideration" },
-            ],
-            onSelect: handleFilter,
-          },
-        ]}
+        onFilter={refetchTransaction}
+        filters={filters}
+        setFilters={setFilters}
       />
     </div>
   );
