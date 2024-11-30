@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AuthStore from "@/store/AuthStore";
 
 export const API_URL = import.meta.env.VITE_BE_URL;
@@ -31,8 +32,11 @@ export const API_ENDPOINTS = {
 };
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const endpointWrapper = async (endpoint: string, method: string, data?: any) => {
+export const endpointWrapper = async (
+  endpoint: string,
+  method: string,
+  data?: any,
+) => {
   try {
     const response = await fetch(endpoint, {
       method,
@@ -43,8 +47,9 @@ export const endpointWrapper = async (endpoint: string, method: string, data?: a
     if (response.ok) {
       return response.json();
     } else {
-      if (response.status === 401) 
+      if (response.status === 401) {
         throw new Error("Invalid token or token expired");
+      }
       throw new Error("An error occured");
     }
 

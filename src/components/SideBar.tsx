@@ -11,6 +11,7 @@ import {
 import sideBarStore from "@/store/SidebarStore";
 import { ReactNode } from "react";
 import clsx from "clsx";
+import { transactionPath } from "@/path/transaction.path";
 
 const menuObject = ({
   title,
@@ -37,6 +38,11 @@ const SideBar = () => {
       link: "/",
     }),
     menuObject({
+      title: "Cashier",
+      icon: <Calculator size="24" variant="Bulk" />,
+      link: transactionPath.cashier,
+    }),
+    menuObject({
       title: "Transactions",
       icon: <ReceiptItem size="24" variant="Bulk" />,
       link: "/transactions",
@@ -45,11 +51,6 @@ const SideBar = () => {
       title: "Employee Attendance",
       icon: <Cake size="24" variant="Bulk" />,
       link: "/cakes",
-    }),
-    menuObject({
-      title: "Analytic Summary",
-      icon: <Calculator size="24" variant="Bulk" />,
-      link: "/analytic",
     }),
     menuObject({
       title: "Settings",

@@ -9,6 +9,7 @@ type Props = {
   isOutline?: boolean;
   children: React.ReactNode;
   size?: "sm" | "md" | "lg";
+  className?: string;
 };
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
   isOutline = false,
   children,
   size = "md",
+  className,
 }: PropsWithChildren<Props>) => {
   const classFill = "btn-primary";
   const classOutline = "btn-outline-primary";
@@ -26,7 +28,12 @@ const Button = ({
       disabled={disabled}
       type={type}
       onClick={onClick}
-      className={clsx(isOutline ? classOutline : classFill, "btn hover_darker", {'btn-sm': size === 'sm', 'btn-lg': size === 'lg'})}
+      className={clsx(
+          isOutline ? classOutline : classFill, 
+          "btn hover_darker", 
+          {'btn-sm': size === 'sm', 'btn-lg': size === 'lg'},
+          className
+        )}
     >
       {children}
     </button>

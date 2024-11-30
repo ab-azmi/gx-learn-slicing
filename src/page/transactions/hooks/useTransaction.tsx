@@ -11,22 +11,7 @@ import {
 import { CakeVariant, Transaction } from "@/types/transaction";
 import AuthStore from "@/store/AuthStore";
 import { getVariants } from "@/service/api/cake.api";
-
-const formInitial = {
-  id: 0,
-  quantity: 0,
-  number: "",
-  tax: "",
-  orderPrice: null,
-  totalPrice: null,
-  totalDiscount: null,
-  employeeId: 0,
-  createdAt: "",
-  updatedAt: "",
-  deletedAt: "",
-  cakeVariantId: 0,
-  orders: [],
-};
+import { transactionForm } from "@/form/transaction.form";
 
 const useTransaction = () => {
   const store = AuthStore();
@@ -39,7 +24,7 @@ const useTransaction = () => {
   const [search, setSearch] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
-  const [input, setInput] = useState<Transaction>(formInitial);
+  const [input, setInput] = useState<Transaction>(transactionForm);
   const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
 
   useEffect(() => {
@@ -55,14 +40,9 @@ const useTransaction = () => {
       ...prev,
       cashierId: store.user?.id || 0,
     }));
-
-    getVariants().then((res) => {
-      setCakeVariants(res.result);
-    });
   }, []);
 
   const handleDelete = (item: Transaction) => {
-    // setFilteredLeads((prev) => prev?.filter((lead) => lead.id !== item.id));
     const id = toast.loading("Deleting...");
     deleteTransaction(item.id!)
       .then(() => {
@@ -95,7 +75,7 @@ const useTransaction = () => {
     
     createTransaction(input).then((res) => {
       setLoading(false);
-      // setInput(formInitial);
+      // setInput(transactionForm);
       setInput((prev) => ({
         ...prev,
         orderPrice: res.result.orderPrice,
@@ -119,7 +99,6 @@ const useTransaction = () => {
 
   const handleUpdate = () => {
     const id = toast.loading("Updating...");
-
     setLoading(true);
 
     updateTransaction(input).then(() => {
@@ -133,14 +112,6 @@ const useTransaction = () => {
     });
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setInput({
@@ -149,47 +120,7 @@ const useTransaction = () => {
     });
   };
 
-  const handleOrderChange = (
-    variant: CakeVariant, 
-    quantity: number
-  ) => {;
-    const orderExist = input.orders.find((order) => order.cakeVariantId === variant.id);
-    let newOrders = [...input.orders];
-   
-    if (orderExist) {
-      const price = variant.price + (variant.cake?.sellingPrice || 0);
-
-      newOrders = newOrders.map((order) =>
-        order.cakeVariantId === variant.id ? 
-        { 
-          ...order, 
-          'quantity': order.quantity + quantity, 
-          'price': price,
-          'totalPrice': price * (order.quantity + quantity)
-        } 
-        : order
-      );
-    } else {
-      const price = variant.price + (variant.cake?.sellingPrice || 0);
-
-      newOrders.push({
-        cakeVariantId: variant.id,
-        cakeVariant: variant,
-        price: price,
-        totalPrice: price * quantity,
-        quantity: quantity,
-      });
-    }
-
-    setInput({
-      ...input,
-      orders: newOrders,
-    });
-    console.log(newOrders);
-  };
-
   const handleFilter = (name: string, value: string) => {
-    //add filter to filters state
     setFilters((prev) => ({
       ...prev,
       [name]: value,
@@ -198,10 +129,10 @@ const useTransaction = () => {
 
   const clearFilter = () => {
     setFilters({});
-    setTransactions(backupTransactions.current);
+    // setTransactions(backupTransactions.current);
   };
 
-  const refetchLeads = (page?: number) => {
+  const refetchTransaction = (page?: number) => {
     setLoading(true);
     getTransactions(page, search, filters).then((res) => {
       setTransactions(res);
@@ -210,7 +141,7 @@ const useTransaction = () => {
   };
 
   const clearInput = () => {
-    setInput(formInitial);
+    setInput(transactionForm);
   };
   
   return {
@@ -226,14 +157,12 @@ const useTransaction = () => {
     setInput,
     handleSelect,
     handleDelete,
-    handleInput,
     handleFilter,
-    refetchLeads,
+    refetchTransaction,
     clearFilter,
     handleCreate,
     clearInput,
-    handleUpdate,
-    handleOrderChange,
+    handleUpdate
   };
 };
 

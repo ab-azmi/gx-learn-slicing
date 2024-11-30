@@ -3,7 +3,7 @@ type Props = {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   label?: string;
   placeholder: string;
-  options: { id: number; name: string; created_at?: string }[];
+  options: { value: number|string; name: string; created_at?: string }[];
   name: string;
   errors?: string;
 };
@@ -28,12 +28,12 @@ const Select = ({
         value={value}
         name={name}
         id={name}
-        className="form-select"
+        className="form-select text-capitalize"
         aria-label="Default select example"
       >
         <option value={-1}>{placeholder}</option>
         {options.map((option) => (
-          <option key={option.id} value={option.id}>
+          <option className="text-capitalize" key={option.name} value={option.value}>
             {option.name}
           </option>
         ))}

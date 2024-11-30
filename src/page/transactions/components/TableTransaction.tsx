@@ -7,16 +7,14 @@ import DatePicker from "@/components/DatePicker";
 import Button from "@/components/Button";
 import { Paginate } from "@/types/wraper";
 import ModalConfirm from "@/components/ModalConfirm";
-import { useNavigate } from "react-router-dom";
 import { Order, Transaction } from "@/types/transaction";
-import { transactionPath } from "@/path/transaction.path";
 import priceFormater from "@/helpers/priceFormater.helper";
 import getNestedValue from "@/helpers/getNestedValue.helper";
 import OrderModal from "./OrderModal";
 import { getTransaction } from "@/service/api/transaction.api";
 
 type TableFilter = {
-  options: Array<{ id: number; name: string; created_at?: string }>;
+  options: Array<{ value: number; name: string; created_at?: string }>;
   name: string;
   onSelect: (name: string, value: string) => void;
 };
@@ -44,7 +42,6 @@ const TableTransaction = ({
   onFilter,
   onChangePage,
 }: TableProps) => {
-  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -92,14 +89,6 @@ const TableTransaction = ({
         <h4 className="fw-bold">Manage Transaction</h4>
         <div className="d-flex align-items-center gap-2">
           <Button isOutline>Generate Summary</Button>
-
-          <Button
-            type="button"
-            style="fill"
-            onClick={() => navigate(transactionPath.form)}
-          >
-            Add
-          </Button>
         </div>
       </div>
 

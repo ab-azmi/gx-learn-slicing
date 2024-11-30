@@ -11,7 +11,7 @@ const Transaction = () => {
     handleDelete,
     handleFilter,
     clearFilter,
-    refetchLeads,
+    refetchTransaction,
   } = useTransaction();
 
   const bento = [
@@ -61,18 +61,18 @@ const Transaction = () => {
         data={transactions}
         columns={5}
         onDelete={handleDelete}
-        onChangePage={refetchLeads}
+        onChangePage={refetchTransaction}
         loading={loading}
         onSearch={setSearch}
-        onFilter={refetchLeads}
+        onFilter={refetchTransaction}
         onClearFilter={clearFilter}
         filter={[
           {
             name: "status",
             options: [
-              { id: 2, name: "scheduled" },
-              { id: 3, name: "junk" },
-              { id: 1, name: "consideration" },
+              { value: 2, name: "scheduled" },
+              { value: 3, name: "junk" },
+              { value: 1, name: "consideration" },
             ],
             onSelect: handleFilter,
           },

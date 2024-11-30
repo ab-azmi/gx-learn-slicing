@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path={transactionPath.index} element={<Transaction />} />
-          <Route path={transactionPath.form} element={<FormTransaction />} />
+          <Route path={transactionPath.cashier} element={<FormTransaction />} />
 
           <Route path={cakePath.index} element={<Cakes />} />
           <Route path={cakePath.form} element={<FormCake />} />
