@@ -12,16 +12,18 @@ const Layout = () => {
   }
 
   return (
-    <div className="d-flex bg-background position-relative">
-      <div className="h-100 sticky-sm-top z-2">
+    <div className="d-flex bg-background position-relative vh-100">
+      <div className="sticky-top z-2">
         <SideBar />
       </div>
 
-      <div className="w-100 position-relative">
+      <div className="w-100 h-100 position-relative d-flex flex-column">
         <div className="sticky-top">
           <TopBar />
         </div>
+        <div className="flex-grow-1 overflow-auto">
         <Outlet />
+        </div>
       </div>
     </div>
   );
