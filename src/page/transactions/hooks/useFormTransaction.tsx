@@ -1,7 +1,10 @@
 import { transactionForm } from "@/form/transaction.form";
 import { getCakes, getVariants } from "@/service/api/cake.api";
+import { createTransaction } from "@/service/api/transaction.api";
+import AuthStore from "@/store/AuthStore";
 import { Cake, CakeVariant, Transaction } from "@/types/transaction";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const filterForm = {
     'search': '',
@@ -11,7 +14,10 @@ const filterForm = {
 };
 
 const useFormTransaction = () => {
+    const store = AuthStore();
     const [cakes, setCakes] = useState<Cake[]>([]);
+    const [receipt, setReceipt] = useState<Transaction|null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
     const [input, setInput] = useState<Transaction>(transactionForm);
     const [filters, setFilters] = useState<{
@@ -22,6 +28,11 @@ const useFormTransaction = () => {
     }>(filterForm);
 
     useEffect(() => {
+        setInput({
+            ...input,
+            employeeId: store.user?.id,
+        })
+
         getCakes().then((res) => {
             setCakes(res.result);
         });
@@ -60,11 +71,13 @@ const useFormTransaction = () => {
                 price: price,
                 totalPrice: price * quantity,
                 quantity: quantity,
+                cakeVariant: variant,
             });
         }
 
         setInput({
             ...input,
+            quantity: newOrders.reduce((acc, item) => acc + item.quantity, 0),
             orders: newOrders,
         });
     };
@@ -82,10 +95,35 @@ const useFormTransaction = () => {
         });
     }
 
+    const clearInput = () => {
+        setInput(transactionForm);
+    }
+
+    const handleProcess = () => {
+        const id = toast.loading("Processing...");
+        setLoading(true);
+
+        createTransaction(input).then((res) => {
+            setLoading(false);
+            toast.update(id, {
+                render: "Transaction Created",
+                type: "success",
+                isLoading: false,
+                autoClose: 2000,
+            });
+
+            clearInput();
+
+            setReceipt(res.result);
+        })
+    }
+
     return {
         cakes,
         input,
         filters,
+        receipt,
+        loading,
         cakeVariants,
         setFilters,
         setInput,
@@ -93,6 +131,8 @@ const useFormTransaction = () => {
         clearFilter,
         handleOrderChange,
         fetchVariants,
+        clearInput,
+        handleProcess
     };
 };
 

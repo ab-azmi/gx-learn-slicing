@@ -26,18 +26,18 @@ export type Order = {
     createdAt?: string;
     updatedAt?: string;
     deletedAt?: string | null;
-    cakeVariant?: CakeVariant
+    cakeVariant?: CakeVariant;
 }
 
 export type Transaction = {
-    id: number;
+    id?: number;
     quantity: number;
     number: string;
     tax: string | null;
     orderPrice: number | null;
     totalPrice: number | null;
     totalDiscount: number | null;
-    employeeId: number;
+    employeeId?: number;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;

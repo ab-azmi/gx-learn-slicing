@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import priceFormater from "@/helpers/priceFormater.helper";
-import { Add, ShoppingCart } from "iconsax-react";
+import { Add, Minus, ShoppingCart } from "iconsax-react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import OrderModal from "./components/OrderModal";
@@ -11,11 +11,14 @@ const Form = () => {
   const {
     cakes,
     input,
+    receipt,
     filters,
     setFilters,
+    clearInput,
     cakeVariants,
     clearFilter,
     fetchVariants,
+    handleProcess,
     handleOrderChange
   } = useFormTransaction();
 
@@ -76,7 +79,7 @@ const Form = () => {
             Clear
           </Button>
         </form>
-        <OrderModal orders={[]}>
+        <OrderModal orders={input.orders} onClear={clearInput}>
           <Button type="button" className="position-relative">
             <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
               {input.orders?.length}
@@ -99,15 +102,35 @@ const Form = () => {
                   + {priceFormater(variant.price || 0)}
                 </p>
               </div>
-              <div className="d-flex gap-2 justify-content-end align-items-center">
-                <h5>
+              <div className="d-flex gap-2 justify-content-between align-items-center">
+                <span>
+                  Stock : {variant.cake?.stock}
+                </span>
+                <div className="d-flex gap-2 align-items-center">
                   {input.orders?.find(
                     (order) => order.cakeVariantId === variant.id
-                  )?.quantity || null}
-                </h5>
-                <Button size="sm" onClick={() => handleOrderChange(variant, 1)}>
-                  <Add />
-                </Button>
+                  )?.quantity && (
+                      <>
+                        <Button
+                          disabled={variant.cake?.stock === 0}
+                          size="sm"
+                          onClick={() => handleOrderChange(variant, -1)}>
+                          <Minus />
+                        </Button>
+                        <h6>
+                          {input.orders?.find(
+                            (order) => order.cakeVariantId === variant.id
+                          )?.quantity}
+                        </h6>
+                      </>
+                    )}
+                  <Button
+                    disabled={variant.cake?.stock === 0}
+                    size="sm"
+                    onClick={() => handleOrderChange(variant, 1)}>
+                    <Add />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -121,9 +144,107 @@ const Form = () => {
             input?.orders?.reduce((acc, item) => acc + item.totalPrice!, 0)
           )}
         </h5>
-        <Button type="button" style="fill">
-          Process
-        </Button>
+        <div data-bs-toggle="modal" data-bs-target="#receiptModal">
+          <Button type="button" style="fill" onClick={handleProcess}>
+            Process
+          </Button>
+        </div>
+      </div>
+
+      <div className="modal fade"
+        id="receiptModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="receiptModalLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="receiptModalLabel">
+                RECEIPT
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              {receipt != null ? (
+                <div className="d-flex flex-column gap-3">
+                  <div className="d-flex justify-content-between">
+                    <p className="m-0 p-0">{receipt.number}</p>
+                    <p className="m-0 p-0 text-xs">{receipt.createdAt}</p>
+                  </div>
+                  <p className="mb-2 p-0">Cashier : {receipt.employee?.name}</p>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className="w-10">No</th>
+                        <th>Cake</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Discount</th>
+                        <th>Total Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {receipt.orders.map((order, index) => (
+                        <tr key={index}>
+                          <td>#{index + 1}</td>
+                          <td>{order.cakeVariant?.name}</td>
+                          <td>{priceFormater(order.price!)}</td>
+                          <td>{order.quantity}</td>
+                          <td>{priceFormater(order.discount!)}</td>
+                          <td>{priceFormater(order.totalPrice!)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <hr />
+                  <table className="align-self-end w-40">
+                    <tbody>
+                      <tr>
+                        <td>Total Price</td>
+                        <td>{priceFormater(receipt.totalPrice!)}</td>
+                      </tr>
+                      <tr>
+                        <td>Total Discount</td>
+                        <td>{priceFormater(receipt.totalDiscount!)}</td>
+                      </tr>
+                      <tr>
+                        <td>Tax</td>
+                        <td>{priceFormater(receipt.tax!)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table className="align-self-end w-40">
+                    <tbody>
+                      <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                          <h4>
+                            {priceFormater(receipt.totalPrice!)}
+                          </h4>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>Loading</p>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
