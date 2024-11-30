@@ -77,6 +77,7 @@ const useFormTransaction = () => {
 
         setInput({
             ...input,
+            quantity: newOrders.reduce((acc, item) => acc + item.quantity, 0),
             orders: newOrders,
         });
     };

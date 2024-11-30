@@ -10,24 +10,24 @@ type Props = {
 const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => {
   return (
     <>
-      <div data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <div data-bs-toggle="modal" data-bs-target="#orderModal">
         {children}
       </div>
 
       <div
         className="modal fade"
-        id="staticBackdrop"
+        id="orderModal"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
+        aria-labelledby="orderModalLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                Modal title
+              <h1 className="modal-title fs-5" id="orderModalLabel">
+                Orders
               </h1>
               <button
                 type="button"
