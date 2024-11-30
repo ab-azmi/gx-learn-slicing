@@ -26,7 +26,7 @@ export type Order = {
     createdAt?: string;
     updatedAt?: string;
     deletedAt?: string | null;
-    cakeVariant?: CakeVariant
+    cakeVariant?: CakeVariant;
 }
 
 export type Transaction = {

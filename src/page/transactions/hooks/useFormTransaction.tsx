@@ -60,6 +60,7 @@ const useFormTransaction = () => {
                 price: price,
                 totalPrice: price * quantity,
                 quantity: quantity,
+                cakeVariant: variant,
             });
         }
 
@@ -82,6 +83,10 @@ const useFormTransaction = () => {
         });
     }
 
+    const clearInput = () => {
+        setInput(transactionForm);
+    }
+
     return {
         cakes,
         input,
@@ -93,6 +98,7 @@ const useFormTransaction = () => {
         clearFilter,
         handleOrderChange,
         fetchVariants,
+        clearInput,
     };
 };
 

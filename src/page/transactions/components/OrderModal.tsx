@@ -4,9 +4,10 @@ import priceFormater from "@/helpers/priceFormater.helper";
 
 type Props = {
   orders: Order[];
+  onClear?: () => void;
 };
 
-const OrderModal = ({ orders, children }: PropsWithChildren<Props>) => {
+const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => {
   return (
     <>
       <div data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -76,14 +77,21 @@ const OrderModal = ({ orders, children }: PropsWithChildren<Props>) => {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-primary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Understood
-              </button>
+              {onClear && (
+                <button
+                  type="button"
+                  data-bs-dismiss="modal"
+                  className="btn btn-outline-primary"
+                  onClick={onClear}
+                >
+                  Clear
+                </button>
+              )}
             </div>
           </div>
         </div>

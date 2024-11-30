@@ -13,6 +13,7 @@ const Form = () => {
     input,
     filters,
     setFilters,
+    clearInput,
     cakeVariants,
     clearFilter,
     fetchVariants,
@@ -76,7 +77,7 @@ const Form = () => {
             Clear
           </Button>
         </form>
-        <OrderModal orders={[]}>
+        <OrderModal orders={input.orders} onClear={clearInput}>
           <Button type="button" className="position-relative">
             <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
               {input.orders?.length}
