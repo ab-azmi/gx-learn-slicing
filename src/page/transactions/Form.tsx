@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import priceFormater from "@/helpers/priceFormater.helper";
-import { Add, ShoppingCart } from "iconsax-react";
+import { Add, Minus, ShoppingCart } from "iconsax-react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import OrderModal from "./components/OrderModal";
@@ -11,12 +11,14 @@ const Form = () => {
   const {
     cakes,
     input,
+    receipt,
     filters,
     setFilters,
     clearInput,
     cakeVariants,
     clearFilter,
     fetchVariants,
+    handleProcess,
     handleOrderChange
   } = useFormTransaction();
 
@@ -100,15 +102,35 @@ const Form = () => {
                   + {priceFormater(variant.price || 0)}
                 </p>
               </div>
-              <div className="d-flex gap-2 justify-content-end align-items-center">
-                <h5>
+              <div className="d-flex gap-2 justify-content-between align-items-center">
+                <span>
+                  Stock : {variant.cake?.stock}
+                </span>
+                <div className="d-flex gap-2 align-items-center">
                   {input.orders?.find(
                     (order) => order.cakeVariantId === variant.id
-                  )?.quantity || null}
-                </h5>
-                <Button size="sm" onClick={() => handleOrderChange(variant, 1)}>
-                  <Add />
-                </Button>
+                  )?.quantity && (
+                      <>
+                        <Button
+                          disabled={variant.cake?.stock === 0}
+                          size="sm"
+                          onClick={() => handleOrderChange(variant, -1)}>
+                          <Minus />
+                        </Button>
+                        <h6>
+                          {input.orders?.find(
+                            (order) => order.cakeVariantId === variant.id
+                          )?.quantity}
+                        </h6>
+                      </>
+                    )}
+                  <Button
+                    disabled={variant.cake?.stock === 0}
+                    size="sm"
+                    onClick={() => handleOrderChange(variant, 1)}>
+                    <Add />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -122,7 +144,7 @@ const Form = () => {
             input?.orders?.reduce((acc, item) => acc + item.totalPrice!, 0)
           )}
         </h5>
-        <Button type="button" style="fill">
+        <Button type="button" style="fill" onClick={handleProcess}>
           Process
         </Button>
       </div>
