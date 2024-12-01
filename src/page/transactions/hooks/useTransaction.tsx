@@ -6,7 +6,7 @@ import {
   deleteTransaction,
   getTransactions,
 } from "@/service/api/transaction.api";
-import {Transaction } from "@/types/transaction";
+import { Transaction } from "@/types/transaction";
 import { transactionForm } from "@/form/transaction.form";
 
 const useTransaction = () => {
@@ -17,7 +17,11 @@ const useTransaction = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
-  const [filters, setFilters] = useState<{ [key: string]: string }>({});
+  const [filters, setFilters] = useState<{ [key: string]: string }>({
+    search: "",
+    fromDate: "",
+    toDate: "",
+  });
   const [input, setInput] = useState<Transaction>(transactionForm);
 
   useEffect(() => {
@@ -57,13 +61,6 @@ const useTransaction = () => {
       });
   };
 
-  const handleFilter = (name: string, value: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const clearFilter = () => {
     setFilters({});
     setTransactions(backupTransactions.current);
@@ -80,7 +77,7 @@ const useTransaction = () => {
   const clearInput = () => {
     setInput(transactionForm);
   };
-  
+
   return {
     transactions,
     setTransactions,
@@ -92,7 +89,6 @@ const useTransaction = () => {
     setInput,
     setFilters,
     handleDelete,
-    handleFilter,
     refetchTransaction,
     clearFilter,
     clearInput,

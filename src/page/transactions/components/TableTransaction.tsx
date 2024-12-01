@@ -12,6 +12,7 @@ import getNestedValue from "@/helpers/getNestedValue.helper";
 import OrderModal from "./OrderModal";
 import { getTransaction } from "@/service/api/transaction.api";
 import handleInput from "@/helpers/input.helper";
+import formatDate from "@/helpers/dateFormater.helper";
 
 type TableProps = {
   data?: Paginate<Transaction>;
@@ -73,7 +74,14 @@ const TableTransaction = ({
           />
         </div>
 
-        <DatePicker />
+        <DatePicker onChange={(date) => {
+          setFilters({
+            ...filters,
+            fromDate: date[0] ? formatDate(date[0]) : "",
+            toDate: date[1] ? formatDate(date[1]) : "",
+          })
+        }} />
+
         <button
           type="submit"
           className="btn btn-primary"
@@ -207,7 +215,7 @@ const TableTransaction = ({
                               {getNestedValue(item, "employee.name")}
                             </span>
                             <span className="fw-light">
-                              {getNestedValue(item, "createdAt")}
+                              {item["createdAt"]}
                             </span>
                           </div>
                         </div>
