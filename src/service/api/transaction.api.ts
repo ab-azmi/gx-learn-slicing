@@ -3,18 +3,33 @@ import { Transaction } from "@/types/transaction";
 
 export const getTransactions = (
     page?: number,
-    search?: string,
     filters?: { [key: string]: string }
 ) => {
-    const params = new URLSearchParams();
-    if (page !== undefined) params.append('page', page.toString());
-    if (search !== undefined) params.append('search', search);
+    console.log(filters);
+    let params = '';
+
+    if (page !== undefined) {
+        params += `page=${page}&`;
+    }
+
     if (filters !== undefined) {
         for (const key in filters) {
-            params.append(key, filters[key]);
+            if (filters[key] !== '') {
+                if (key === 'fromDate' || key === 'toDate') {
+                    params += `${key}=${filters[key]}&`;
+                } else {
+                    params += `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}&`;
+                }
+            }
         }
     }
-    return endpointWrapper(`${API_ENDPOINTS.transaction}?${params.toString()}`, "GET");
+
+    // Remove the trailing '&' if it exists
+    if (params.endsWith('&')) {
+        params = params.slice(0, -1);
+    }
+
+    return endpointWrapper(`${API_ENDPOINTS.transaction}?${params}`, "GET");
 };
 
 export const getTransaction = (id: number) => endpointWrapper(`${API_ENDPOINTS.transaction}/${id}`, "GET");
