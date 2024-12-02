@@ -37,11 +37,11 @@ const useCakes = () => {
   }
 
   const handleDelete = (id: number) => {
-    console.log(id);
-    // setLoading(true);
-    // deleteCake(id).then(() => {
-    //   fetchCakes();
-    // });
+    setLoading(true);
+    deleteCake(id).then(() => {
+      fetchCakes();
+      setLoading(false);
+    });
   };
 
   return {

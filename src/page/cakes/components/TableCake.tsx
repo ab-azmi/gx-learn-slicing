@@ -1,5 +1,5 @@
 import { Edit, Filter, Trash } from "iconsax-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
 import { Cake, CakeVariant, Ingredient } from "@/types/transaction";
@@ -39,8 +39,10 @@ const TableCake = ({
   onChangePage,
 }: TableProps) => {
   const navigate = useNavigate();
+  const [confirm, setConfirm] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [variants, setVariants] = useState<CakeVariant[]>([]);
+  const selected = useRef<Cake | null>(null);
 
   const ingredientColumns = [
     createColumn("name", "Name"),
@@ -258,21 +260,17 @@ const TableCake = ({
                           >
                             <Edit size="24" variant="Bulk" />
                           </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              selected.current = item;
+                              setConfirm(true);
+                            }}
+                            className="btn btn-sm text-danger"
+                          >
+                            <Trash size="24" variant="Bulk" />
+                          </button>
 
-                          {onDelete && (
-                            <ModalConfirm
-                              title="Delete Confirm"
-                              message="This cannot be undone!"
-                              onConfirm={() => console.log(item)}
-                            >
-                              <button
-                                type="button"
-                                className="btn btn-sm text-danger"
-                              >
-                                <Trash size="24" variant="Bulk" />
-                              </button>
-                            </ModalConfirm>
-                          )}
                         </div>
                       </td>
                     </tr>
@@ -309,6 +307,19 @@ const TableCake = ({
           dignissimos temporibus?
         </div>
       </div>
+
+      <ModalConfirm
+        show={confirm}
+        onClose={() => setConfirm(false)}
+        title="Delete Confirm"
+        message="This cannot be undone!"
+        onConfirm={() => {
+          if (onDelete && selected.current) {
+            onDelete(selected.current.id!);
+          }
+          setConfirm(false);
+        }}
+      />
     </div>
   );
 };
