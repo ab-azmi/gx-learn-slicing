@@ -33,10 +33,10 @@ export type Transaction = {
     id?: number;
     quantity: number;
     number: string;
-    tax: string | null;
-    orderPrice: number | null;
-    totalPrice: number | null;
-    totalDiscount: number | null;
+    tax: number;
+    orderPrice: number ;
+    totalPrice: number ;
+    totalDiscount: number;
     employeeId?: number;
     createdAt: string;
     updatedAt: string;
