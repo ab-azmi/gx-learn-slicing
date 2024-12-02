@@ -33,10 +33,10 @@ export type Transaction = {
     id?: number;
     quantity: number;
     number: string;
-    tax: string | null;
-    orderPrice: number | null;
-    totalPrice: number | null;
-    totalDiscount: number | null;
+    tax: number;
+    orderPrice: number ;
+    totalPrice: number ;
+    totalDiscount: number;
     employeeId?: number;
     createdAt: string;
     updatedAt: string;
@@ -53,15 +53,18 @@ export type CakeVariant = {
     cake?: Cake;
 }
 
-export type Ingridient = {
-    id: number;
+export type Ingredient = {
+    id?: number;
     name?: string;
-    unit?: string;
-    pricePerUnit?: number;
+    unit?: {
+        id: number;
+        name: string;
+    };
+    price?: number;
     expirationDate?: string;
     quantity: number;
     supplier?: string;
-    used? : {
+    pivot? : {
         quantity: number;
     }
 }
@@ -69,10 +72,10 @@ export type Ingridient = {
 export type Cake = {
     id?: number;
     name: string;
-    profitMargin: string;
+    profitMargin: number;
     cogs: number;
     sellingPrice: number;
     images: string;
     stock: number;
-    ingridients?: Ingridient[];
+    ingredients?: Ingredient[];
 }

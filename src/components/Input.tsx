@@ -33,6 +33,7 @@ const Input = ({
       )}
       <div className="position-relative">
         <input
+          autoComplete="off"
           value={value}
           onChange={onChange}
           type={type === "password" && showPassword ? "text" : type}

@@ -1,33 +1,47 @@
-import { PropsWithChildren } from "react";
-import { Order } from "@/types/transaction";
+import getNestedValue from "@/helpers/getNestedValue.helper";
 import priceFormater from "@/helpers/priceFormater.helper";
+import { PropsWithChildren } from "react";
 
-type Props = {
-  orders: Order[];
+type Props<T> = {
+  id?: string;
+  title?: string;
+  data: T[];
+  columns: {
+    field: string;
+    title: string;
+    type?: string;
+  }[]
   onClear?: () => void;
-};
+}
 
-const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => {
+const ModalTable = <T, >({
+  id = "modalTable",
+  data,
+  title = "Modal",
+  columns,
+  onClear,
+  children
+}: PropsWithChildren<Props<T>>) => {
   return (
     <>
-      <div data-bs-toggle="modal" data-bs-target="#orderModal">
+      <div data-bs-toggle="modal" data-bs-target={`#${id}`}>
         {children}
       </div>
 
       <div
         className="modal fade"
-        id="orderModal"
+        id={id}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex={-1}
-        aria-labelledby="orderModalLabel"
+        aria-labelledby="ModalTableLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="orderModalLabel">
-                Orders
+              <h1 className="modal-title fs-5" id="ModalTableLabel">
+                {title}
               </h1>
               <button
                 type="button"
@@ -40,34 +54,30 @@ const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => 
               <table className="w-100">
                 <thead>
                   <tr>
-                    <th scope="col" className="w-10">
-                      No
-                    </th>
-                    <th scope="col" className="w-30">
-                      Cake
-                    </th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Discount</th>
-                    <th scope="col">Total Price</th>
+                    {columns.map((col, index) => (
+                      <th key={index} scope="col">
+                        {col.title}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.length <= 0 ? (
+                  {data.length <= 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center">
                         No Data
                       </td>
                     </tr>
                   ) : (
-                    orders.map((order, index) => (
+                    data.map((item, index) => (
                       <tr key={index}>
-                        <td>#{index + 1}</td>
-                        <td>{order.cakeVariant?.name}</td>
-                        <td>{priceFormater(order.price!)}</td>
-                        <td>{order.quantity}</td>
-                        <td>{priceFormater(order.discount!)}</td>
-                        <td>{priceFormater(order.totalPrice!)}</td>
+                        {columns.map((col) => (
+                          <td key={col.field as string}>
+                            {col.type === "price" 
+                              ? priceFormater(item[col.field as keyof T] as unknown as number) 
+                              : getNestedValue(item, col.field)}
+                          </td>
+                        ))}
                       </tr>
                     ))
                   )}
@@ -85,7 +95,6 @@ const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => 
               {onClear && (
                 <button
                   type="button"
-                  data-bs-dismiss="modal"
                   className="btn btn-outline-primary"
                   onClick={onClear}
                 >
@@ -97,7 +106,7 @@ const OrderModal = ({ orders, onClear, children }: PropsWithChildren<Props>) => 
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default OrderModal;
+export default ModalTable

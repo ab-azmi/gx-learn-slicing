@@ -1,52 +1,29 @@
+import { cakeFilter, cakeForm } from "@/form/cake.form";
 import {
   calculateCOGS,
   getCakes,
-  getIngridients,
 } from "@/service/api/cake.api";
-import { Cake, Ingridient } from "@/types/transaction";
+import { Cake } from "@/types/transaction";
 import { Paginate } from "@/types/wraper";
 import { useEffect, useState } from "react";
-
-const formInitial = {
-  name: "",
-  profitMargin: "",
-  cogs: 0,
-  sellPrice: 0,
-  images: "",
-  stock: 0,
-  cakeVariantId: 0,
-  ingridients: [],
-  volume: 0,
-};
 
 const useCakes = () => {
   const [cakes, setCakes] = useState<Paginate<Cake>>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [input, setInput] = useState<Cake>(formInitial);
-  const [ingridients, setIngridients] = useState<Ingridient[]>([]);
+  const [input, setInput] = useState<Cake>(cakeForm);
+  const [filters, setFilters] = useState<{ [key: string]: string }>(cakeFilter);
 
   useEffect(() => {
     setLoading(true);
+
     getCakes().then((res) => {
       setLoading(false);
       setCakes(res);
     });
-
-    getIngridients().then((res) => {
-      setIngridients(res.result);
-    });
   }, []);
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
   const clearInput = () => {
-    setInput(formInitial);
+    setInput(cakeForm);
   };
 
   const handleIngridientChange = (
@@ -76,7 +53,6 @@ const useCakes = () => {
 
   const handleCOGS = () => {
     calculateCOGS({
-      volume: input.volume!,
       margin: input.profitMargin,
       ingridients: input.ingridients!.map((ing) => ({
         id: ing.id,
@@ -87,20 +63,37 @@ const useCakes = () => {
       setInput({
         ...input,
         cogs: res.result.cogs,
-        sellPrice: res.result.sellPrice,
+        sellingPrice: res.result.sellPrice,
       });
     });
   };
+
+  const fetchCakes = (page?: number) => {
+    setLoading(true);
+    getCakes(page, filters).then((res) => {
+      setCakes(res);
+      setLoading(false);
+    });
+  }
+
+  const clearFilter = () => {
+    setFilters(cakeFilter);
+    getCakes().then((res) => {
+      setCakes(res);
+    });
+  }
 
   return {
     cakes,
     loading,
     input,
     setInput,
-    ingridients,
+    filters,
+    setFilters,
+    clearFilter,
     clearInput,
-    handleInput,
     handleCOGS,
+    fetchCakes,
     handleIngridientChange,
   };
 };

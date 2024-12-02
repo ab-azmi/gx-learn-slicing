@@ -9,10 +9,11 @@ import ModalConfirm from "@/components/ModalConfirm";
 import { Order, Transaction } from "@/types/transaction";
 import priceFormater from "@/helpers/priceFormater.helper";
 import getNestedValue from "@/helpers/getNestedValue.helper";
-import OrderModal from "./OrderModal";
 import { getTransaction } from "@/service/api/transaction.api";
 import handleInput from "@/helpers/input.helper";
 import formatDate from "@/helpers/dateFormater.helper";
+import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 type TableProps = {
   data?: Paginate<Transaction>;
@@ -46,6 +47,14 @@ const TableTransaction = ({
       }
     });
   }
+
+  const orderColumns = [
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('discount', 'Discount', 'price'),
+    createColumn('totalPrice', 'Total Price', 'price')
+  ];
 
   return (
     <div className="p-3 p-3 bg-secondary rounded-2">
@@ -187,7 +196,7 @@ const TableTransaction = ({
                           {item["quantity"]}{" "}
                           {item["quantity"] > 1 ? "cakes" : "cake"}
                         </div>
-                        <OrderModal orders={orders}>
+                        <ModalTable title="Orders" data={orders} columns={orderColumns}>
                           <Button
                             type="button"
                             style="fill"
@@ -196,7 +205,7 @@ const TableTransaction = ({
                           >
                             Show Order
                           </Button>
-                        </OrderModal>
+                        </ModalTable>
                       </td>
 
                       <td>

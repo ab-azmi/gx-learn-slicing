@@ -3,9 +3,10 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import { Add, Minus, ShoppingCart } from "iconsax-react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import OrderModal from "./components/OrderModal";
 import useFormTransaction from "./hooks/useFormTransaction";
 import handleInput from "@/helpers/input.helper";
+import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 const Form = () => {
   const {
@@ -31,6 +32,13 @@ const Form = () => {
     e.preventDefault();
     fetchVariants();
   }
+
+  const orderColumns = [
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('totalPrice', 'Total Price', 'price'),
+  ];
 
   return (
     <div className="h-100 p-4 position-relative">
@@ -79,14 +87,14 @@ const Form = () => {
             Clear
           </Button>
         </form>
-        <OrderModal orders={input.orders} onClear={clearInput}>
+        <ModalTable title="Current Orders" columns={orderColumns} data={input.orders} onClear={clearInput}>
           <Button type="button" className="position-relative">
             <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
               {input.orders?.length}
             </span>
             <ShoppingCart variant="Outline" />
           </Button>
-        </OrderModal>
+        </ModalTable>
       </div>
 
       <div className="row">
