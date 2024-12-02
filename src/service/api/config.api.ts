@@ -49,7 +49,11 @@ export const endpointWrapper = async (
       return response.json();
     } else {
       if (response.status === 401) {
-        throw new Error("Invalid token or token expired");
+        history.pushState({}, "", "/auth/login");
+        window.location.reload();
+        
+        throw new Error("Unauthorized");
+
       }
       throw new Error("An error occured");
     }
