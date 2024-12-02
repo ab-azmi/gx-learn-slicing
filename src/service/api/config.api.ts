@@ -21,13 +21,14 @@ export const getHeaders = () => {
 }
 
 export const API_ENDPOINTS = {
+  cake: `${API_URL}`,
+  lead: `${API_URL}/leads`,
+  variant: `${API_URL}/variants`,
+  setting: `${API_URL}/settings`,
   login: `${API_URL}/auth/login`,
   logout: `${API_URL}/auth/logout`,
-  lead: `${API_URL}/leads`,
-  probability: `${API_URL}/probabilities`,
-  cake: `${API_URL}`,
   transaction: `${API_URL}/transactions`,
-  variant: `${API_URL}/variants`,
+  probability: `${API_URL}/probabilities`,
   ingidient: `${API_URL}/components/ingredients`,
 };
 

@@ -1,5 +1,6 @@
 import { cakeForm } from "@/form/cake.form";
 import { calculateCOGS, getCake, getIngredients } from "@/service/api/cake.api";
+import { getSettings } from "@/service/api/setting.api";
 import { Cake, Ingredient } from "@/types/transaction"
 import { useState } from "react"
 
@@ -23,7 +24,14 @@ const useFormCake = () => {
     }
 
     const fetchProfitMargin = () => {
-
+        getSettings({
+            'key': 'profit_margin'
+        }).then((res) => {
+            setInput({
+                ...input,
+                'profitMargin': parseFloat(res.result[0].value)
+            });
+        });
     }
  
     const handleIngredientChange = (ingredient: Ingredient, quantity: number) => {
