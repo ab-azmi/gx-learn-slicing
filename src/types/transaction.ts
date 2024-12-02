@@ -56,12 +56,15 @@ export type CakeVariant = {
 export type Ingredient = {
     id: number;
     name?: string;
-    unit?: string;
+    unit?: {
+        id: number;
+        name: string;
+    };
     price?: number;
     expirationDate?: string;
     quantity: number;
     supplier?: string;
-    used? : {
+    pivot? : {
         quantity: number;
     }
 }

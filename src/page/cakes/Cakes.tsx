@@ -1,4 +1,4 @@
-import TableCake from "./components/CakeTable";
+import TableCake from "./components/TableCake";
 import useCakes from "./hooks/useCakes";
 
 const Cakes = () => {

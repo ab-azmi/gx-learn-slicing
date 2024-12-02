@@ -12,7 +12,8 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import { cakePath } from "@/path/cakes.path";
 import handleInput from "@/helpers/input.helper";
 import Select from "@/components/Select";
-import { getIngredients } from "@/service/api/cake.api";
+import { getCake } from "@/service/api/cake.api";
+import ModalTable from "@/components/ModalTable";
 
 type TableProps = {
   data?: Paginate<Cake>;
@@ -40,9 +41,17 @@ const TableCake = ({
   const navigate = useNavigate();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
-  const fetchIngredients = () => {
-    getIngredients().then((res) => {
-      setIngredients(res);
+  const ingredientColumns = [
+    { field: "name", title: "Name", type: "text" },
+    { field: "quantity", title: "Stock", type: "number" },
+    { field: "pivot.quantity", title: "Using", type: "number" },
+    { field: "price", title: "Price", type: "price" },
+    { field: "expirationDate", title: "Expire", type: "text" },
+  ];
+
+  const fetchIngredients = (cake: Cake) => {
+    getCake(cake.id!).then((res) => {
+      setIngredients(res.result.ingredients);
     });
   }
 
@@ -152,7 +161,7 @@ const TableCake = ({
           <button className="tab-link h-100 w-100"></button>
         </li>
       </ul>
-      
+
       <div className="tab-content" id="pills-tabContent">
         <div
           className="tab-pane fade show active py-2"
@@ -191,7 +200,14 @@ const TableCake = ({
                         </div>
                       </td>
                       <td>
-                        <Button size="sm">Show</Button>
+                        <ModalTable 
+                          title="Ingredients"
+                          columns={ingredientColumns}
+                          data={ingredients}>
+                          <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
+                            Show
+                          </Button>
+                        </ModalTable>
                       </td>
 
                       <td>

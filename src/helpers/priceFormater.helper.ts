@@ -1,4 +1,4 @@
-const priceFormater = (price: number|string|null): string => {
+const priceFormater = (price: number): string => {
     const options: Intl.NumberFormatOptions = {
         style: 'currency',
         currency: 'IDR',

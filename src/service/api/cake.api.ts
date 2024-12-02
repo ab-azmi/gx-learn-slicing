@@ -17,6 +17,8 @@ export const getCakes = (
     return endpointWrapper(`${API_ENDPOINTS.cake}?${params.toString()}`, "GET");
 };
 
+export const getCake = (id: number) => endpointWrapper(`${API_ENDPOINTS.cake}/${id}`, "GET");
+
 export const createCake = (data: Cake) => endpointWrapper(API_ENDPOINTS.cake, "POST", data);
 
 export const updateCake = (data: Cake) => endpointWrapper(`${API_ENDPOINTS.cake}/${data.id}`, "PATCH", data);
