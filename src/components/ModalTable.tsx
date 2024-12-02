@@ -3,7 +3,8 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import { PropsWithChildren } from "react";
 
 type Props<T> = {
-  title: string;
+  id?: string;
+  title?: string;
   data: T[];
   columns: {
     field: string;
@@ -14,6 +15,7 @@ type Props<T> = {
 }
 
 const ModalTable = <T, >({
+  id = "modalTable",
   data,
   title = "Modal",
   columns,
@@ -22,13 +24,13 @@ const ModalTable = <T, >({
 }: PropsWithChildren<Props<T>>) => {
   return (
     <>
-      <div data-bs-toggle="modal" data-bs-target="#ModalTable">
+      <div data-bs-toggle="modal" data-bs-target={`#${id}`}>
         {children}
       </div>
 
       <div
         className="modal fade"
-        id="ModalTable"
+        id={id}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex={-1}

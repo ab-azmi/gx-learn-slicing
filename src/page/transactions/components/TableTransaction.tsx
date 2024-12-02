@@ -13,6 +13,7 @@ import { getTransaction } from "@/service/api/transaction.api";
 import handleInput from "@/helpers/input.helper";
 import formatDate from "@/helpers/dateFormater.helper";
 import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 type TableProps = {
   data?: Paginate<Transaction>;
@@ -48,11 +49,11 @@ const TableTransaction = ({
   }
 
   const orderColumns = [
-    {field: 'cakeVariant.name', title: 'Name', type: 'text'},
-    {field: 'price', title: 'Price', type: 'price'},
-    {field: 'quantity', title: 'Quantity', type: 'text'},
-    {field: 'discount', title: 'Discount', type: 'price'},
-    {field: 'totalPrice', title: 'Total Price', type: 'price'},
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('discount', 'Discount', 'price'),
+    createColumn('totalPrice', 'Total Price', 'price')
   ];
 
   return (

@@ -2,7 +2,7 @@ import { Edit, Filter, Trash } from "iconsax-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
-import { Cake, Ingredient } from "@/types/transaction";
+import { Cake, CakeVariant, Ingredient } from "@/types/transaction";
 import { transactionPath } from "@/path/transaction.path";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -14,6 +14,7 @@ import handleInput from "@/helpers/input.helper";
 import Select from "@/components/Select";
 import { getCake } from "@/service/api/cake.api";
 import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 type TableProps = {
   data?: Paginate<Cake>;
@@ -40,18 +41,25 @@ const TableCake = ({
 }: TableProps) => {
   const navigate = useNavigate();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [variants, setVariants] = useState<CakeVariant[]>([]);
 
   const ingredientColumns = [
-    { field: "name", title: "Name", type: "text" },
-    { field: "quantity", title: "Stock", type: "number" },
-    { field: "pivot.quantity", title: "Using", type: "number" },
-    { field: "price", title: "Price", type: "price" },
-    { field: "expirationDate", title: "Expire", type: "text" },
+    createColumn("name", "Name"),
+    createColumn('quantity', 'Stock'),
+    createColumn('pivot.quantity', 'Using'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('expirationDate', 'Expire'),
   ];
+
+  const variantColumns = [
+    createColumn("name", "Name"),
+    createColumn('price', 'Additional Price', 'price'),
+  ]
 
   const fetchIngredients = (cake: Cake) => {
     getCake(cake.id!).then((res) => {
       setIngredients(res.result.ingredients);
+      setVariants(res.result.variants);
     });
   }
 
@@ -200,7 +208,7 @@ const TableCake = ({
                         </div>
                       </td>
                       <td>
-                        <ModalTable 
+                        <ModalTable
                           title="Ingredients"
                           columns={ingredientColumns}
                           data={ingredients}>
@@ -228,7 +236,15 @@ const TableCake = ({
 
                       <td>
                         <div>
-                          <Button size="sm">Show</Button>
+                          <ModalTable
+                            id="variantModal"
+                            title="Cake Variants"
+                            columns={variantColumns}
+                            data={variants}>
+                            <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
+                              Show
+                            </Button>
+                          </ModalTable>
                         </div>
                       </td>
 

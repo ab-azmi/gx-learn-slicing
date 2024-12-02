@@ -6,6 +6,7 @@ import Select from "@/components/Select";
 import useFormTransaction from "./hooks/useFormTransaction";
 import handleInput from "@/helpers/input.helper";
 import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 const Form = () => {
   const {
@@ -33,10 +34,10 @@ const Form = () => {
   }
 
   const orderColumns = [
-    {field: 'cakeVariant.name', title: 'Name', type: 'text'},
-    {field: 'price', title: 'Price', type: 'price'},
-    {field: 'quantity', title: 'Quantity', type: 'text'},
-    {field: 'totalPrice', title: 'Total Price', type: 'price'},
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('totalPrice', 'Total Price', 'price'),
   ];
 
   return (
