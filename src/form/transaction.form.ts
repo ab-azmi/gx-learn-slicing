@@ -13,3 +13,10 @@ export const transactionForm = {
     cakeVariantId: 0,
     orders: [],
   };
+
+  export const cakeVariantFilterForm = {
+    'search': '',
+    'cakeId': '',
+    'orderBy': '',
+    'orderType': '',
+};

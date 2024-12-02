@@ -1,17 +1,10 @@
-import { transactionForm } from "@/form/transaction.form";
+import { cakeVariantFilterForm, transactionForm } from "@/form/transaction.form";
 import { getCakes, getVariants } from "@/service/api/cake.api";
 import { createTransaction } from "@/service/api/transaction.api";
 import AuthStore from "@/store/AuthStore";
 import { Cake, CakeVariant, Transaction } from "@/types/transaction";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-const filterForm = {
-    'search': '',
-    'cakeId': '',
-    'orderBy': '',
-    'orderType': '',
-};
 
 const useFormTransaction = () => {
     const store = AuthStore();
@@ -25,7 +18,7 @@ const useFormTransaction = () => {
         'cakeId'?: string;
         'orderBy'?: string;
         'orderType'?: string;
-    }>(filterForm);
+    }>(cakeVariantFilterForm);
 
     useEffect(() => {
         setInput({
@@ -83,7 +76,7 @@ const useFormTransaction = () => {
     };
 
     const clearFilter = () => {
-        setFilters(filterForm);
+        setFilters(cakeVariantFilterForm);
         getVariants().then((res) => {
             setCakeVariants(res.result);
         });

@@ -23,8 +23,7 @@ export const getTransactions = (
             }
         }
     }
-
-    // Remove the trailing '&' if it exists
+    
     if (params.endsWith('&')) {
         params = params.slice(0, -1);
     }
