@@ -104,7 +104,7 @@ const TableCake = ({
           onChange={(e) => handleInput(e, setFilters, filters)}
           options={[
             { name: "name", value: 'name' },
-            { name: "price", value: 'price' },
+            { name: "price", value: 'sellingPrice' },
           ]}
         />
         <Select

@@ -1,4 +1,4 @@
-import { cakeForm } from "@/form/cake.form";
+import { cakeFilter, cakeForm } from "@/form/cake.form";
 import {
   calculateCOGS,
   getCakes,
@@ -11,7 +11,7 @@ const useCakes = () => {
   const [cakes, setCakes] = useState<Paginate<Cake>>();
   const [loading, setLoading] = useState<boolean>(false);
   const [input, setInput] = useState<Cake>(cakeForm);
-  const [filters, setFilters] = useState<{ [key: string]: string }>({});
+  const [filters, setFilters] = useState<{ [key: string]: string }>(cakeFilter);
 
   useEffect(() => {
     setLoading(true);
@@ -68,6 +68,21 @@ const useCakes = () => {
     });
   };
 
+  const fetchCakes = (page?: number) => {
+    setLoading(true);
+    getCakes(page, filters).then((res) => {
+      setCakes(res);
+      setLoading(false);
+    });
+  }
+
+  const clearFilter = () => {
+    setFilters(cakeFilter);
+    getCakes().then((res) => {
+      setCakes(res);
+    });
+  }
+
   return {
     cakes,
     loading,
@@ -75,8 +90,10 @@ const useCakes = () => {
     setInput,
     filters,
     setFilters,
+    clearFilter,
     clearInput,
     handleCOGS,
+    fetchCakes,
     handleIngridientChange,
   };
 };

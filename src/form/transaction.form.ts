@@ -1,8 +1,10 @@
-export const transactionForm = {
+import { Transaction } from "@/types/transaction";
+
+export const transactionForm: Transaction = {
     id: 0,
     quantity: 0,
     number: "",
-    tax: "",
+    tax: 0,
     orderPrice: 0,
     totalPrice: 0,
     totalDiscount: 0,
@@ -10,7 +12,6 @@ export const transactionForm = {
     createdAt: "",
     updatedAt: "",
     deletedAt: "",
-    cakeVariantId: 0,
     orders: [],
   };
 

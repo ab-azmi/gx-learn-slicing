@@ -3,15 +3,15 @@ import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (
     page?: number,
-    search?: string,
     filters?: { [key: string]: string }
 ) => {
     const params = new URLSearchParams();
     if (page !== undefined) params.append('page', page.toString());
-    if (search !== undefined) params.append('search', search);
     if (filters !== undefined) {
         for (const key in filters) {
-            params.append(key, filters[key]);
+            if (filters[key] !== '') {
+                params.append(key, filters[key]);
+            }
         }
     }
     return endpointWrapper(`${API_ENDPOINTS.cake}?${params.toString()}`, "GET");
@@ -26,11 +26,11 @@ export const updateCake = (data: Cake) => endpointWrapper(`${API_ENDPOINTS.cake}
 export const deleteCake = (id: number) => endpointWrapper(`${API_ENDPOINTS.cake}/${id}`, "DELETE");
 
 
-export const getVariants = (filters? : {[key: string]:string}) => {
+export const getVariants = (filters?: { [key: string]: string }) => {
     const params = new URLSearchParams();
     if (filters !== undefined) {
         for (const key in filters) {
-            if(filters[key] !== ''){
+            if (filters[key] !== '') {
                 params.append(key, filters[key]);
             }
         }

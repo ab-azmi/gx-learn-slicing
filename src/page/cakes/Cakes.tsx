@@ -2,7 +2,7 @@ import TableCake from "./components/TableCake";
 import useCakes from "./hooks/useCakes";
 
 const Cakes = () => {
-  const { cakes, filters, setFilters, loading } = useCakes();
+  const { cakes, filters, setFilters, loading, fetchCakes, clearFilter } = useCakes();
 
   return (
     <div className="p-4">
@@ -10,12 +10,12 @@ const Cakes = () => {
         data={cakes}
         columns={5}
         onDelete={() => {}}
-        onChangePage={() => {}}
+        onChangePage={(page) => fetchCakes(page)}
         loading={loading}
         filters={filters}
         setFilters={setFilters}
-        onFilter={() => {}}
-        onClearFilter={() => {}}
+        onFilter={() => fetchCakes()}
+        onClearFilter={() => clearFilter()}
       />
     </div>
   );
