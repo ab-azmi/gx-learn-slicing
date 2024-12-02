@@ -15,6 +15,7 @@ const Form = () => {
     ingredients,
     clearInput,
     fetchCOGS,
+    fetchCake,
     handleSubmit,
     defaultMargin,
     fetchIngredients,
@@ -29,7 +30,7 @@ const Form = () => {
     fetchProfitMargin();
 
     if(state) {
-      console.log(state);
+      fetchCake(state.id);
     }
   }, [])
 
@@ -37,7 +38,9 @@ const Form = () => {
     <div className="p-4">
       <Button onClick={() => navigate(cakePath.index)}>Back</Button>
       <h3 className="mt-3">
-        Form <span className="fw-bold">Create</span>
+        Form <span className="fw-bold">
+          {state ? "Edit" : "Create"}
+        </span>
       </h3>
       <div className="row">
         <div className="col-md-6">
@@ -117,7 +120,7 @@ const Form = () => {
                 label="Stock"
                 placeholder="3"
                 name="stock"
-                value={input.stock.toString()}
+                value={input.stock?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
@@ -126,7 +129,7 @@ const Form = () => {
                 label="Cost of Goods Sold (COGS)"
                 placeholder=""
                 name="COGS"
-                value={input.COGS.toString()}
+                value={input.COGS?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
@@ -135,7 +138,7 @@ const Form = () => {
                 label="Selling Price"
                 placeholder=""
                 name="sellingPrice"
-                value={input.sellingPrice.toString()}
+                value={input.sellingPrice?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 

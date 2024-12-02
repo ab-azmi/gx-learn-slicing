@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import useLogout from "@/hooks/useLogout";
 import { Paginate } from "@/types/wraper";
 import { toast } from "react-toastify";
 import {
@@ -10,7 +9,6 @@ import { Transaction } from "@/types/transaction";
 import { transactionForm } from "@/form/transaction.form";
 
 const useTransaction = () => {
-  const { signout } = useLogout();
 
   const [transactions, setTransactions] = useState<Paginate<Transaction>>();
   const backupTransactions = useRef<Paginate<Transaction>>();
@@ -36,25 +34,12 @@ const useTransaction = () => {
 
   const handleDelete = (item: Transaction) => {
     const id = toast.loading("Deleting...");
+   
     deleteTransaction(item.id!)
       .then(() => {
         toast.update(id, {
           render: "Deleted",
           type: "success",
-          isLoading: false,
-          autoClose: 2000,
-        });
-      })
-      .catch((err) => {
-        if (err.message === "Unauthorized") {
-          alert("Unauthorized");
-          signout();
-          return;
-        }
-
-        toast.update(id, {
-          render: "Failed to delete",
-          type: "error",
           isLoading: false,
           autoClose: 2000,
         });

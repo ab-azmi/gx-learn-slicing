@@ -6,6 +6,7 @@ import {
 import { Cake } from "@/types/transaction";
 import { Paginate } from "@/types/wraper";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const useCakes = () => {
   const [cakes, setCakes] = useState<Paginate<Cake>>();
@@ -37,10 +38,19 @@ const useCakes = () => {
   }
 
   const handleDelete = (id: number) => {
+    const notify = toast.loading("Deleting...");
     setLoading(true);
+
     deleteCake(id).then(() => {
       fetchCakes();
+
       setLoading(false);
+      toast.update(notify, {
+        render: "Deleted",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
     });
   };
 

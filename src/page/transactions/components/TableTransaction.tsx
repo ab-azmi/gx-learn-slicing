@@ -1,6 +1,6 @@
 import { Filter, Trash } from "iconsax-react";
 import TablePagination from "@/components/TablePagination";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import Input from "@/components/Input";
 import DatePicker from "@/components/DatePicker";
 import Button from "@/components/Button";
@@ -39,6 +39,8 @@ const TableTransaction = ({
   onChangePage,
 }: TableProps) => {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const selected = useRef<Transaction | null>(null);
 
   const fetchOrders = (item: Transaction) => {
     getTransaction(item.id!).then((res) => {
@@ -246,21 +248,16 @@ const TableTransaction = ({
                           Receipt
                         </Button>
                         <div className="d-flex gap-1 mt-3">
-                          {onDelete && (
-                            <ModalConfirm
-                              title="Delete Confirm"
-                              message="This cannot be undone!"
-                              show
-                              onConfirm={() => onDelete(item)}
-                            >
-                              <button
-                                type="button"
-                                className="btn btn-sm text-danger"
-                              >
-                                <Trash size="24" variant="Bulk" />
-                              </button>
-                            </ModalConfirm>
-                          )}
+                          <button
+                            type="button"
+                            className="btn btn-sm text-danger"
+                            onClick={() => {
+                              selected.current = item;
+                              setShowModal(true);
+                            }}
+                          >
+                            <Trash size="24" variant="Bulk" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -297,6 +294,19 @@ const TableTransaction = ({
           dignissimos temporibus?
         </div>
       </div>
+
+      <ModalConfirm
+        title="Delete Confirm"
+        message="This cannot be undone!"
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => {
+          if (selected.current && onDelete) {
+            onDelete?.(selected.current);
+          }
+          setShowModal(false);
+        }}
+      />
     </div>
   );
 };
