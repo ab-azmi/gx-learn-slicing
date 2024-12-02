@@ -53,11 +53,11 @@ export type CakeVariant = {
     cake?: Cake;
 }
 
-export type Ingridient = {
+export type Ingredient = {
     id: number;
     name?: string;
     unit?: string;
-    pricePerUnit?: number;
+    price?: number;
     expirationDate?: string;
     quantity: number;
     supplier?: string;
@@ -69,10 +69,10 @@ export type Ingridient = {
 export type Cake = {
     id?: number;
     name: string;
-    profitMargin: string;
+    profitMargin: number;
     cogs: number;
     sellingPrice: number;
     images: string;
     stock: number;
-    ingridients?: Ingridient[];
+    ingridients?: Ingredient[];
 }

@@ -2,7 +2,7 @@ import TableCake from "./components/CakeTable";
 import useCakes from "./hooks/useCakes";
 
 const Cakes = () => {
-  const { cakes } = useCakes();
+  const { cakes, filters, setFilters, loading } = useCakes();
 
   return (
     <div className="p-4">
@@ -11,21 +11,11 @@ const Cakes = () => {
         columns={5}
         onDelete={() => {}}
         onChangePage={() => {}}
-        loading={false}
-        onSearch={() => {}}
+        loading={loading}
+        filters={filters}
+        setFilters={setFilters}
         onFilter={() => {}}
         onClearFilter={() => {}}
-        filter={[
-          {
-            name: "status",
-            options: [
-              { id: 2, name: "scheduled" },
-              { id: 3, name: "junk" },
-              { id: 1, name: "consideration" },
-            ],
-            onSelect: () => {},
-          },
-        ]}
       />
     </div>
   );

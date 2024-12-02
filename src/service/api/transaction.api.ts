@@ -5,7 +5,6 @@ export const getTransactions = (
     page?: number,
     filters?: { [key: string]: string }
 ) => {
-    console.log(filters);
     let params = '';
 
     if (page !== undefined) {

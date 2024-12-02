@@ -28,7 +28,7 @@ export const API_ENDPOINTS = {
   cake: `${API_URL}/`,
   transaction: `${API_URL}/transactions`,
   variant: `${API_URL}/variants`,
-  ingidient: `${API_URL}/ingridients`,
+  ingidient: `${API_URL}/components/ingredients`,
 };
 
 

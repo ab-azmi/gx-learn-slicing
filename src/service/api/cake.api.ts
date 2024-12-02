@@ -38,11 +38,10 @@ export const getVariants = (filters? : {[key: string]:string}) => {
 };
 
 
-export const getIngridients = () => endpointWrapper(API_ENDPOINTS.ingidient, "GET");
+export const getIngredients = () => endpointWrapper(API_ENDPOINTS.ingidient, "GET");
 
 export const calculateCOGS = (data: {
-    volume: number;
-    margin: string;
+    margin?: number;
     ingridients: {
         id: number;
         quantity: number;
