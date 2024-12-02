@@ -54,7 +54,7 @@ export type CakeVariant = {
 }
 
 export type Ingredient = {
-    id: number;
+    id?: number;
     name?: string;
     unit?: {
         id: number;
@@ -77,5 +77,5 @@ export type Cake = {
     sellingPrice: number;
     images: string;
     stock: number;
-    ingridients?: Ingredient[];
+    ingredients?: Ingredient[];
 }

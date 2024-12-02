@@ -6,7 +6,7 @@ export const cakeForm: Cake =  {
   cogs: 0,
   sellingPrice: 0,
   images: "",
-  ingridients: [],
+  ingredients: [],
   stock: 0,
 };
 

@@ -187,7 +187,6 @@ const TableCake = ({
                   <th>Profit Margin</th>
                   <th>Base Price</th>
                   <th>Variants</th>
-                  <th>Created</th>
                   <th></th>
                 </tr>
               </thead>

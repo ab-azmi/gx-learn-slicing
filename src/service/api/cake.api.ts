@@ -1,4 +1,4 @@
-import { Cake } from "@/types/transaction";
+import { Cake, Ingredient } from "@/types/transaction";
 import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (
@@ -44,8 +44,5 @@ export const getIngredients = () => endpointWrapper(API_ENDPOINTS.ingidient, "GE
 
 export const calculateCOGS = (data: {
     margin?: number;
-    ingridients: {
-        id: number;
-        quantity: number;
-    }[];
+    ingredients: Ingredient[];
 }) => endpointWrapper(`${API_ENDPOINTS.cake}/cogs`, "POST", data);
