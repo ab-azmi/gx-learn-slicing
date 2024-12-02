@@ -62,7 +62,7 @@ const ModalTable = <T, >({
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length <= 0 ? (
+                  {!data || data?.length <= 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center">
                         No Data

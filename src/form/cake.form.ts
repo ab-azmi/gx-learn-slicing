@@ -3,9 +3,9 @@ import { Cake } from "@/types/transaction";
 export const cakeForm: Cake =  {
   name: "",
   profitMargin: 0,
-  cogs: 0,
+  COGS: 0,
   sellingPrice: 0,
-  images: "",
+  images: [],
   ingredients: [],
   stock: 0,
 };

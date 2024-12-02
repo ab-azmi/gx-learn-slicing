@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { cakePath } from "@/path/cakes.path";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import priceFormater from "@/helpers/priceFormater.helper";
 import useFormCake from "./hooks/useFormCake";
 import handleInput from "@/helpers/input.helper";
@@ -16,15 +16,21 @@ const Form = () => {
     clearInput,
     fetchCOGS,
     handleSubmit,
+    defaultMargin,
     fetchIngredients,
     fetchProfitMargin,
     handleIngredientChange } = useFormCake();
 
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   useEffect(() => {
     fetchIngredients();
     fetchProfitMargin();
+
+    if(state) {
+      console.log(state);
+    }
   }, [])
 
   return (
@@ -38,10 +44,10 @@ const Form = () => {
           <div className="bg-secondary mt-3 rounded-2 p-3">
             <Input
               type="string"
-              label="Profit Margin Percentage"
-              placeholder="5"
+              label={`Profit Margin (default ${defaultMargin}%)`}
+              placeholder="0"
               name="profitMargin"
-              value={input.profitMargin.toString()}
+              value={''}
               onChange={(e) => handleInput(e, setInput, input)}
             />
 
@@ -119,8 +125,8 @@ const Form = () => {
                 type="string"
                 label="Cost of Goods Sold (COGS)"
                 placeholder=""
-                name="cogs"
-                value={input.cogs.toString()}
+                name="COGS"
+                value={input.COGS.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 

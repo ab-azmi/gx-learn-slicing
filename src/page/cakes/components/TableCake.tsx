@@ -3,7 +3,6 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
 import { Cake, CakeVariant, Ingredient } from "@/types/transaction";
-import { transactionPath } from "@/path/transaction.path";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import ModalConfirm from "@/components/ModalConfirm";
@@ -22,7 +21,7 @@ type TableProps = {
   loading?: boolean;
   filters: { [key: string]: string };
   setFilters: Dispatch<SetStateAction<{ [key: string]: string; }>>;
-  onDelete?: (item: Cake) => void;
+  onDelete?: (id: number) => void;
   onFilter: () => void;
   onClearFilter: () => void;
   onChangePage: (page?: number) => void;
@@ -57,6 +56,7 @@ const TableCake = ({
   ]
 
   const fetchIngredients = (cake: Cake) => {
+    console.log(cake);
     getCake(cake.id!).then((res) => {
       setIngredients(res.result.ingredients);
       setVariants(res.result.variants);
@@ -192,8 +192,8 @@ const TableCake = ({
               </thead>
               <tbody>
                 {data?.result?.length ? (
-                  data?.result.map((item, index) => (
-                    <tr key={index}>
+                  data?.result.map((item) => (
+                    <tr key={item.id}>
                       <td>
                         <div className="mt-3">
                           <p className="text-capitalize">
@@ -253,7 +253,7 @@ const TableCake = ({
                             type="button"
                             className="btn btn-sm text-muted"
                             onClick={() =>
-                              navigate(transactionPath.form, { state: item })
+                              navigate(cakePath.form, { state: item })
                             }
                           >
                             <Edit size="24" variant="Bulk" />
@@ -263,8 +263,7 @@ const TableCake = ({
                             <ModalConfirm
                               title="Delete Confirm"
                               message="This cannot be undone!"
-                              show
-                              onConfirm={() => onDelete(item)}
+                              onConfirm={() => console.log(item)}
                             >
                               <button
                                 type="button"

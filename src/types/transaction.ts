@@ -73,9 +73,9 @@ export type Cake = {
     id?: number;
     name: string;
     profitMargin: number;
-    cogs: number;
+    COGS: number;
     sellingPrice: number;
-    images: string;
     stock: number;
     ingredients?: Ingredient[];
+    images?: [];
 }

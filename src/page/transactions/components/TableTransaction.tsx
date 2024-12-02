@@ -1,4 +1,4 @@
-import { Trash } from "iconsax-react";
+import { Filter, Trash } from "iconsax-react";
 import TablePagination from "@/components/TablePagination";
 import { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/components/Input";
@@ -97,6 +97,9 @@ const TableTransaction = ({
           disabled={loading}
         >
           {loading ? "Loading..." : "Search"}
+        </button>
+        <button className="btn px-0">
+          <Filter size="24" />
         </button>
         <button
           type="button"

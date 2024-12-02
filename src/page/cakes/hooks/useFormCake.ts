@@ -1,5 +1,5 @@
 import { cakeForm } from "@/form/cake.form";
-import { calculateCOGS, getCake, getIngredients } from "@/service/api/cake.api";
+import { calculateCOGS, createCake, getCake, getIngredients } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
 import { Cake, Ingredient } from "@/types/transaction"
 import { useState } from "react"
@@ -8,6 +8,7 @@ const useFormCake = () => {
     const [loading, setLoading] = useState(false);
     const [input, setInput] = useState<Cake>(cakeForm);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [defaultMargin, setDefaultMargin] = useState(0);
 
     const fetchIngredients = () => {
         setLoading(true);
@@ -27,10 +28,7 @@ const useFormCake = () => {
         getSettings({
             'key': 'profit_margin'
         }).then((res) => {
-            setInput({
-                ...input,
-                'profitMargin': parseFloat(res.result[0].value)
-            });
+            setDefaultMargin(res.result.value);
         });
     }
  
@@ -66,7 +64,7 @@ const useFormCake = () => {
         }).then((res) => {
             setInput({
                 ...input,
-                'cogs': res.result.COGS,
+                'COGS': res.result.COGS,
                 'sellingPrice': res.result.sellingPrice
             });
         })
@@ -76,8 +74,14 @@ const useFormCake = () => {
         setInput(cakeForm);
     }
 
-    const handleSubmit = () => {
-        console.log(input);
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        setLoading(true);
+        createCake(input).then(() => {
+            clearInput();
+            setLoading(false);
+        });
     }
 
     return {
@@ -85,6 +89,7 @@ const useFormCake = () => {
         input,
         loading,
         setInput,
+        defaultMargin,
         fetchCOGS,
         fetchCake,
         clearInput,
