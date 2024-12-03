@@ -43,6 +43,10 @@ const Form = () => {
     createColumn('totalPrice', 'Total Price', 'price'),
   ];
 
+  const getQuantity = (variantId: number) => input.orders?.find(
+    (order) => order.cakeVariantId === variantId
+  )?.quantity;
+
   return (
     <div className="h-100 p-4 position-relative">
       <h3 className="mt-3">Transaction</h3>
@@ -116,9 +120,7 @@ const Form = () => {
                   Stock : {variant.cake?.stock}
                 </span>
                 <div className="d-flex gap-2 align-items-center">
-                  {input.orders?.find(
-                    (order) => order.cakeVariantId === variant.id
-                  )?.quantity && (
+                  {getQuantity(variant.id) && getQuantity(variant.id) != 0 ? (
                       <>
                         <Button
                           disabled={variant.cake?.stock === 0}
@@ -127,12 +129,10 @@ const Form = () => {
                           <Minus />
                         </Button>
                         <h6>
-                          {input.orders?.find(
-                            (order) => order.cakeVariantId === variant.id
-                          )?.quantity}
+                          {getQuantity(variant.id)}
                         </h6>
                       </>
-                    )}
+                    ) : null}
                   <Button
                     disabled={variant.cake?.stock === 0}
                     size="sm"
@@ -160,7 +160,7 @@ const Form = () => {
         </div>
       </div>
 
-      <div className="modal fade"
+      <section className="modal fade"
         id="receiptModal"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -254,7 +254,7 @@ const Form = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <ModalTable 
         show={showCart}

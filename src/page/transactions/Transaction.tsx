@@ -39,12 +39,12 @@ const Transaction = () => {
         {bento.map((item, index) => (
           <React.Fragment key={index}>
             {loading ? (
-              <div className="w-100 bg-secondary rounded-2 p-3">
+              <div className="w-100 card-secondary">
                 <div className="bg-muted rounded-2 w-20" style={{ height: '10px' }}></div>
                 <div className="bg-muted rounded-2 w-100 mt-4" style={{ height: '8px' }}></div>
               </div>
             ) : (
-              <div className="w-100 bg-secondary rounded-2 p-3">
+              <div className="w-100 card-secondary">
                 <h3 className="fw-bold">{item.value}</h3>
                 <h6>
                   {item.label} &nbsp;

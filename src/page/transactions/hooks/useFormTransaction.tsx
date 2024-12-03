@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const useFormTransaction = () => {
     const store = AuthStore();
     const [cakes, setCakes] = useState<Cake[]>([]);
-    const [receipt, setReceipt] = useState<Transaction|null>(null);
+    const [receipt, setReceipt] = useState<Transaction | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
     const [input, setInput] = useState<Transaction>(transactionForm);
@@ -46,16 +46,20 @@ const useFormTransaction = () => {
         if (orderExist) {
             const price = variant.price + (variant.cake?.sellingPrice || 0);
 
-            newOrders = newOrders.map((order) =>
-                order.cakeVariantId === variant.id ?
-                    {
-                        ...order,
-                        'quantity': order.quantity + quantity,
-                        'price': price,
-                        'totalPrice': price * (order.quantity + quantity)
-                    }
-                    : order
-            );
+            if (orderExist.quantity + quantity <= 0) {
+                newOrders = newOrders.filter((order) => order.cakeVariantId !== variant.id);
+            } else {
+                newOrders = newOrders.map((order) =>
+                    order.cakeVariantId === variant.id ?
+                        {
+                            ...order,
+                            'quantity': order.quantity + quantity,
+                            'price': price,
+                            'totalPrice': price * (order.quantity + quantity)
+                        }
+                        : order
+                );
+            }
         } else {
             const price = variant.price + (variant.cake?.sellingPrice || 0);
 
