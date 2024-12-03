@@ -1,5 +1,11 @@
+.card-secondary {
+  margin-top: 1rem;
+  border-radius: .5rem;
+  padding: 1.8rem;
+  @extend .bg-secondary;
+}
+
 .custom-tab {
-  // border-bottom: 2px solid rgb(241, 241, 241);
   color: black;
 
   .tab-link {

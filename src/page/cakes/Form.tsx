@@ -35,16 +35,18 @@ const Form = () => {
   }, [])
 
   return (
-    <div className="p-4">
+    <section className="p-4">
       <Button onClick={() => navigate(cakePath.index)}>Back</Button>
+      
       <h3 className="mt-3">
         Form <span className="fw-bold">
           {state ? "Edit" : "Create"}
         </span>
       </h3>
+
       <div className="row">
         <div className="col-md-6">
-          <div className="bg-secondary mt-3 rounded-2 p-3">
+          <div className="card-secondary">
             <Input
               type="string"
               label={`Profit Margin (default ${defaultMargin}%)`}
@@ -86,7 +88,8 @@ const Form = () => {
                 ))}
               </tbody>
             </table>
-            <div className="mt-2 d-flex justify-content-end gap-3">
+
+            <div className="mt-2 hstack justify-content-end gap-3">
               <Button
                 type="button"
                 disabled={loading}
@@ -103,8 +106,8 @@ const Form = () => {
         </div>
 
         <div className="col-md-6">
-          <div className="bg-secondary mt-3 rounded-2 p-3">
-            <form onSubmit={handleSubmit} className="d-flex flex-column gap-2">
+          <div className="card-secondary">
+            <form onSubmit={handleSubmit} className="vstack gap-2">
               <Input
                 type="text"
                 label="Cake Name"
@@ -142,7 +145,7 @@ const Form = () => {
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
-              <div className="mt-2 d-flex justify-content-end gap-3">
+              <div className="mt-2 hstack justify-content-end gap-3">
                 <Button
                   type="button"
                   disabled={loading}
@@ -159,7 +162,7 @@ const Form = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
