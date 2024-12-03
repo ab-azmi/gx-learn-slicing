@@ -23,7 +23,7 @@ const getNestedValue = (obj: any, path: string): any => {
 };
 
 type TableFilter = {
-  options: Array<{ id: number; name: string; created_at?: string }>;
+  options: Array<{ value: number; name: string; created_at?: string }>;
   name: string;
   onSelect: (name: string, value: string) => void;
 };
@@ -148,7 +148,7 @@ const TableLeads = ({
                 value={filterValue[idx].value.toString()}
               />
             ))}
-            <DatePicker />
+            <DatePicker onChange={() => { }} />
             <button
               type="submit"
               className="btn btn-primary"
@@ -224,8 +224,8 @@ const TableLeads = ({
                 </tr>
               </thead>
               <tbody>
-                {data?.data?.length ? (
-                  data?.data.map((item, index) => (
+                {data?.result?.length ? (
+                  data?.result.map((item, index) => (
                     <tr key={index}>
                       <td>
                         {/* DONE : Reusable style */}
@@ -263,13 +263,12 @@ const TableLeads = ({
                         <span
                           className={clsx(
                             "badge fs-6 text-capitalize fw-normal",
-                            `bg-${
-                              statuses[
-                                getNestedValue(
-                                  item,
-                                  "status.name"
-                                ) as keyof typeof statuses
-                              ]
+                            `bg-${statuses[
+                            getNestedValue(
+                              item,
+                              "status.name"
+                            ) as keyof typeof statuses
+                            ]
                             }`
                           )}
                         >
@@ -280,13 +279,12 @@ const TableLeads = ({
                           <span
                             className={clsx(
                               "text-uppercase fw-semibold text-decoration-underline",
-                              `text-${
-                                statuses[
-                                  getNestedValue(
-                                    item,
-                                    "probability.name"
-                                  ) as keyof typeof statuses
-                                ]
+                              `text-${statuses[
+                              getNestedValue(
+                                item,
+                                "probability.name"
+                              ) as keyof typeof statuses
+                              ]
                               }`
                             )}
                           >
@@ -304,13 +302,12 @@ const TableLeads = ({
                             <span
                               className={clsx(
                                 "fs-6 badge text-capitalize fw-normal",
-                                `bg-${
-                                  statuses[
-                                    getNestedValue(
-                                      item,
-                                      "type.name"
-                                    ) as keyof typeof statuses
-                                  ]
+                                `bg-${statuses[
+                                getNestedValue(
+                                  item,
+                                  "type.name"
+                                ) as keyof typeof statuses
+                                ]
                                 }`
                               )}
                             >
@@ -357,30 +354,23 @@ const TableLeads = ({
                           Report
                         </Button>
                         <div className="d-flex gap-1 mt-3">
-                          
-                            <button
-                              type="button"
-                              className="btn btn-sm text-muted"
-                              onClick={() => navigate(leadPath.form, { state: item })}
-                            >
-                              <Edit size="24" variant="Bulk" />
-                            </button>
-                          
+
+                          <button
+                            type="button"
+                            className="btn btn-sm text-muted"
+                            onClick={() => navigate(leadPath.form, { state: item })}
+                          >
+                            <Edit size="24" variant="Bulk" />
+                          </button>
+
 
                           {onDelete && (
-                            <ModalConfirm
-                              title="Delete Confirm"
-                              message="This cannot be undone!"
-                              show
-                              onConfirm={() => onDelete(item)}
+                            <button
+                              type="button"
+                              className="btn btn-sm text-danger"
                             >
-                              <button
-                                type="button"
-                                className="btn btn-sm text-danger"
-                              >
-                                <Trash size="24" variant="Bulk" />
-                              </button>
-                            </ModalConfirm>
+                              <Trash size="24" variant="Bulk" />
+                            </button>
                           )}
                         </div>
                       </td>
@@ -398,11 +388,11 @@ const TableLeads = ({
             </table>
           </div>
           <div className="mt-2">
-            {data?.data?.length && (
+            {data?.result?.length && (
               <TablePagination
-                total={data.meta.total}
-                limit={data.meta.per_page}
-                page={data.meta.current_page}
+                total={data.pagination?.count || 0}
+                limit={data.pagination?.perPage || 0}
+                page={data.pagination?.currentPage || 0}
                 setPage={(page) => onChangePage(page)}
               />
             )}
@@ -419,6 +409,14 @@ const TableLeads = ({
           dignissimos temporibus?
         </div>
       </div>
+
+      <ModalConfirm
+        onClose={() => { }}
+        title="Delete Confirm"
+        message="This cannot be undone!"
+        show={false}
+        onConfirm={() => { }}
+      />
     </div>
   );
 };

@@ -2,7 +2,6 @@ import { Edit, Filter, Trash } from "iconsax-react";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
-import { Cake, CakeVariant, Ingredient } from "@/types/transaction.type";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import ModalConfirm from "@/components/ModalConfirm";
@@ -14,6 +13,7 @@ import Select from "@/components/Select";
 import { getCake } from "@/service/api/cake.api";
 import ModalTable from "@/components/ModalTable";
 import createColumn from "@/helpers/tableColumn.helper";
+import { Cake, CakeVariant, Ingredient } from "@/types/cake.type";
 
 type TableProps = {
   data?: Paginate<Cake>;

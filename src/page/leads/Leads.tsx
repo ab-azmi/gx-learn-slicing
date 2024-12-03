@@ -9,7 +9,6 @@ const Leads = () => {
   const {
     leads,
     loading,
-    probabilities,
     setSearch,
     handleDelete,
     handleFilter,
@@ -86,15 +85,15 @@ const Leads = () => {
         filter={[
           {
             name: "probability",
-            options: probabilities || [],
+            options:[],
             onSelect: handleFilter,
           },
           {
             name: "status",
             options: [
-              { id: 2, name: "scheduled" },
-              { id: 3, name: "junk" },
-              { id: 1, name: "consideration" },
+              { value: 2, name: "scheduled" },
+              { value: 3, name: "junk" },
+              { value: 1, name: "consideration" },
             ],
             onSelect: handleFilter,
           },

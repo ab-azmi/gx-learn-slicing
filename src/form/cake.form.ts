@@ -1,4 +1,4 @@
-import { Cake } from "@/types/transaction.type";
+import { Cake } from "@/types/cake.type";
 
 export const cakeForm: Cake =  {
   name: "",

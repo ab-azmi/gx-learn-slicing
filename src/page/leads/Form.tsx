@@ -10,7 +10,6 @@ const Form = () => {
   const {
     input,
     handleInput,
-    probabilities,
     handleSelect,
     setInput,
     handleCreate,
@@ -86,7 +85,7 @@ const Form = () => {
             onChange={handleInput}
           />
           <Select
-            options={probabilities || []}
+            options={[]}
             label="Probability"
             placeholder="probability"
             name="lead_probability_id"
