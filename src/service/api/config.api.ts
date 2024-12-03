@@ -21,14 +21,16 @@ export const getHeaders = () => {
 }
 
 export const API_ENDPOINTS = {
+  cake: `${API_URL}`,
+  lead: `${API_URL}/leads`,
+  variant: `${API_URL}/variants`,
+  setting: `${API_URL}/settings`,
   login: `${API_URL}/auth/login`,
   logout: `${API_URL}/auth/logout`,
-  lead: `${API_URL}/leads`,
-  probability: `${API_URL}/probabilities`,
-  cake: `${API_URL}/`,
+  refresh: `${API_URL}/auth/refresh`,
   transaction: `${API_URL}/transactions`,
-  variant: `${API_URL}/variants`,
-  ingidient: `${API_URL}/ingridients`,
+  probability: `${API_URL}/probabilities`,
+  ingidient: `${API_URL}/components/ingredients`,
 };
 
 
@@ -48,7 +50,11 @@ export const endpointWrapper = async (
       return response.json();
     } else {
       if (response.status === 401) {
-        throw new Error("Invalid token or token expired");
+        history.pushState({}, "", "/auth/login");
+        window.location.reload();
+
+        throw new Error("Unauthorized");
+
       }
       throw new Error("An error occured");
     }

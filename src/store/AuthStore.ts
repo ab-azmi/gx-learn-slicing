@@ -1,4 +1,4 @@
-import { User } from '@/types/transaction';
+import { User } from '@/types/transaction.type';
 import {create} from 'zustand';
 import { persist } from 'zustand/middleware';
 

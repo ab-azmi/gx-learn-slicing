@@ -1,93 +1,55 @@
+import { cakeFilter } from "@/form/cake.form";
 import {
-  calculateCOGS,
+  deleteCake,
   getCakes,
-  getIngridients,
 } from "@/service/api/cake.api";
-import { Cake, Ingridient } from "@/types/transaction";
+import { Cake } from "@/types/cake.type";
 import { Paginate } from "@/types/wraper";
 import { useEffect, useState } from "react";
-
-const formInitial = {
-  name: "",
-  profitMargin: "",
-  cogs: 0,
-  sellPrice: 0,
-  images: "",
-  stock: 0,
-  cakeVariantId: 0,
-  ingridients: [],
-  volume: 0,
-};
+import { toast } from "react-toastify";
 
 const useCakes = () => {
   const [cakes, setCakes] = useState<Paginate<Cake>>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [input, setInput] = useState<Cake>(formInitial);
-  const [ingridients, setIngridients] = useState<Ingridient[]>([]);
+  const [filters, setFilters] = useState<{ [key: string]: string }>(cakeFilter);
 
   useEffect(() => {
     setLoading(true);
+
     getCakes().then((res) => {
       setLoading(false);
       setCakes(res);
     });
-
-    getIngridients().then((res) => {
-      setIngridients(res.result);
-    });
   }, []);
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
+  const fetchCakes = (page?: number) => {
+    setLoading(true);
+    getCakes(page, filters).then((res) => {
+      setCakes(res);
+      setLoading(false);
     });
-  };
+  }
 
-  const clearInput = () => {
-    setInput(formInitial);
-  };
-
-  const handleIngridientChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const { name, value } = e.target;
-    const orderExist = input.ingridients?.find((ing) => ing.id === id);
-    let newOrders = [...(input.ingridients || [])];
-
-    if (orderExist) {
-      newOrders = newOrders.map((ing) =>
-        ing.id === id ? { ...ing, [name]: value } : ing
-      );
-    } else {
-      newOrders.push({
-        id: id,
-        quantity: parseInt(value),
-      });
-    }
-
-    setInput({
-      ...input,
-      ingridients: newOrders,
+  const clearFilter = () => {
+    setFilters(cakeFilter);
+    getCakes().then((res) => {
+      setCakes(res);
     });
-  };
+  }
 
-  const handleCOGS = () => {
-    calculateCOGS({
-      volume: input.volume!,
-      margin: input.profitMargin,
-      ingridients: input.ingridients!.map((ing) => ({
-        id: ing.id,
-        quantity: ing.quantity,
-      })),
-    }).then((res) => {
-      console.log(res);
-      setInput({
-        ...input,
-        cogs: res.result.cogs,
-        sellPrice: res.result.sellPrice,
+  const handleDelete = (id: number) => {
+    const notify = toast.loading("Deleting...");
+    setLoading(true);
+
+    deleteCake(id).then(() => {
+      fetchCakes();
+
+      setLoading(false);
+      toast.update(notify, {
+        render: "Deleted",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
       });
     });
   };
@@ -95,13 +57,11 @@ const useCakes = () => {
   return {
     cakes,
     loading,
-    input,
-    setInput,
-    ingridients,
-    clearInput,
-    handleInput,
-    handleCOGS,
-    handleIngridientChange,
+    filters,
+    setFilters,
+    clearFilter,
+    fetchCakes,
+    handleDelete,
   };
 };
 

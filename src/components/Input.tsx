@@ -10,6 +10,7 @@ type Props = {
   name: string;
   required?: boolean;
   errors?: string;
+  autocomplete?: string;
 };
 const Input = ({
   value,
@@ -20,6 +21,7 @@ const Input = ({
   type,
   name,
   errors,
+  autocomplete = "on",
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,6 +35,7 @@ const Input = ({
       )}
       <div className="position-relative">
         <input
+          autoComplete={autocomplete}
           value={value}
           onChange={onChange}
           type={type === "password" && showPassword ? "text" : type}

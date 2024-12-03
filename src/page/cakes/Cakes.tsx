@@ -1,31 +1,28 @@
-import TableCake from "./components/CakeTable";
+import TableCake from "./components/TableCake";
 import useCakes from "./hooks/useCakes";
 
 const Cakes = () => {
-  const { cakes } = useCakes();
+  const { 
+    cakes, 
+    filters, 
+    setFilters, 
+    loading, 
+    fetchCakes,
+    handleDelete, 
+    clearFilter } = useCakes();
 
   return (
     <div className="p-4">
       <TableCake
         data={cakes}
         columns={5}
-        onDelete={() => {}}
-        onChangePage={() => {}}
-        loading={false}
-        onSearch={() => {}}
-        onFilter={() => {}}
-        onClearFilter={() => {}}
-        filter={[
-          {
-            name: "status",
-            options: [
-              { id: 2, name: "scheduled" },
-              { id: 3, name: "junk" },
-              { id: 1, name: "consideration" },
-            ],
-            onSelect: () => {},
-          },
-        ]}
+        onDelete={(id) => handleDelete(id)}
+        onChangePage={(page) => fetchCakes(page)}
+        loading={loading}
+        filters={filters}
+        setFilters={setFilters}
+        onFilter={() => fetchCakes()}
+        onClearFilter={() => clearFilter()}
       />
     </div>
   );

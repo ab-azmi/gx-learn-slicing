@@ -1,11 +1,10 @@
 import { API_ENDPOINTS, endpointWrapper } from "@/service/api/config.api";
-import { Transaction } from "@/types/transaction";
+import { Transaction } from "@/types/transaction.type";
 
 export const getTransactions = (
     page?: number,
     filters?: { [key: string]: string }
 ) => {
-    console.log(filters);
     let params = '';
 
     if (page !== undefined) {
@@ -23,8 +22,7 @@ export const getTransactions = (
             }
         }
     }
-
-    // Remove the trailing '&' if it exists
+    
     if (params.endsWith('&')) {
         params = params.slice(0, -1);
     }

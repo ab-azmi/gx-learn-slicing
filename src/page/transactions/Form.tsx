@@ -3,9 +3,11 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import { Add, Minus, ShoppingCart } from "iconsax-react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import OrderModal from "./components/OrderModal";
 import useFormTransaction from "./hooks/useFormTransaction";
 import handleInput from "@/helpers/input.helper";
+import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
+import { useState } from "react";
 
 const Form = () => {
   const {
@@ -22,6 +24,8 @@ const Form = () => {
     handleOrderChange
   } = useFormTransaction();
 
+  const [showCart, setShowCart] = useState(false);
+
   const cakesOptions = cakes?.map((cake) => ({
     name: cake.name,
     value: cake.id!,
@@ -32,11 +36,22 @@ const Form = () => {
     fetchVariants();
   }
 
+  const orderColumns = [
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('totalPrice', 'Total Price', 'price'),
+  ];
+
+  const getQuantity = (variantId: number) => input.orders?.find(
+    (order) => order.cakeVariantId === variantId
+  )?.quantity;
+
   return (
     <div className="h-100 p-4 position-relative">
       <h3 className="mt-3">Transaction</h3>
 
-      <div className="d-flex gap-3 justify-content-between flex-wrap">
+      <section id="filter" className="flex-between gap-3 flex-wrap">
         <form onSubmit={handleFilter} className="d-flex gap-3 flex-wrap">
           <Input
             placeholder="Search"
@@ -79,37 +94,33 @@ const Form = () => {
             Clear
           </Button>
         </form>
-        <OrderModal orders={input.orders} onClear={clearInput}>
-          <Button type="button" className="position-relative">
-            <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
-              {input.orders?.length}
-            </span>
-            <ShoppingCart variant="Outline" />
-          </Button>
-        </OrderModal>
-      </div>
+        <Button type="button" className="position-relative" onClick={() => setShowCart(true)}>
+          <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
+            {input.orders?.length}
+          </span>
+          <ShoppingCart variant="Outline" />
+        </Button>
+      </section>
 
       <div className="row">
         {cakeVariants?.map((variant) => (
           <div key={variant.id} className="col-12 col-md-6 col-lg-4 mb-4">
-            <div className="bg-secondary mt-3 rounded-2 p-3 h-100 d-flex flex-column justify-content-between">
+            <div className="card-secondary h-100">
               <div>
                 <h4>{variant.name}</h4>
-                <p className="m-0 p-0">
+                <p className="no-spacing">
                   {priceFormater(variant.cake?.sellingPrice || 0)}
                 </p>
-                <p className="text-xs m-0 p-0">
+                <p className="text-xs no-spacing">
                   + {priceFormater(variant.price || 0)}
                 </p>
               </div>
-              <div className="d-flex gap-2 justify-content-between align-items-center">
+              <div className="flex-between gap-4 mt-2">
                 <span>
                   Stock : {variant.cake?.stock}
                 </span>
                 <div className="d-flex gap-2 align-items-center">
-                  {input.orders?.find(
-                    (order) => order.cakeVariantId === variant.id
-                  )?.quantity && (
+                  {getQuantity(variant.id) && getQuantity(variant.id) != 0 ? (
                       <>
                         <Button
                           disabled={variant.cake?.stock === 0}
@@ -118,12 +129,10 @@ const Form = () => {
                           <Minus />
                         </Button>
                         <h6>
-                          {input.orders?.find(
-                            (order) => order.cakeVariantId === variant.id
-                          )?.quantity}
+                          {getQuantity(variant.id)}
                         </h6>
                       </>
-                    )}
+                    ) : null}
                   <Button
                     disabled={variant.cake?.stock === 0}
                     size="sm"
@@ -137,7 +146,7 @@ const Form = () => {
         ))}
       </div>
 
-      <div className="shadow-lg bg-secondary mt-3 rounded-2 p-3 d-flex justify-content-between align-items-center sticky-bottom">
+      <div className="shadow-lg card-secondary flex-between sticky-bottom">
         <h5 className="fw-semibold">
           Orders :{" "}
           {priceFormater(
@@ -151,7 +160,7 @@ const Form = () => {
         </div>
       </div>
 
-      <div className="modal fade"
+      <section className="modal fade"
         id="receiptModal"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -173,7 +182,7 @@ const Form = () => {
             <div className="modal-body">
               {receipt != null ? (
                 <div className="d-flex flex-column gap-3">
-                  <div className="d-flex justify-content-between">
+                  <div className="flex-between">
                     <p className="m-0 p-0">{receipt.number}</p>
                     <p className="m-0 p-0 text-xs">{receipt.createdAt}</p>
                   </div>
@@ -245,7 +254,15 @@ const Form = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <ModalTable 
+        show={showCart}
+        onClose={() => setShowCart(false)}
+        title="Current Orders" 
+        columns={orderColumns} 
+        data={input.orders} 
+        onClear={clearInput}/>
     </div>
   );
 };

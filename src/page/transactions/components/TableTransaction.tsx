@@ -1,18 +1,19 @@
-import { Trash } from "iconsax-react";
+import { Filter, Trash } from "iconsax-react";
 import TablePagination from "@/components/TablePagination";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import Input from "@/components/Input";
 import DatePicker from "@/components/DatePicker";
 import Button from "@/components/Button";
 import { Paginate } from "@/types/wraper";
 import ModalConfirm from "@/components/ModalConfirm";
-import { Order, Transaction } from "@/types/transaction";
+import { Order, Transaction } from "@/types/transaction.type";
 import priceFormater from "@/helpers/priceFormater.helper";
 import getNestedValue from "@/helpers/getNestedValue.helper";
-import OrderModal from "./OrderModal";
 import { getTransaction } from "@/service/api/transaction.api";
 import handleInput from "@/helpers/input.helper";
 import formatDate from "@/helpers/dateFormater.helper";
+import ModalTable from "@/components/ModalTable";
+import createColumn from "@/helpers/tableColumn.helper";
 
 type TableProps = {
   data?: Paginate<Transaction>;
@@ -38,6 +39,9 @@ const TableTransaction = ({
   onChangePage,
 }: TableProps) => {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showOrder, setShowOrder] = useState(false);
+  const selected = useRef<Transaction | null>(null);
 
   const fetchOrders = (item: Transaction) => {
     getTransaction(item.id!).then((res) => {
@@ -47,13 +51,18 @@ const TableTransaction = ({
     });
   }
 
+  const orderColumns = [
+    createColumn('cakeVariant.name', 'Name'),
+    createColumn('price', 'Price', 'price'),
+    createColumn('quantity', 'Quantity'),
+    createColumn('discount', 'Discount', 'price'),
+    createColumn('totalPrice', 'Total Price', 'price')
+  ];
+
   return (
-    <div className="p-3 p-3 bg-secondary rounded-2">
-      <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
+    <div className="card-secondary">
+      <div className="flex-between gap-3 mb-4">
         <h4 className="fw-bold">Manage Transaction</h4>
-        <div className="d-flex align-items-center gap-2">
-          <Button isOutline>Generate Summary</Button>
-        </div>
       </div>
 
       <form
@@ -89,6 +98,11 @@ const TableTransaction = ({
         >
           {loading ? "Loading..." : "Search"}
         </button>
+        
+        <button className="btn px-0">
+          <Filter size="24" />
+        </button>
+
         <button
           type="button"
           className="btn px-0 text-decoration-underline"
@@ -96,7 +110,6 @@ const TableTransaction = ({
         >
           Clear All
         </button>
-
       </form>
 
       <ul className="nav custom-tab mb-3" id="pills-tab" role="tablist">
@@ -187,16 +200,16 @@ const TableTransaction = ({
                           {item["quantity"]}{" "}
                           {item["quantity"] > 1 ? "cakes" : "cake"}
                         </div>
-                        <OrderModal orders={orders}>
-                          <Button
-                            type="button"
-                            style="fill"
-                            size="sm"
-                            onClick={() => fetchOrders(item)}
-                          >
-                            Show Order
-                          </Button>
-                        </OrderModal>
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => {
+                            fetchOrders(item);
+                            setShowOrder(true);
+                          }}
+                        >
+                          Show Order
+                        </Button>
                       </td>
 
                       <td>
@@ -234,21 +247,16 @@ const TableTransaction = ({
                           Receipt
                         </Button>
                         <div className="d-flex gap-1 mt-3">
-                          {onDelete && (
-                            <ModalConfirm
-                              title="Delete Confirm"
-                              message="This cannot be undone!"
-                              show
-                              onConfirm={() => onDelete(item)}
-                            >
-                              <button
-                                type="button"
-                                className="btn btn-sm text-danger"
-                              >
-                                <Trash size="24" variant="Bulk" />
-                              </button>
-                            </ModalConfirm>
-                          )}
+                          <button
+                            type="button"
+                            className="btn btn-sm text-danger"
+                            onClick={() => {
+                              selected.current = item;
+                              setShowConfirm(true);
+                            }}
+                          >
+                            <Trash size="24" variant="Bulk" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -274,6 +282,7 @@ const TableTransaction = ({
             )}
           </div>
         </div>
+
         <div
           className="tab-pane fade"
           id="pills-profile"
@@ -285,6 +294,25 @@ const TableTransaction = ({
           dignissimos temporibus?
         </div>
       </div>
+
+      <ModalConfirm
+        title="Delete Confirm"
+        message="This cannot be undone!"
+        show={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={() => {
+          if (selected.current && onDelete) {
+            onDelete?.(selected.current);
+          }
+          setShowConfirm(false);
+        }}
+      />
+      <ModalTable
+        show={showOrder}
+        onClose={() => setShowOrder(false)}
+        title="Orders"
+        data={orders}
+        columns={orderColumns} />
     </div>
   );
 };
