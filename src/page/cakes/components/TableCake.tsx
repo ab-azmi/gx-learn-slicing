@@ -40,6 +40,8 @@ const TableCake = ({
 }: TableProps) => {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
+  const [showVariant, setShowVariant] = useState(false);
+  const [showIngredient, setShowIngredient] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [variants, setVariants] = useState<CakeVariant[]>([]);
   const selected = useRef<Cake | null>(null);
@@ -58,7 +60,6 @@ const TableCake = ({
   ]
 
   const fetchIngredients = (cake: Cake) => {
-    console.log(cake);
     getCake(cake.id!).then((res) => {
       setIngredients(res.result.ingredients);
       setVariants(res.result.variants);
@@ -206,14 +207,12 @@ const TableCake = ({
                         </div>
                       </td>
                       <td>
-                        <ModalTable
-                          title="Ingredients"
-                          columns={ingredientColumns}
-                          data={ingredients}>
-                          <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
-                            Show
-                          </Button>
-                        </ModalTable>
+                        <Button type="button" size="sm" onClick={() => {
+                          fetchIngredients(item);
+                          setShowIngredient(true);
+                        }}>
+                          Show
+                        </Button>
                       </td>
 
                       <td>
@@ -233,17 +232,13 @@ const TableCake = ({
                       </td>
 
                       <td>
-                        <div>
-                          <ModalTable
-                            id="variantModal"
-                            title="Cake Variants"
-                            columns={variantColumns}
-                            data={variants}>
-                            <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
-                              Show
-                            </Button>
-                          </ModalTable>
-                        </div>
+                        <Button type="button" size="sm" onClick={() => {
+                          fetchIngredients(item);
+                          setShowVariant(true);
+                        }}>
+                          Show
+                        </Button>
+
                       </td>
 
                       <td>
@@ -282,7 +277,7 @@ const TableCake = ({
               </tbody>
             </table>
           </div>
-          
+
           <div className="mt-2">
             {data?.result?.length && (
               <TablePagination
@@ -318,6 +313,20 @@ const TableCake = ({
           setConfirm(false);
         }}
       />
+
+      <ModalTable
+        show={showIngredient}
+        onClose={() => setShowIngredient(false)}
+        title="Ingredients"
+        columns={ingredientColumns}
+        data={ingredients} />
+
+      <ModalTable
+        show={showVariant}
+        onClose={() => setShowVariant(false)}
+        title="Cake Variants"
+        columns={variantColumns}
+        data={variants} />
     </div>
   );
 };

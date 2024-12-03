@@ -39,7 +39,8 @@ const TableTransaction = ({
   onChangePage,
 }: TableProps) => {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showOrder, setShowOrder] = useState(false);
   const selected = useRef<Transaction | null>(null);
 
   const fetchOrders = (item: Transaction) => {
@@ -97,9 +98,11 @@ const TableTransaction = ({
         >
           {loading ? "Loading..." : "Search"}
         </button>
+        
         <button className="btn px-0">
           <Filter size="24" />
         </button>
+
         <button
           type="button"
           className="btn px-0 text-decoration-underline"
@@ -197,16 +200,16 @@ const TableTransaction = ({
                           {item["quantity"]}{" "}
                           {item["quantity"] > 1 ? "cakes" : "cake"}
                         </div>
-                        <ModalTable title="Orders" data={orders} columns={orderColumns}>
-                          <Button
-                            type="button"
-                            style="fill"
-                            size="sm"
-                            onClick={() => fetchOrders(item)}
-                          >
-                            Show Order
-                          </Button>
-                        </ModalTable>
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => {
+                            fetchOrders(item);
+                            setShowOrder(true);
+                          }}
+                        >
+                          Show Order
+                        </Button>
                       </td>
 
                       <td>
@@ -249,7 +252,7 @@ const TableTransaction = ({
                             className="btn btn-sm text-danger"
                             onClick={() => {
                               selected.current = item;
-                              setShowModal(true);
+                              setShowConfirm(true);
                             }}
                           >
                             <Trash size="24" variant="Bulk" />
@@ -279,6 +282,7 @@ const TableTransaction = ({
             )}
           </div>
         </div>
+
         <div
           className="tab-pane fade"
           id="pills-profile"
@@ -294,15 +298,21 @@ const TableTransaction = ({
       <ModalConfirm
         title="Delete Confirm"
         message="This cannot be undone!"
-        show={showModal}
-        onClose={() => setShowModal(false)}
+        show={showConfirm}
+        onClose={() => setShowConfirm(false)}
         onConfirm={() => {
           if (selected.current && onDelete) {
             onDelete?.(selected.current);
           }
-          setShowModal(false);
+          setShowConfirm(false);
         }}
       />
+      <ModalTable
+        show={showOrder}
+        onClose={() => setShowOrder(false)}
+        title="Orders"
+        data={orders}
+        columns={orderColumns} />
     </div>
   );
 };

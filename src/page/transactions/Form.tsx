@@ -7,6 +7,7 @@ import useFormTransaction from "./hooks/useFormTransaction";
 import handleInput from "@/helpers/input.helper";
 import ModalTable from "@/components/ModalTable";
 import createColumn from "@/helpers/tableColumn.helper";
+import { useState } from "react";
 
 const Form = () => {
   const {
@@ -22,6 +23,8 @@ const Form = () => {
     handleProcess,
     handleOrderChange
   } = useFormTransaction();
+
+  const [showCart, setShowCart] = useState(false);
 
   const cakesOptions = cakes?.map((cake) => ({
     name: cake.name,
@@ -87,14 +90,12 @@ const Form = () => {
             Clear
           </Button>
         </form>
-        <ModalTable title="Current Orders" columns={orderColumns} data={input.orders} onClear={clearInput}>
-          <Button type="button" className="position-relative">
-            <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
-              {input.orders?.length}
-            </span>
-            <ShoppingCart variant="Outline" />
-          </Button>
-        </ModalTable>
+        <Button type="button" className="position-relative" onClick={() => setShowCart(true)}>
+          <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
+            {input.orders?.length}
+          </span>
+          <ShoppingCart variant="Outline" />
+        </Button>
       </section>
 
       <div className="row">
@@ -254,6 +255,14 @@ const Form = () => {
           </div>
         </div>
       </div>
+
+      <ModalTable 
+        show={showCart}
+        onClose={() => setShowCart(false)}
+        title="Current Orders" 
+        columns={orderColumns} 
+        data={input.orders} 
+        onClear={clearInput}/>
     </div>
   );
 };
