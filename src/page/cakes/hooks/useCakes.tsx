@@ -3,7 +3,7 @@ import {
   deleteCake,
   getCakes,
 } from "@/service/api/cake.api";
-import { Cake } from "@/types/transaction";
+import { Cake } from "@/types/cake.type";
 import { Paginate } from "@/types/wraper";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

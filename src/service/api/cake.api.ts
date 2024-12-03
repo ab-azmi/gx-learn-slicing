@@ -1,4 +1,4 @@
-import { Cake, Ingredient } from "@/types/transaction";
+import { Cake, Ingredient } from "@/types/transaction.type";
 import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (

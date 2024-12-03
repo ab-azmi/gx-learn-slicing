@@ -1,4 +1,4 @@
-import { Transaction } from "@/types/transaction";
+import { Transaction } from "@/types/transaction.type";
 
 export const transactionForm: Transaction = {
     id: 0,

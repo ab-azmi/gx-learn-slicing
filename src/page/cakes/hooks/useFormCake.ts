@@ -1,7 +1,7 @@
 import { cakeForm } from "@/form/cake.form";
 import { calculateCOGS, createCake, getCake, getIngredients, updateCake } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
-import { Cake, Ingredient } from "@/types/transaction"
+import { Cake, Ingredient } from "@/types/cake.type";
 import { useState } from "react"
 import { toast } from "react-toastify";
 

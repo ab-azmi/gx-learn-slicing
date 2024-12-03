@@ -2,7 +2,7 @@ import { Edit, Filter, Trash } from "iconsax-react";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
-import { Cake, CakeVariant, Ingredient } from "@/types/transaction";
+import { Cake, CakeVariant, Ingredient } from "@/types/transaction.type";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import ModalConfirm from "@/components/ModalConfirm";

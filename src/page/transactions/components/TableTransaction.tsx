@@ -6,7 +6,7 @@ import DatePicker from "@/components/DatePicker";
 import Button from "@/components/Button";
 import { Paginate } from "@/types/wraper";
 import ModalConfirm from "@/components/ModalConfirm";
-import { Order, Transaction } from "@/types/transaction";
+import { Order, Transaction } from "@/types/transaction.type";
 import priceFormater from "@/helpers/priceFormater.helper";
 import getNestedValue from "@/helpers/getNestedValue.helper";
 import { getTransaction } from "@/service/api/transaction.api";
