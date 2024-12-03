@@ -44,7 +44,7 @@ const Form = () => {
     <div className="h-100 p-4 position-relative">
       <h3 className="mt-3">Transaction</h3>
 
-      <div className="d-flex gap-3 justify-content-between flex-wrap">
+      <section id="filter" className="flex-between gap-3 flex-wrap">
         <form onSubmit={handleFilter} className="d-flex gap-3 flex-wrap">
           <Input
             placeholder="Search"
@@ -95,22 +95,22 @@ const Form = () => {
             <ShoppingCart variant="Outline" />
           </Button>
         </ModalTable>
-      </div>
+      </section>
 
       <div className="row">
         {cakeVariants?.map((variant) => (
           <div key={variant.id} className="col-12 col-md-6 col-lg-4 mb-4">
-            <div className="bg-secondary mt-3 rounded-2 p-3 h-100 d-flex flex-column justify-content-between">
+            <div className="card-secondary h-100">
               <div>
                 <h4>{variant.name}</h4>
-                <p className="m-0 p-0">
+                <p className="no-spacing">
                   {priceFormater(variant.cake?.sellingPrice || 0)}
                 </p>
-                <p className="text-xs m-0 p-0">
+                <p className="text-xs no-spacing">
                   + {priceFormater(variant.price || 0)}
                 </p>
               </div>
-              <div className="d-flex gap-2 justify-content-between align-items-center">
+              <div className="flex-between gap-4 mt-2">
                 <span>
                   Stock : {variant.cake?.stock}
                 </span>
@@ -145,7 +145,7 @@ const Form = () => {
         ))}
       </div>
 
-      <div className="shadow-lg bg-secondary mt-3 rounded-2 p-3 d-flex justify-content-between align-items-center sticky-bottom">
+      <div className="shadow-lg card-secondary flex-between sticky-bottom">
         <h5 className="fw-semibold">
           Orders :{" "}
           {priceFormater(
@@ -181,7 +181,7 @@ const Form = () => {
             <div className="modal-body">
               {receipt != null ? (
                 <div className="d-flex flex-column gap-3">
-                  <div className="d-flex justify-content-between">
+                  <div className="flex-between">
                     <p className="m-0 p-0">{receipt.number}</p>
                     <p className="m-0 p-0 text-xs">{receipt.createdAt}</p>
                   </div>

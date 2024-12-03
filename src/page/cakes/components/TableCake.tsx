@@ -66,20 +66,16 @@ const TableCake = ({
   }
 
   return (
-    <div className="p-3 p-3 bg-secondary rounded-2">
-      <section className="d-flex gap-3 align-items-end justify-content-between mb-4">
+    <div className="card-secondary">
+      <section className="flex-between gap-3 mb-4">
         <h4 className="fw-bold">Manage Cakes</h4>
-        <div className="d-flex align-items-center gap-2">
-          <Button isOutline>Generate Summary</Button>
-
-          <Button
-            type="button"
-            style="fill"
-            onClick={() => navigate(cakePath.form)}
-          >
-            Add
-          </Button>
-        </div>
+        <Button
+          type="button"
+          style="fill"
+          onClick={() => navigate(cakePath.form)}
+        >
+          Add
+        </Button>
       </section>
 
       <form
@@ -99,6 +95,7 @@ const TableCake = ({
             onChange={(e) => handleInput(e, setFilters, filters)}
           />
         </div>
+
         <Select
           placeholder="Order By"
           name="orderBy"
@@ -285,6 +282,7 @@ const TableCake = ({
               </tbody>
             </table>
           </div>
+          
           <div className="mt-2">
             {data?.result?.length && (
               <TablePagination

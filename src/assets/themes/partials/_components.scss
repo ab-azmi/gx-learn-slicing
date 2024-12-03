@@ -1,8 +1,29 @@
 .card-secondary {
   margin-top: 1rem;
   border-radius: .5rem;
-  padding: 1.8rem;
+  padding: 1.5rem;
   @extend .bg-secondary;
+}
+
+.no-spacing {
+  margin: 0;
+  padding: 0;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-vertical {
+    flex-direction: column;
+  }
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .custom-tab {

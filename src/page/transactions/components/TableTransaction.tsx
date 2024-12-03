@@ -59,12 +59,9 @@ const TableTransaction = ({
   ];
 
   return (
-    <div className="p-3 p-3 bg-secondary rounded-2">
-      <div className="d-flex gap-3 align-items-end justify-content-between mb-4">
+    <div className="card-secondary">
+      <div className="flex-between gap-3 mb-4">
         <h4 className="fw-bold">Manage Transaction</h4>
-        <div className="d-flex align-items-center gap-2">
-          <Button isOutline>Generate Summary</Button>
-        </div>
       </div>
 
       <form
@@ -110,7 +107,6 @@ const TableTransaction = ({
         >
           Clear All
         </button>
-
       </form>
 
       <ul className="nav custom-tab mb-3" id="pills-tab" role="tablist">
