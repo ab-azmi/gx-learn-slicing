@@ -27,6 +27,7 @@ export const API_ENDPOINTS = {
   setting: `${API_URL}/settings`,
   login: `${API_URL}/auth/login`,
   logout: `${API_URL}/auth/logout`,
+  refresh: `${API_URL}/auth/refresh`,
   transaction: `${API_URL}/transactions`,
   probability: `${API_URL}/probabilities`,
   ingidient: `${API_URL}/components/ingredients`,
@@ -49,7 +50,11 @@ export const endpointWrapper = async (
       return response.json();
     } else {
       if (response.status === 401) {
-        throw new Error("Invalid token or token expired");
+        history.pushState({}, "", "/auth/login");
+        window.location.reload();
+
+        throw new Error("Unauthorized");
+
       }
       throw new Error("An error occured");
     }

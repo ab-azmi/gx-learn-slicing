@@ -1,5 +1,5 @@
 import { API_ENDPOINTS, endpointWrapper } from "@/service/api/config.api";
-import { Transaction } from "@/types/transaction";
+import { Transaction } from "@/types/transaction.type";
 
 export const getTransactions = (
     page?: number,

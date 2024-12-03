@@ -2,14 +2,21 @@ import TableCake from "./components/TableCake";
 import useCakes from "./hooks/useCakes";
 
 const Cakes = () => {
-  const { cakes, filters, setFilters, loading, fetchCakes, clearFilter } = useCakes();
+  const { 
+    cakes, 
+    filters, 
+    setFilters, 
+    loading, 
+    fetchCakes,
+    handleDelete, 
+    clearFilter } = useCakes();
 
   return (
     <div className="p-4">
       <TableCake
         data={cakes}
         columns={5}
-        onDelete={() => {}}
+        onDelete={(id) => handleDelete(id)}
         onChangePage={(page) => fetchCakes(page)}
         loading={loading}
         filters={filters}

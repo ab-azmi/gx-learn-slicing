@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { cakePath } from "@/path/cakes.path";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import priceFormater from "@/helpers/priceFormater.helper";
 import useFormCake from "./hooks/useFormCake";
 import handleInput from "@/helpers/input.helper";
@@ -15,33 +15,44 @@ const Form = () => {
     ingredients,
     clearInput,
     fetchCOGS,
+    fetchCake,
     handleSubmit,
+    defaultMargin,
     fetchIngredients,
     fetchProfitMargin,
     handleIngredientChange } = useFormCake();
 
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   useEffect(() => {
     fetchIngredients();
     fetchProfitMargin();
+
+    if(state) {
+      fetchCake(state.id);
+    }
   }, [])
 
   return (
-    <div className="p-4">
+    <section className="p-4">
       <Button onClick={() => navigate(cakePath.index)}>Back</Button>
+      
       <h3 className="mt-3">
-        Form <span className="fw-bold">Create</span>
+        Form <span className="fw-bold">
+          {state ? "Edit" : "Create"}
+        </span>
       </h3>
+
       <div className="row">
         <div className="col-md-6">
-          <div className="bg-secondary mt-3 rounded-2 p-3">
+          <div className="card-secondary">
             <Input
               type="string"
-              label="Profit Margin Percentage"
-              placeholder="5"
+              label={`Profit Margin (default ${defaultMargin}%)`}
+              placeholder="0"
               name="profitMargin"
-              value={input.profitMargin.toString()}
+              value={''}
               onChange={(e) => handleInput(e, setInput, input)}
             />
 
@@ -77,7 +88,8 @@ const Form = () => {
                 ))}
               </tbody>
             </table>
-            <div className="mt-2 d-flex justify-content-end gap-3">
+
+            <div className="mt-2 hstack justify-content-end gap-3">
               <Button
                 type="button"
                 disabled={loading}
@@ -94,8 +106,8 @@ const Form = () => {
         </div>
 
         <div className="col-md-6">
-          <div className="bg-secondary mt-3 rounded-2 p-3">
-            <form onSubmit={handleSubmit} className="d-flex flex-column gap-2">
+          <div className="card-secondary">
+            <form onSubmit={handleSubmit} className="vstack gap-2">
               <Input
                 type="text"
                 label="Cake Name"
@@ -111,7 +123,7 @@ const Form = () => {
                 label="Stock"
                 placeholder="3"
                 name="stock"
-                value={input.stock.toString()}
+                value={input.stock?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
@@ -119,8 +131,8 @@ const Form = () => {
                 type="string"
                 label="Cost of Goods Sold (COGS)"
                 placeholder=""
-                name="cogs"
-                value={input.cogs.toString()}
+                name="COGS"
+                value={input.COGS?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
@@ -129,11 +141,11 @@ const Form = () => {
                 label="Selling Price"
                 placeholder=""
                 name="sellingPrice"
-                value={input.sellingPrice.toString()}
+                value={input.sellingPrice?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
-              <div className="mt-2 d-flex justify-content-end gap-3">
+              <div className="mt-2 hstack justify-content-end gap-3">
                 <Button
                   type="button"
                   disabled={loading}
@@ -150,7 +162,7 @@ const Form = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

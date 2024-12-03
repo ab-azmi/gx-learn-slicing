@@ -1,9 +1,8 @@
 import { Edit, Filter, Trash } from "iconsax-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Paginate } from "@/types/wraper";
 import { useNavigate } from "react-router-dom";
-import { Cake, CakeVariant, Ingredient } from "@/types/transaction";
-import { transactionPath } from "@/path/transaction.path";
+import { Cake, CakeVariant, Ingredient } from "@/types/transaction.type";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import ModalConfirm from "@/components/ModalConfirm";
@@ -22,7 +21,7 @@ type TableProps = {
   loading?: boolean;
   filters: { [key: string]: string };
   setFilters: Dispatch<SetStateAction<{ [key: string]: string; }>>;
-  onDelete?: (item: Cake) => void;
+  onDelete?: (id: number) => void;
   onFilter: () => void;
   onClearFilter: () => void;
   onChangePage: (page?: number) => void;
@@ -40,8 +39,12 @@ const TableCake = ({
   onChangePage,
 }: TableProps) => {
   const navigate = useNavigate();
+  const [confirm, setConfirm] = useState(false);
+  const [showVariant, setShowVariant] = useState(false);
+  const [showIngredient, setShowIngredient] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [variants, setVariants] = useState<CakeVariant[]>([]);
+  const selected = useRef<Cake | null>(null);
 
   const ingredientColumns = [
     createColumn("name", "Name"),
@@ -64,20 +67,16 @@ const TableCake = ({
   }
 
   return (
-    <div className="p-3 p-3 bg-secondary rounded-2">
-      <section className="d-flex gap-3 align-items-end justify-content-between mb-4">
+    <div className="card-secondary">
+      <section className="flex-between gap-3 mb-4">
         <h4 className="fw-bold">Manage Cakes</h4>
-        <div className="d-flex align-items-center gap-2">
-          <Button isOutline>Generate Summary</Button>
-
-          <Button
-            type="button"
-            style="fill"
-            onClick={() => navigate(cakePath.form)}
-          >
-            Add
-          </Button>
-        </div>
+        <Button
+          type="button"
+          style="fill"
+          onClick={() => navigate(cakePath.form)}
+        >
+          Add
+        </Button>
       </section>
 
       <form
@@ -97,6 +96,7 @@ const TableCake = ({
             onChange={(e) => handleInput(e, setFilters, filters)}
           />
         </div>
+
         <Select
           placeholder="Order By"
           name="orderBy"
@@ -192,8 +192,8 @@ const TableCake = ({
               </thead>
               <tbody>
                 {data?.result?.length ? (
-                  data?.result.map((item, index) => (
-                    <tr key={index}>
+                  data?.result.map((item) => (
+                    <tr key={item.id}>
                       <td>
                         <div className="mt-3">
                           <p className="text-capitalize">
@@ -207,14 +207,12 @@ const TableCake = ({
                         </div>
                       </td>
                       <td>
-                        <ModalTable
-                          title="Ingredients"
-                          columns={ingredientColumns}
-                          data={ingredients}>
-                          <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
-                            Show
-                          </Button>
-                        </ModalTable>
+                        <Button type="button" size="sm" onClick={() => {
+                          fetchIngredients(item);
+                          setShowIngredient(true);
+                        }}>
+                          Show
+                        </Button>
                       </td>
 
                       <td>
@@ -234,17 +232,13 @@ const TableCake = ({
                       </td>
 
                       <td>
-                        <div>
-                          <ModalTable
-                            id="variantModal"
-                            title="Cake Variants"
-                            columns={variantColumns}
-                            data={variants}>
-                            <Button type="button" size="sm" onClick={() => fetchIngredients(item)}>
-                              Show
-                            </Button>
-                          </ModalTable>
-                        </div>
+                        <Button type="button" size="sm" onClick={() => {
+                          fetchIngredients(item);
+                          setShowVariant(true);
+                        }}>
+                          Show
+                        </Button>
+
                       </td>
 
                       <td>
@@ -253,27 +247,22 @@ const TableCake = ({
                             type="button"
                             className="btn btn-sm text-muted"
                             onClick={() =>
-                              navigate(transactionPath.form, { state: item })
+                              navigate(cakePath.form, { state: item })
                             }
                           >
                             <Edit size="24" variant="Bulk" />
                           </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              selected.current = item;
+                              setConfirm(true);
+                            }}
+                            className="btn btn-sm text-danger"
+                          >
+                            <Trash size="24" variant="Bulk" />
+                          </button>
 
-                          {onDelete && (
-                            <ModalConfirm
-                              title="Delete Confirm"
-                              message="This cannot be undone!"
-                              show
-                              onConfirm={() => onDelete(item)}
-                            >
-                              <button
-                                type="button"
-                                className="btn btn-sm text-danger"
-                              >
-                                <Trash size="24" variant="Bulk" />
-                              </button>
-                            </ModalConfirm>
-                          )}
                         </div>
                       </td>
                     </tr>
@@ -288,6 +277,7 @@ const TableCake = ({
               </tbody>
             </table>
           </div>
+
           <div className="mt-2">
             {data?.result?.length && (
               <TablePagination
@@ -310,6 +300,33 @@ const TableCake = ({
           dignissimos temporibus?
         </div>
       </div>
+
+      <ModalConfirm
+        show={confirm}
+        onClose={() => setConfirm(false)}
+        title="Delete Confirm"
+        message="This cannot be undone!"
+        onConfirm={() => {
+          if (onDelete && selected.current) {
+            onDelete(selected.current.id!);
+          }
+          setConfirm(false);
+        }}
+      />
+
+      <ModalTable
+        show={showIngredient}
+        onClose={() => setShowIngredient(false)}
+        title="Ingredients"
+        columns={ingredientColumns}
+        data={ingredients} />
+
+      <ModalTable
+        show={showVariant}
+        onClose={() => setShowVariant(false)}
+        title="Cake Variants"
+        columns={variantColumns}
+        data={variants} />
     </div>
   );
 };
