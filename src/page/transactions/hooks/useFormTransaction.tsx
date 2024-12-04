@@ -1,11 +1,12 @@
 import { cakeVariantFilterForm, transactionForm } from "@/form/transaction.form";
 import { getCakes, getVariants } from "@/service/api/cake.api";
+import { getSettings } from "@/service/api/setting.api";
 import { createTransaction } from "@/service/api/transaction.api";
 import AuthStore from "@/store/AuthStore";
 import OrderStore from "@/store/OrderStore";
 import { Cake, CakeFilter, CakeVariant } from "@/types/cake.type";
 import { Transaction } from "@/types/transaction.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const useFormTransaction = () => {
@@ -16,11 +17,25 @@ const useFormTransaction = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
     const [filters, setFilters] = useState<CakeFilter>(cakeVariantFilterForm);
+    const [tax, setTax] = useState<number>(0);
 
-    const handleConfigForm = () => {
-        setTransaction({
-            ...transactionForm,
-            employeeId: authStore.user?.id || 0,
+    useEffect(() => {
+        hanldeFetchMargin();
+
+        if(authStore.user) {
+            setTransaction(
+                {
+                    ...transaction,
+                    employeeId: authStore.user.id,
+                }
+            )
+        }
+
+    }, [authStore.user])
+
+    const hanldeFetchMargin = () => {
+        getSettings({key: 'tax'}).then((res) => {
+            setTax(res.result[0].value);
         })
     }
 
@@ -72,10 +87,18 @@ const useFormTransaction = () => {
             });
         }
 
+        const subTotal = newOrders.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0);
+        const totalDiscount = newOrders.reduce((acc, curr) => acc + (curr.cakeVariant?.cake?.totalDiscount || 0), 0);
+        const taxRp = subTotal * (tax / 100);
+
         setTransaction({
             ...transaction,
             orders: newOrders,
             quantity: newOrders.reduce((acc, curr) => acc + curr.quantity, 0),
+            orderPrice: subTotal,
+            totalDiscount: totalDiscount,
+            tax: taxRp,
+            totalPrice: subTotal + taxRp,
         })
     };
 
@@ -93,12 +116,13 @@ const useFormTransaction = () => {
     }
 
     const clearInput = () => {
-        handleConfigForm();
+        setTransaction({
+            ...transactionForm,
+            employeeId: authStore.user?.id || 0,
+        })
     }
 
     const handleProcess = () => {
-        console.log(transaction);
-        return;
         const id = toast.loading("Processing...");
         setLoading(true);
 
@@ -118,6 +142,7 @@ const useFormTransaction = () => {
     };
 
     return {
+        tax,
         cakes,
         filters,
         receipt,
@@ -125,6 +150,7 @@ const useFormTransaction = () => {
         cakeVariants,
         setFilters,
         setCakeVariants,
+        hanldeFetchMargin,
         clearFilter,
         fetchVariants,
         clearInput,

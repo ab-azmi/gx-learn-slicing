@@ -23,7 +23,7 @@ type Grouped = {
 const Form = () => {
   const { transaction } = OrderStore();
   const [grouped, setGrouped] = useState<Grouped[]>([]);
-  const { filters, setFilters, fetchVariants, handleProcess } = useFormTransaction();
+  const { filters, setFilters, fetchVariants, handleProcess, tax } = useFormTransaction();
 
   const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -148,7 +148,7 @@ const Form = () => {
                 <p className="no-spacing">{priceFormater(transaction.totalDiscount)}</p>
               </div>
               <div className="flex-between text-muted">
-                <p className="no-spacing">Tax</p>
+                <p className="no-spacing">Tax {tax}%</p>
                 <p className="no-spacing">{priceFormater(transaction.tax)}</p>
               </div>
               <div className="flex-between mt-2">
