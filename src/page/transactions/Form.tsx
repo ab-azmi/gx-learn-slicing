@@ -215,8 +215,8 @@ const Form = () => {
                   <table className="align-self-end w-40">
                     <tbody>
                       <tr>
-                        <td>Total Price</td>
-                        <td>{priceFormater(receipt.totalPrice!)}</td>
+                        <td>Order Price</td>
+                        <td>{priceFormater(receipt.orderPrice!)}</td>
                       </tr>
                       <tr>
                         <td>Total Discount</td>

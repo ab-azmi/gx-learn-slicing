@@ -16,11 +16,17 @@ const useFormTransaction = () => {
     const [input, setInput] = useState<Transaction>(transactionForm);
     const [filters, setFilters] = useState<CakeFilter>(cakeVariantFilterForm);
 
-    useEffect(() => {
-        setInput({
-            ...input,
-            employeeId: store.user?.id,
+    const handleConfigForm = () => {
+        setInput((prevState) => {
+            const newState = { ...prevState, ...transactionForm }
+            newState.employeeId = store.user?.id
+
+            return newState
         })
+    }
+
+    useEffect(() => {
+        handleConfigForm();
 
         getCakes().then((res) => {
             setCakes(res.result);
@@ -89,7 +95,7 @@ const useFormTransaction = () => {
     }
 
     const clearInput = () => {
-        setInput(transactionForm);
+        handleConfigForm();
     }
 
     const handleProcess = () => {

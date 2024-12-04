@@ -30,7 +30,11 @@ export type Cake = {
     sellingPrice: number;
     stock: number;
     ingredients?: Ingredient[];
-    images?: [];
+    images?: {
+        link: string;
+        path: string;
+        file?: File;
+    }[];
 }
 
 export type CakeFilter = {
