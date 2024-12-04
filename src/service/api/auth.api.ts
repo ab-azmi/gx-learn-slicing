@@ -4,6 +4,7 @@ type credentials = {
     email: string;
     password: string;
     password_confirmation?: string;
+    remember?: boolean;
 }
 
 export const login = (data:credentials) => endpointWrapper(API_ENDPOINTS.login, "POST", data);

@@ -52,7 +52,7 @@ const useLogin = () => {
       return;
     }
 
-    login({ email: input.email, password: input.password })
+    login({ email: input.email, password: input.password, remember: input.remember })
       .then((res) => {
         if (res?.result?.token) {
           store.setToken(res.result.token);

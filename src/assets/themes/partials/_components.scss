@@ -1,13 +1,34 @@
 .card-secondary {
-  margin-top: 1rem;
   border-radius: .5rem;
   padding: 1.5rem;
   @extend .bg-secondary;
+
+  &-img-top {
+    border-radius: .5rem;
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
 }
 
 .no-spacing {
   margin: 0;
   padding: 0;
+}
+
+.border-top-dashed {
+  border: 0;
+  border-top: 1px dashed $primary;
+  margin: 1rem 0;
 }
 
 .flex-between {
@@ -18,6 +39,10 @@
   &-vertical {
     flex-direction: column;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flex-end {

@@ -2,48 +2,46 @@ import { cakeVariantFilterForm, transactionForm } from "@/form/transaction.form"
 import { getCakes, getVariants } from "@/service/api/cake.api";
 import { createTransaction } from "@/service/api/transaction.api";
 import AuthStore from "@/store/AuthStore";
+import OrderStore from "@/store/OrderStore";
 import { Cake, CakeFilter, CakeVariant } from "@/types/cake.type";
 import { Transaction } from "@/types/transaction.type";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const useFormTransaction = () => {
-    const store = AuthStore();
+    const authStore = AuthStore();
+    const {transaction, setTransaction} = OrderStore();
     const [cakes, setCakes] = useState<Cake[]>([]);
     const [receipt, setReceipt] = useState<Transaction | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
-    const [input, setInput] = useState<Transaction>(transactionForm);
     const [filters, setFilters] = useState<CakeFilter>(cakeVariantFilterForm);
 
     const handleConfigForm = () => {
-        setInput((prevState) => {
-            const newState = { ...prevState, ...transactionForm }
-            newState.employeeId = store.user?.id
-
-            return newState
+        setTransaction({
+            ...transactionForm,
+            employeeId: authStore.user?.id || 0,
         })
     }
 
-    useEffect(() => {
-        handleConfigForm();
-
+    const handleFetchCake = () => {
         getCakes().then((res) => {
             setCakes(res.result);
         });
+    }
 
+    const handleFetchCakeVariant = () => {
         getVariants().then((res) => {
             setCakeVariants(res.result);
         });
-    }, []);
+    }
 
     const handleOrderChange = (
         variant: CakeVariant,
         quantity: number
     ) => {
-        ;
-        const orderExist = input.orders.find((order) => order.cakeVariantId === variant.id);
-        let newOrders = [...input.orders];
+        const orderExist = transaction.orders.find((order) => order.cakeVariantId === variant.id);
+        let newOrders = [...transaction.orders];
 
         if (orderExist) {
             const price = variant.price + (variant.cake?.sellingPrice || 0);
@@ -74,11 +72,11 @@ const useFormTransaction = () => {
             });
         }
 
-        setInput({
-            ...input,
-            quantity: newOrders.reduce((acc, item) => acc + item.quantity, 0),
+        setTransaction({
+            ...transaction,
             orders: newOrders,
-        });
+            quantity: newOrders.reduce((acc, curr) => acc + curr.quantity, 0),
+        })
     };
 
     const clearFilter = () => {
@@ -99,10 +97,12 @@ const useFormTransaction = () => {
     }
 
     const handleProcess = () => {
+        console.log(transaction);
+        return;
         const id = toast.loading("Processing...");
         setLoading(true);
 
-        createTransaction(input).then((res) => {
+        createTransaction(transaction).then((res) => {
             setLoading(false);
             toast.update(id, {
                 render: "Transaction Created",
@@ -115,23 +115,23 @@ const useFormTransaction = () => {
 
             setReceipt(res.result);
         })
-    }
+    };
 
     return {
         cakes,
-        input,
         filters,
         receipt,
         loading,
         cakeVariants,
         setFilters,
-        setInput,
         setCakeVariants,
         clearFilter,
-        handleOrderChange,
         fetchVariants,
         clearInput,
-        handleProcess
+        handleProcess,
+        handleFetchCake,
+        handleOrderChange,
+        handleFetchCakeVariant,
     };
 };
 

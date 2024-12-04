@@ -34,6 +34,10 @@ export type Order = {
 
 export type Transaction = {
     id?: number;
+    status: {
+        id: number;
+        name: string;
+    };
     quantity: number;
     number: string;
     tax: number;
