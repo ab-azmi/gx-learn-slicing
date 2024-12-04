@@ -6,6 +6,7 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import useFormCake from "./hooks/useFormCake";
 import handleInput from "@/helpers/input.helper";
 import { useEffect } from "react";
+import { AddSquare, Trash } from "iconsax-react";
 
 const Form = () => {
   const {
@@ -19,6 +20,7 @@ const Form = () => {
     handleSubmit,
     defaultMargin,
     fetchIngredients,
+    handleImageUpload,
     fetchProfitMargin,
     handleIngredientChange } = useFormCake();
 
@@ -29,15 +31,15 @@ const Form = () => {
     fetchIngredients();
     fetchProfitMargin();
 
-    if(state) {
+    if (state) {
       fetchCake(state.id);
     }
-  }, [])
+  }, []);
 
   return (
     <section className="p-4">
       <Button onClick={() => navigate(cakePath.index)}>Back</Button>
-      
+
       <h3 className="mt-3">
         Form <span className="fw-bold">
           {state ? "Edit" : "Create"}
@@ -159,6 +161,41 @@ const Form = () => {
                 </Button>
               </div>
             </form>
+          </div>
+
+          <div className="card-secondary">
+            <h3>Cake Images</h3>
+            <div className="hstack gap-2 mt-2 flex-wrap">
+              {input.images?.map((img, index) => (
+                <div key={index} className="cake-image-card position-relative">
+                  <button 
+                    onClick={() => {
+                      setInput({
+                        ...input,
+                        images: input.images?.filter((_, i) => i !== index)
+                      });
+                    }}
+                    className="position-absolute border-0 bottom-2 start-0 rounded-2 bg-danger">
+                    <Trash size={20}/>
+                  </button>
+                  {img.file ? (
+                    <img src={URL.createObjectURL(img.file)} alt="cake" className="h-100 w-100" />
+                  ) : (
+                    <img src={img.link} alt="cake" className="h-100 w-100" />
+                  )}
+                </div>
+              ))}
+              <label htmlFor="image-upload"
+                className="cake-image-card">
+                <input
+                  id="image-upload"
+                  style={{ display: 'none' }}
+                  type="file"
+                  multiple
+                  onChange={handleImageUpload} />
+                <AddSquare size={32} />
+              </label>
+            </div>
           </div>
         </div>
       </div>

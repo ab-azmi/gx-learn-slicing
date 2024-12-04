@@ -1,4 +1,4 @@
-$yellow: #f8c900;
+$primary: #E195AB;
 $muted: #e6e6e6;
 $background: #f4f6f9;
 $darker: #1b1b1b;
@@ -6,14 +6,12 @@ $soft-dark: #343434;
 $orange: #EB8317;
 
 $theme-colors: (
-  "primary": $yellow,
-  "light": $background,
+  "primary": $primary,
   "secondary": white,
   "success": $success,
   "info": $info,
   "warning": $orange,
   "danger": $danger,
-  "dark": $dark,
 );
 
 $custom-colors: (

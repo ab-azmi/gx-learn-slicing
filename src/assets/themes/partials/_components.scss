@@ -47,3 +47,45 @@ th {
   color: black !important;
   font-weight: 400;
 }
+
+.cake-image-card {
+  width: 6rem;
+  height: 6rem;
+  @extend .bg-background;
+  @extend .rounded-2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  border: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-checkbox .checkmark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: $muted;
+  border-radius: 4px;
+  margin-right: 8px;
+  transition: background-color 0.3s;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-color: $primary; 
+}

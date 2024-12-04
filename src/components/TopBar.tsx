@@ -5,12 +5,23 @@ import useLogout from "@/hooks/useLogout";
 import { useContext } from "react";
 import { DarkModeContext } from "@/context/DarkModeProvider";
 import useGlobalContext from "@/hooks/useGlobalContext";
+import { useLocation } from "react-router-dom";
 
 const TopBar = () => {
+  const {pathname} = useLocation();
   const { signout } = useLogout();
   const { expand, setExpand } = sideBarStore();
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
   const {state} = useGlobalContext();
+
+  const getPathName = () => {
+    const cleanPath = pathname.split("/").filter((path) => path !== "");
+    if(cleanPath.length < 1) {
+      return "Dashboard";
+    }
+    
+    return cleanPath.map((path) => path.charAt(0).toUpperCase() + path.slice(1)).join(" ");
+  }
 
   return (
     <div className="top-bar w-100 bg-secondary d-flex justify-content-between px-4 py-3">
@@ -18,7 +29,7 @@ const TopBar = () => {
         <button className="hamburger" onClick={() => setExpand(!expand)}>
           <HambergerMenu size="24" />
         </button>
-        <span className="fs-6">Dashboard</span>
+        <span className="fs-6 text-capitalize">{getPathName()}</span>
       </div>
 
       <div className="d-flex gap-4 align-items-center">

@@ -3,23 +3,6 @@ import AuthStore from "@/store/AuthStore";
 
 export const API_URL = import.meta.env.VITE_BE_URL;
 
-const getToken = () => {
-  return AuthStore.getState().token;
-}
-
-const headers = {
-  "Content-Type": "application/json",
-  "Accept": "application/json",
-  "Authorization": "",
-};
-
-export const getHeaders = () => {
-  return {
-    ...headers,
-    "Authorization": `Bearer ${getToken()}`,
-  }
-}
-
 export const API_ENDPOINTS = {
   cake: `${API_URL}`,
   lead: `${API_URL}/leads`,
@@ -33,17 +16,40 @@ export const API_ENDPOINTS = {
   ingidient: `${API_URL}/components/ingredients`,
 };
 
+const getToken = () => {
+  return AuthStore.getState().token;
+}
+
+const headers = {
+  "Content-Type": "application/json",
+  "Accept": "application/json",
+  "Authorization": ""
+};
+
+export const getHeaders = () => {
+  return {
+    ...headers,
+    "Authorization": `Bearer ${getToken()}`,
+  }
+}
 
 export const endpointWrapper = async (
   endpoint: string,
   method: string,
   data?: any,
+  // isSendFile?: boolean
 ) => {
   try {
+    const headers = getHeaders();
+    const body = JSON.stringify(data);
+    // const body = new FormData();
+
+    //if send file, change content type to multipart/form-data    
+
     const response = await fetch(endpoint, {
       method,
-      headers: getHeaders(),
-      body: JSON.stringify(data),
+      headers,
+      body
     });
 
     if (response.ok) {

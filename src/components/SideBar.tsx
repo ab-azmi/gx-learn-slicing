@@ -1,6 +1,5 @@
 import SideBarLink from "@/components/SideBarLink";
-import LogoHitam from "@/assets/images/logo-hitam.svg";
-import SimpleLogo from "@/assets/images/simple-logo.svg";
+import Logo from '@/assets/images/logo.png';
 import {
   Cake,
   Calculator,
@@ -63,13 +62,8 @@ const SideBar = () => {
     <>
       {/* DONE : Responsive Sidebar */}
       <nav className="py-4 bg-secondary min-vh-100 sidenav d-sm-block d-none">
-        {/* DONE : Sticky sidebar */}
         <div className="w-100 d-flex justify-content-center mb-5">
-          {expand ? (
-            <img src={LogoHitam} alt="" style={{ width: "9rem" }} />
-          ) : (
-            <img src={SimpleLogo} alt="" style={{ width: "1.4rem" }} />
-          )}
+          <img src={Logo} alt="" style={{ width: "2rem" }} />
         </div>
         <ul className="px-4 d-flex flex-column gap-4">
           {menus.map((menu, index) => (
@@ -83,13 +77,8 @@ const SideBar = () => {
         </ul>
       </nav>
       <nav className={clsx("py-4 bg-secondary min-vh-100 sidenav position-fixed z-2", expand ? "d-block" : "d-none")}>
-        {/* DONE : Sticky sidebar */}
         <div className="w-100 d-flex justify-content-center mb-5">
-          {expand ? (
-            <img src={LogoHitam} alt="" style={{ width: "9rem" }} />
-          ) : (
-            <img src={SimpleLogo} alt="" style={{ width: "1.4rem" }} />
-          )}
+        <img src={Logo} alt="" style={{ width: "2rem" }} />
         </div>
         <ul className="px-4 d-flex flex-column gap-4">
           {menus.map((menu, index) => (
