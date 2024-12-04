@@ -28,13 +28,17 @@ export type Cake = {
     profitMargin: number;
     COGS: number;
     sellingPrice: number;
-    stock: number;
+    stockSell: number;
+    stockNonSell: number;
+    isSell: boolean;
+    totalDiscount: number;
     ingredients?: Ingredient[];
     images?: {
         link: string;
         path: string;
         file?: File;
     }[];
+    variants?: CakeVariant[];
 }
 
 export type CakeFilter = {

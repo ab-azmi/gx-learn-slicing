@@ -3,7 +3,7 @@ import Input from "@/components/Input";
 import { cakePath } from "@/path/cakes.path";
 import { useLocation, useNavigate } from "react-router-dom";
 import priceFormater from "@/helpers/priceFormater.helper";
-import useFormCake from "./hooks/useFormCake";
+import useFormCake from "@/page/cakes/hooks/useFormCake";
 import handleInput from "@/helpers/input.helper";
 import { useEffect } from "react";
 import { AddSquare, Trash } from "iconsax-react";
@@ -117,15 +117,6 @@ const Form = () => {
                 placeholder="Party Cake"
                 name="name"
                 value={input?.name}
-                onChange={(e) => handleInput(e, setInput, input)}
-              />
-
-              <Input
-                type="number"
-                label="Stock"
-                placeholder="3"
-                name="stock"
-                value={input.stock?.toString()}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
