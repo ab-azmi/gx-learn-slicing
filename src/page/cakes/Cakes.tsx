@@ -4,18 +4,27 @@ import useCakes from "./hooks/useCakes";
 import { useState } from "react";
 import { Cake } from "@/types/cake.type";
 import priceFormater from "@/helpers/priceFormater.helper";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import { Add, Minus } from "iconsax-react";
+import handleInput from "@/helpers/input.helper";
 
 const Cakes = () => {
-  const { 
-    cakes, 
-    filters, 
-    setFilters, 
-    loading, 
+  const {
+    cakes,
+    filters,
+    setFilters,
+    loading,
+    restock,
+    setRestock,
     fetchCakes,
-    handleDelete, 
+    handleDelete,
+    handleAdjustStock,
     clearFilter } = useCakes();
 
   const [selected, setSelected] = useState<Cake | null>(null);
+  const [modalDetail, setModalDetail] = useState<boolean>(false);
+  const [modalRestock, setModalRestock] = useState<boolean>(false);
 
   return (
     <div className="p-4">
@@ -29,10 +38,17 @@ const Cakes = () => {
         setFilters={setFilters}
         onFilter={() => fetchCakes()}
         onClearFilter={() => clearFilter()}
-        onSelected={(cake) => setSelected(cake)}
+        onSelected={(cake) => {
+          setSelected(cake);
+          setModalDetail(true);
+        }}
+        onRestock={(cake) => {
+          setSelected(cake);
+          setModalRestock(true);
+        }}
       />
 
-      <Modal size="lg" show={selected !== null} onClose={() => setSelected(null)} title="Cake Detail">
+      <Modal size="lg" show={modalDetail} onClose={() => setModalDetail(false)} title="Cake Detail">
         <h5 className="mb-3">{selected?.name}</h5>
         <table className="w-40 mb-3">
           <tbody>
@@ -63,7 +79,7 @@ const Cakes = () => {
           <tbody>
             {selected?.variants?.map((variant, index) => (
               <tr key={variant.id}>
-                <td>#{index+1}</td>
+                <td>#{index + 1}</td>
                 <td>{variant.name}</td>
                 <td>{priceFormater(variant.price)}</td>
               </tr>
@@ -87,10 +103,10 @@ const Cakes = () => {
           <tbody>
             {selected?.ingredients?.map((ing, index) => (
               <tr key={ing.id}>
-                <td>#{index+1}</td>
+                <td>#{index + 1}</td>
                 <td>{ing.name}</td>
                 <td>{ing.quantity} {ing.unit?.name}</td>
-                <td>{ing.pivot?.quantity}</td>
+                <td>{ing.pivot?.quantity} {ing.unit?.name}</td>
                 <td>{priceFormater(ing.price)}</td>
                 <td>{ing.expirationDate}</td>
                 <td>{ing.supplier}</td>
@@ -98,6 +114,44 @@ const Cakes = () => {
             ))}
           </tbody>
         </table>
+      </Modal>
+
+      <Modal show={modalRestock} onClose={() => setModalRestock(false)} title="Restock Cake">
+        <form action="">
+          <div className="hstack w-100 align-items-end gap-3 mb-3">
+            <Button size="sm" onClick={() => handleAdjustStock(1, null)}>
+              <Add />
+            </Button>
+            <Input
+              type="number"
+              label="Adjust Stock Sell"
+              placeholder="0"
+              value={restock.addStockSell.toString()}
+              onChange={(e) => handleInput(e, setRestock, restock)}
+              name="addStockSell"
+            />
+            <Button size="sm" onClick={() => handleAdjustStock(-1, null)}>
+              <Minus />
+            </Button>
+          </div>
+          <div className="hstack w-100 align-items-end gap-3 mb-3">
+            <Button size="sm" onClick={() => handleAdjustStock(null, 1)}>
+              <Add />
+            </Button>
+            <Input
+              type="number"
+              label="Adjust Stock Non Sell"
+              placeholder="0"
+              value={restock.addStockNonSell.toString()}
+              onChange={(e) => handleInput(e, setRestock, restock)}
+              name="addStockNonSell"
+            />
+            <Button size="sm" onClick={() => handleAdjustStock(null, -1)}>
+              <Minus />
+            </Button>
+          </div>
+          <Button type="submit" className="w-100">Adjust</Button>
+        </form>
       </Modal>
     </div>
   );

@@ -27,6 +27,7 @@ type TableProps = {
   onClearFilter: () => void;
   onChangePage: (page?: number) => void;
   onSelected?: (cake: CakeType) => void;
+  onRestock?: (cake: CakeType) => void;
 };
 
 const TableCake = ({
@@ -39,6 +40,7 @@ const TableCake = ({
   onDelete,
   onClearFilter,
   onChangePage,
+  onRestock,
   onSelected,
 }: TableProps) => {
   const navigate = useNavigate();
@@ -184,31 +186,35 @@ const TableCake = ({
                   <td>
                     <div className="hstack gap-1">
                       <Button
-                        onClick={() => selectCake(item.id!)}
                         className="bg-transparent border-0 text-primary"
+                        onClick={() => selectCake(item.id!)}
                         size="sm">
                         <Cake size="24" variant="Bulk" />
                       </Button>
-                      <button
-                        type="button"
-                        className="btn btn-sm text-muted"
+                      <Button
+                        className="bg-transparent border-0"
                         onClick={() =>
                           navigate(cakePath.form, { state: item })
                         }
                       >
                         <Edit size="24" variant="Bulk" />
-                      </button>
-                      <button
-                        type="button"
+                      </Button>
+                      <Button
+                        className="bg-transparent border-0 text-danger"
                         onClick={() => {
                           selected.current = item;
                           setConfirm(true);
                         }}
-                        className="btn btn-sm text-danger"
                       >
                         <ArchiveBox size="24" variant="Bulk" />
-                      </button>
-
+                      </Button>
+                      <Button size="sm" onClick={() => {
+                        if (onRestock) {
+                          onRestock(item);
+                        }
+                      }}>
+                        Restock
+                      </Button>
                     </div>
                   </td>
                 </tr>

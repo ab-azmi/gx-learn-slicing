@@ -42,20 +42,25 @@ export type Cake = {
 }
 
 export type CakeFilter = {
-    'search': string;
-    'searchIn'?: "cakeVariant" | "ingredient" | "discount" | string;
-    'cakeId'?: string;
-    'orderBy'?: string;
-    'orderType'?: string;
-    'fromCOGS'?: string;
-    'toCOGS'?: string;
-    'fromSellingPrice'?: string;
-    'toSellingPrice'?: string;
-    'fromStockSell'?: string;
-    'toStockSell'?: string;
-    'fromStockNonSell'?: string;
-    'toStockNonSell'?: string;
-    'hasDiscount'?: string;
-    'isSell'?: string;
-    'archived'? : string;
+    search: string;
+    searchIn?: "cakeVariant" | "ingredient" | "discount" | string;
+    cakeId?: string;
+    orderBy?: string;
+    orderType?: string;
+    fromCOGS?: string;
+    toCOGS?: string;
+    fromSellingPrice?: string;
+    toSellingPrice?: string;
+    fromStockSell?: string;
+    toStockSell?: string;
+    fromStockNonSell?: string;
+    toStockNonSell?: string;
+    hasDiscount?: string;
+    isSell?: string;
+    archived? : string;
 };
+
+export type CakeRestock = {
+    addStockSell: number;
+    addStockNonSell: number;
+}

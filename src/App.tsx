@@ -12,6 +12,7 @@ import { cakePath } from "./path/cakes.path";
 import Cakes from "./page/cakes/Cakes";
 import CakeMenu from "./page/transactions/components/CakeMenu";
 import CakeDetail from "./page/transactions/components/CakeDetail";
+
 function App() {
   return (
     <>

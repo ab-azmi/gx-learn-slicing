@@ -1,4 +1,4 @@
-import { Cake, CakeFilter } from "@/types/cake.type";
+import { Cake, CakeFilter, CakeRestock } from "@/types/cake.type";
 
 export const cakeForm: Cake =  {
   name: "",
@@ -27,4 +27,9 @@ export const cakeFilter: CakeFilter = {
     fromStockNonSell: "",
     toStockNonSell: "",
     archived: "",
+}
+
+export const cakeRestockParam: CakeRestock = {
+  addStockNonSell: 0,
+  addStockSell: 0,
 }
