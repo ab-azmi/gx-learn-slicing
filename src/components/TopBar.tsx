@@ -1,4 +1,4 @@
-import { HambergerMenu, Logout, Moon, Notification, Sun } from "iconsax-react";
+import { HambergerMenu, Logout, Moon, Sun } from "iconsax-react";
 import User from "@/assets/images/user.jpg";
 import sideBarStore from "@/store/SidebarStore";
 import useLogout from "@/hooks/useLogout";
@@ -33,13 +33,13 @@ const TopBar = () => {
       </div>
 
       <div className="d-flex gap-4 align-items-center">
-        <div className="position-relative">
+        {/* <div className="position-relative">
           <span
             className="position-absolute translate-middle text-xs bg-danger rounded-circle"
             style={{ width: "10px", height: "10px", top: "0", right: "-4px" }}
           ></span>
           <Notification size="24" className="text-muted" variant="Bulk" />
-        </div>
+        </div> */}
         <button
           onClick={() => setDarkMode(darkMode == "dark" ? "light" : "dark")}
           type="button"

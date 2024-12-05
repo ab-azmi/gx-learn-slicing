@@ -1,6 +1,6 @@
-import { Transaction } from "@/types/transaction.type";
+import { Transaction, TransactionFilter } from "@/types/transaction.type";
 
-export const transactionForm: Transaction = {
+export const transactionParam: Transaction = {
     id: 0,
     status: {
       id: 0,
@@ -19,9 +19,19 @@ export const transactionForm: Transaction = {
     orders: [],
   };
 
-  export const cakeVariantFilterForm = {
-    'search': '',
-    'cakeId': '',
-    'orderBy': '',
-    'orderType': '',
-};
+  export const transactionFilterParam: TransactionFilter = {
+    search: "",
+    searchIn: "",
+    statusId: "",
+    orderBy: "",
+    orderType: "",
+    fromDate: "",
+    toDate: "",
+    fromTotalPrice: "",
+    toTotalPrice: "",
+    fromOrderPrice: "",
+    toOrderPrice: "",
+    fromQuantity: "",
+    toQuantity: "",
+    employeeId: "",
+  }

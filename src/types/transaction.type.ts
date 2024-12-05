@@ -51,3 +51,20 @@ export type Transaction = {
     employee?: Employee,
     orders: Order[]
 }
+
+export type TransactionFilter = {
+    search?: string;
+    searchIn?: "employee" | "cakeVariant" | "number" | string;
+    statusId?: string;
+    orderBy?: string;
+    orderType?: string;
+    fromDate?: string;
+    toDate?: string;
+    fromTotalPrice?: string;
+    toTotalPrice?: string;
+    fromOrderPrice?: string;
+    toOrderPrice?: string;
+    fromQuantity?: string;
+    toQuantity?: string;
+    employeeId?: string;
+}

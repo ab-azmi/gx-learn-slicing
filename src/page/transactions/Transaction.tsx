@@ -1,3 +1,4 @@
+import Modal from "@/components/Modal";
 import TableTransaction from "./components/TableTransaction";
 import useTransaction from "./hooks/useTransaction";
 import React from "react";
@@ -57,6 +58,7 @@ const Transaction = () => {
           </React.Fragment>
         ))}
       </div>
+
       <TableTransaction
         data={transactions}
         columns={5}
@@ -68,6 +70,8 @@ const Transaction = () => {
         filters={filters}
         setFilters={setFilters}
       />
+
+      <Modal show={false} onClose={() => {}} title="Transaction Detail"></Modal>
     </div>
   );
 };

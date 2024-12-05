@@ -1,4 +1,4 @@
-import { transactionForm } from "@/param/transaction.param";
+import { transactionParam } from "@/param/transaction.param";
 import { getCakes, getVariants } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
 import { createTransaction } from "@/service/api/transaction.api";
@@ -100,7 +100,7 @@ const useFormTransaction = () => {
 
     const clearInput = () => {
         setTransaction({
-            ...transactionForm,
+            ...transactionParam,
             employeeId: authStore.user?.id || 0,
         })
     }

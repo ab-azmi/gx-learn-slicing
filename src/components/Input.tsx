@@ -28,7 +28,7 @@ const Input = ({
   return (
     <div className="d-flex flex-column gap-1 form-group w-100">
       {label && (
-        <label htmlFor={name} className="fw-light fs-xs">
+        <label htmlFor={name} className="text-muted fs-xs">
           {label}
           {required && <span className="text-danger">*</span>}
         </label>
