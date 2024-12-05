@@ -3,7 +3,7 @@ import {
   deleteCake,
   getCakes,
 } from "@/service/api/cake.api";
-import { Cake } from "@/types/cake.type";
+import { Cake, CakeFilter } from "@/types/cake.type";
 import { Paginate } from "@/types/wraper";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 const useCakes = () => {
   const [cakes, setCakes] = useState<Paginate<Cake>>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [filters, setFilters] = useState<{ [key: string]: string }>(cakeFilter);
+  const [filters, setFilters] = useState<CakeFilter>(cakeFilter);
 
   useEffect(() => {
     setLoading(true);

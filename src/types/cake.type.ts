@@ -55,6 +55,6 @@ export type CakeFilter = {
     'toStockSell'?: string;
     'fromStockNonSell'?: string;
     'toStockNonSell'?: string;
-    'hasDiscount'?: boolean;
-    'isSell'?: boolean;
+    'hasDiscount'?: string;
+    'isSell'?: string;
 };
