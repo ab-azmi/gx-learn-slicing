@@ -1,7 +1,8 @@
 import Modal from "@/components/Modal";
 import TableTransaction from "./components/TableTransaction";
 import useTransaction from "./hooks/useTransaction";
-import React from "react";
+import React, { useState } from "react";
+import { Transaction as TransactionType } from "@/types/transaction.type";
 
 const Transaction = () => {
 
@@ -14,6 +15,8 @@ const Transaction = () => {
     clearFilter,
     refetchTransaction,
   } = useTransaction();
+
+  const [selected, setSelected] = useState<TransactionType | null>(null);
 
   const bento = [
     {
@@ -69,9 +72,37 @@ const Transaction = () => {
         onFilter={refetchTransaction}
         filters={filters}
         setFilters={setFilters}
+        onSelect={(item) => setSelected(item)}
       />
 
-      <Modal show={false} onClose={() => {}} title="Transaction Detail"></Modal>
+      <Modal show={selected !== null} onClose={() => setSelected(null)} title="Transaction Detail">
+        <h6 className="text-muted">{selected?.number}</h6>
+
+        <div className="w-100">
+          <table className="w-100">
+            <thead>
+              <tr>
+                <th>Cake</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selected?.orders.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.cakeVariant?.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price}</td>
+                  <td>{item.discount}</td>
+                  <td>{item.totalPrice}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Modal>
     </div>
   );
 };

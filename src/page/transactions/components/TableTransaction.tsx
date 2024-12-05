@@ -12,6 +12,7 @@ import handleInput from "@/helpers/input.helper";
 import formatDate from "@/helpers/dateFormater.helper";
 import Select from "@/components/Select";
 import Modal from "@/components/Modal";
+import { getTransaction } from "@/service/api/transaction.api";
 
 type TableProps = {
   data?: Paginate<Transaction>;
@@ -23,6 +24,7 @@ type TableProps = {
   onClearFilter: () => void;
   onFilter: () => void;
   onChangePage: (page?: number) => void;
+  onSelect: (item: Transaction) => void;
 };
 
 const TableTransaction = ({
@@ -34,8 +36,15 @@ const TableTransaction = ({
   onFilter,
   onClearFilter,
   onChangePage,
+  onSelect
 }: TableProps) => {
   const [showModal, setShowModal] = useState(false);
+
+  const selectTransaction = (id: number) => {
+    getTransaction(id).then((res) => {
+      onSelect(res.result);
+    })
+  }
 
   return (
     <section className="card-secondary">
@@ -169,7 +178,7 @@ const TableTransaction = ({
 
                   <td>
                     <div className="hstack gap-2">
-                      <Button type="button" style="fill" size="sm">
+                      <Button type="button" style="fill" size="sm" onClick={() => selectTransaction(item.id!)}>
                         <Receipt1 size="24" variant="Bulk" />
                       </Button>
                       {item.status.name === 'success' ? (
@@ -207,9 +216,10 @@ const TableTransaction = ({
         )}
       </div>
 
-      <Modal show={showModal} onClose={() => setShowModal(false)} title="Cake Filter">
+      <Modal show={showModal} onClose={() => setShowModal(false)} title="Transaction Filter">
         <form onSubmit={(e) => {
           e.preventDefault();
+          onFilter();
           setShowModal(false);
         }}>
           <div className="hstack gap-1 mb-2">
@@ -219,11 +229,8 @@ const TableTransaction = ({
               onChange={(e) => handleInput(e, setFilters, filters)}
               value={filters.orderBy}
               options={[
-                { name: "Name", value: "name" },
-                { name: "COGS", value: "COGS" },
-                { name: "Selling Price", value: "sellingPrice" },
-                { name: "Stock Sell", value: "stockSell" },
-                { name: "Stock Non Sell", value: "stockNonSell" },
+                { name: "Quantity", value: "quantity" },
+                { name: "Total Price", value: "totalPrice" },
                 { name: "Created At", value: "createdAt" },
               ]}
             />
