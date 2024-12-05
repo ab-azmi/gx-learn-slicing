@@ -61,7 +61,7 @@ const SideBar = () => {
   return (
     <>
       {/* DONE : Responsive Sidebar */}
-      <nav className="py-4 bg-secondary min-vh-100 sidenav d-sm-block d-none">
+      <nav className="py-4 bg-white min-vh-100 sidenav d-sm-block d-none">
         <div className="w-100 d-flex justify-content-center mb-5">
           <img src={Logo} alt="" style={{ width: "2rem" }} />
         </div>

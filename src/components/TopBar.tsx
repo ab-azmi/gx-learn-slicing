@@ -24,7 +24,7 @@ const TopBar = () => {
   }
 
   return (
-    <div className="top-bar w-100 bg-secondary d-flex justify-content-between px-4 py-3">
+    <div className="top-bar w-100 bg-white d-flex justify-content-between px-4 py-3">
       <div className="d-flex gap-4 align-items-center">
         <button className="hamburger" onClick={() => setExpand(!expand)}>
           <HambergerMenu size="24" />
