@@ -109,7 +109,7 @@ const Form = () => {
               <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
                 {Object.values(filters).filter((value) => value !== "").length}
               </span>
-              <Filter variant="Outline" />
+              <Filter variant="Bulk" />
             </Button>
           </section>
           <div className="w-100 h-100 overflow-auto no-scrollbar">

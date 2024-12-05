@@ -11,6 +11,7 @@ type Props = {
   required?: boolean;
   errors?: string;
   autocomplete?: string;
+  disabled?: boolean;
 };
 const Input = ({
   value,
@@ -22,6 +23,7 @@ const Input = ({
   name,
   errors,
   autocomplete = "on",
+  disabled = false,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,10 +37,11 @@ const Input = ({
       )}
       <div className="position-relative">
         <input
+          disabled={disabled}
           autoComplete={autocomplete}
           value={value}
           onChange={onChange}
-          type={type === "password" && showPassword ? "text" : type}
+          type={(type === "password" && showPassword) ? "text" : type}
           className="form-control"
           placeholder={placeholder}
           required={required}

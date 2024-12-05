@@ -74,8 +74,8 @@ const TableTransaction = ({
             onChange={(e) => handleInput(e, setFilters, filters)}
             options={[
               { name: "Cake Variant", value: "cakeVariant" },
-              { name: "Ingredient", value: "ingredient" },
-              { name: "Discount Name", value: "discount" },
+              { name: "Employee", value: "employee" },
+              { name: "Code", value: "number" },
             ]}
           />
           <Select
@@ -101,7 +101,7 @@ const TableTransaction = ({
           <span className="badge rounded-pill bg-danger position-absolute top-0 end-50 translate-middle">
             {Object.values(filters).filter((value) => value !== "").length}
           </span>
-          <Filter variant="Outline" />
+          <Filter variant="Bulk" />
         </Button>
       </form>
 

@@ -1,7 +1,7 @@
 type Props = {
     checked: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    label: string;
+    label?: string;
 }
 
 const CheckBox = ({

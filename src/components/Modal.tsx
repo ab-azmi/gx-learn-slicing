@@ -6,18 +6,20 @@ type Props = {
   show: boolean;
   title: string;
   onClose: () => void;
+  size?: 'sm' | 'lg' | 'xl';
 };
 
 const Modal = ({
   title,
   show,
   onClose,
-  children
+  children,
+  size
 }: PropsWithChildren<Props>) => {
 
   return (
     <>
-      <BSModal show={show} onHide={onClose}>
+      <BSModal show={show} onHide={onClose} size={size}>
         <BSModal.Header closeButton>
           <BSModal.Title>{title}</BSModal.Title>
         </BSModal.Header>

@@ -14,7 +14,6 @@ const Form = () => {
     loading,
     setInput,
     ingredients,
-    clearInput,
     fetchCOGS,
     fetchCake,
     handleSubmit,
@@ -38,26 +37,19 @@ const Form = () => {
 
   return (
     <section className="p-4">
-      <Button onClick={() => navigate(cakePath.index)}>Back</Button>
+      <div className="hstack gap-3 mb-3">
+        <Button onClick={() => navigate(cakePath.index)}>Back</Button>
 
-      <h3 className="mt-3">
-        Form <span className="fw-bold">
-          {state ? "Edit" : "Create"}
-        </span>
-      </h3>
+        <h3 className="mt-3">
+          Form <span className="fw-bold">
+            {state ? "Edit" : "Create"}
+          </span>
+        </h3>
+      </div>
 
       <div className="row">
         <div className="col-md-6">
           <div className="card-secondary">
-            <Input
-              type="string"
-              label={`Profit Margin (default ${defaultMargin}%)`}
-              placeholder="0"
-              name="profitMargin"
-              value={''}
-              onChange={(e) => handleInput(e, setInput, input)}
-            />
-
             <table className="mt-3">
               <thead>
                 <tr>
@@ -90,26 +82,21 @@ const Form = () => {
                 ))}
               </tbody>
             </table>
-
-            <div className="mt-2 hstack justify-content-end gap-3">
-              <Button
-                type="button"
-                disabled={loading}
-                isOutline
-                onClick={clearInput}
-              >
-                {loading ? "Loading..." : "Clear"}
-              </Button>
-              <Button type="button" disabled={loading} onClick={fetchCOGS}>
-                {loading ? "Loading..." : "Calculate Selling Price"}
-              </Button>
-            </div>
           </div>
         </div>
 
         <div className="col-md-6">
           <div className="card-secondary">
             <form onSubmit={handleSubmit} className="vstack gap-2">
+              <Input
+                type="string"
+                label={`Profit Margin (default ${defaultMargin}%)`}
+                placeholder="0"
+                name="profitMargin"
+                value={''}
+                onChange={(e) => handleInput(e, setInput, input)}
+              />
+
               <Input
                 type="text"
                 label="Cake Name"
@@ -119,6 +106,32 @@ const Form = () => {
                 value={input?.name}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
+
+              {input.id && (
+                <>
+                  <Input
+                    disabled
+                    type="number"
+                    label="Stock Sell"
+                    required
+                    placeholder="0"
+                    name="stockSell"
+                    value={input?.stockSell.toString()}
+                    onChange={(e) => handleInput(e, setInput, input)}
+                  />
+
+                  <Input
+                    disabled
+                    type="number"
+                    label="Stock Non Sell"
+                    required
+                    placeholder="0"
+                    name="stockNonSell"
+                    value={input?.stockNonSell.toString()}
+                    onChange={(e) => handleInput(e, setInput, input)}
+                  />
+                </>
+              )}
 
               <Input
                 type="string"
@@ -138,14 +151,41 @@ const Form = () => {
                 onChange={(e) => handleInput(e, setInput, input)}
               />
 
+              <div className="hstack gap-2 mt-2 flex-wrap">
+                {input.images?.map((img, index) => (
+                  <div key={index} className="cake-image-card position-relative">
+                    <button
+                      onClick={() => {
+                        setInput({
+                          ...input,
+                          images: input.images?.filter((_, i) => i !== index)
+                        });
+                      }}
+                      className="position-absolute border-0 bottom-2 start-0 rounded-2 bg-danger">
+                      <Trash size={20} />
+                    </button>
+                    {img.file ? (
+                      <img src={URL.createObjectURL(img.file)} alt="cake" className="h-100 w-100" />
+                    ) : (
+                      <img src={img.link} alt="cake" className="h-100 w-100" />
+                    )}
+                  </div>
+                ))}
+                <label htmlFor="image-upload"
+                  className="cake-image-card">
+                  <input
+                    id="image-upload"
+                    style={{ display: 'none' }}
+                    type="file"
+                    multiple
+                    onChange={handleImageUpload} />
+                  <AddSquare size={32} />
+                </label>
+              </div>
+
               <div className="mt-2 hstack justify-content-end gap-3">
-                <Button
-                  type="button"
-                  disabled={loading}
-                  isOutline
-                  onClick={clearInput}
-                >
-                  {loading ? "Loading..." : "Clear"}
+                <Button type="button" disabled={loading} onClick={fetchCOGS}>
+                  {loading ? "Loading..." : "Calculate Selling Price"}
                 </Button>
                 <Button type="submit" disabled={input.sellingPrice == 0}>
                   {loading ? "Loading..." : "Submit"}
@@ -154,40 +194,6 @@ const Form = () => {
             </form>
           </div>
 
-          <div className="card-secondary">
-            <h3>Cake Images</h3>
-            <div className="hstack gap-2 mt-2 flex-wrap">
-              {input.images?.map((img, index) => (
-                <div key={index} className="cake-image-card position-relative">
-                  <button 
-                    onClick={() => {
-                      setInput({
-                        ...input,
-                        images: input.images?.filter((_, i) => i !== index)
-                      });
-                    }}
-                    className="position-absolute border-0 bottom-2 start-0 rounded-2 bg-danger">
-                    <Trash size={20}/>
-                  </button>
-                  {img.file ? (
-                    <img src={URL.createObjectURL(img.file)} alt="cake" className="h-100 w-100" />
-                  ) : (
-                    <img src={img.link} alt="cake" className="h-100 w-100" />
-                  )}
-                </div>
-              ))}
-              <label htmlFor="image-upload"
-                className="cake-image-card">
-                <input
-                  id="image-upload"
-                  style={{ display: 'none' }}
-                  type="file"
-                  multiple
-                  onChange={handleImageUpload} />
-                <AddSquare size={32} />
-              </label>
-            </div>
-          </div>
         </div>
       </div>
     </section>
