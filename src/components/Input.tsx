@@ -26,7 +26,7 @@ const Input = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="d-flex flex-column gap-1 form-group">
+    <div className="d-flex flex-column gap-1 form-group w-100">
       {label && (
         <label htmlFor={name} className="fw-light fs-xs">
           {label}

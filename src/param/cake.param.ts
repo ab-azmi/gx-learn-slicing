@@ -22,8 +22,6 @@ export const cakeFilter: CakeFilter = {
     toCOGS: "",
     fromSellingPrice: "",
     toSellingPrice: "",
-    fromTotalDiscount: "",
-    toTotalDiscount: "",
     fromStockSell: "",
     toStockSell: "",
     fromStockNonSell: "",

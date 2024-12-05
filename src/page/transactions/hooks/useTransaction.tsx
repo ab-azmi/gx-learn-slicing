@@ -6,7 +6,7 @@ import {
   getTransactions,
 } from "@/service/api/transaction.api";
 import { Transaction } from "@/types/transaction.type";
-import { transactionForm } from "@/form/transaction.form";
+import { transactionForm } from "@/param/transaction.param";
 
 const useTransaction = () => {
 

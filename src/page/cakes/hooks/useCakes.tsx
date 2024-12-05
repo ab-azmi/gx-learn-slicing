@@ -1,4 +1,4 @@
-import { cakeFilter } from "@/form/cake.form";
+import { cakeFilter } from "@/param/cake.param";
 import {
   deleteCake,
   getCakes,

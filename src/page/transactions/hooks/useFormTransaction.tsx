@@ -1,4 +1,4 @@
-import { cakeVariantFilterForm, transactionForm } from "@/form/transaction.form";
+import { transactionForm } from "@/param/transaction.param";
 import { getCakes, getVariants } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
 import { createTransaction } from "@/service/api/transaction.api";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 const useFormTransaction = () => {
     const authStore = AuthStore();
-    const {transaction, setTransaction, filters, setFilters, cakes, setCakes} = OrderStore();
+    const {transaction, setTransaction, filters, cakes, setCakes} = OrderStore();
     const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
     const [tax, setTax] = useState<number>(0);
@@ -38,7 +38,6 @@ const useFormTransaction = () => {
     const handleFetchCake = () => {
         getCakes(0, filters).then((res) => {
             setCakes(res.result);
-            console.log('cake');
         });
     }
 
@@ -99,13 +98,6 @@ const useFormTransaction = () => {
         })
     };
 
-    const clearFilter = () => {
-        setFilters(cakeVariantFilterForm);
-        getVariants().then((res) => {
-            setCakeVariants(res.result);
-        });
-    }
-
     const clearInput = () => {
         setTransaction({
             ...transactionForm,
@@ -133,13 +125,10 @@ const useFormTransaction = () => {
     return {
         tax,
         cakes,
-        filters,
         loading,
         cakeVariants,
-        setFilters,
         setCakeVariants,
         hanldeFetchMargin,
-        clearFilter,
         clearInput,
         handleProcess,
         handleFetchCake,

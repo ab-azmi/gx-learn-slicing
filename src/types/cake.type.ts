@@ -51,8 +51,6 @@ export type CakeFilter = {
     'toCOGS'?: string;
     'fromSellingPrice'?: string;
     'toSellingPrice'?: string;
-    'fromTotalDiscount'?: string;
-    'toTotalDiscount'?: string;
     'fromStockSell'?: string;
     'toStockSell'?: string;
     'fromStockNonSell'?: string;
