@@ -4,7 +4,7 @@ import useFormTransaction from "../hooks/useFormTransaction";
 import Input from "@/components/Input";
 import handleInput from "@/helpers/input.helper";
 import Button from "@/components/Button";
-import { Filter } from "iconsax-react";
+import { Filter, Minus } from "iconsax-react";
 import priceFormater from "@/helpers/priceFormater.helper";
 import OrderStore from "@/store/OrderStore";
 import { useEffect, useState } from "react";
@@ -23,7 +23,7 @@ type Grouped = {
 const Form = () => {
   const { transaction } = OrderStore();
   const [grouped, setGrouped] = useState<Grouped[]>([]);
-  const { filters, setFilters, fetchVariants, handleProcess, tax } = useFormTransaction();
+  const { filters, setFilters, fetchVariants, handleProcess, tax, handleOrderChange } = useFormTransaction();
 
   const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,7 +109,12 @@ const Form = () => {
                       <div key={index} className="ms-2">
                         <div className="flex-between">
                           <p className="text-muted no-spacing">{order.cakeVariant?.name}</p>
-                          <p className="text-muted no-spacing">{order.quantity} pcs</p>
+                          <div className="hstack gap-2">
+                            <p className="text-muted no-spacing">{order.quantity} pcs</p>
+                            <Button size="sm" onClick={() => handleOrderChange(order.cakeVariant!, -1)}>
+                              <Minus />
+                            </Button>
+                          </div>
                         </div>
                         {order.cakeVariant?.cake?.totalDiscount !== 0 ? (
                           <div className="hstack gap-2">
