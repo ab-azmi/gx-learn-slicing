@@ -1,17 +1,19 @@
 import priceFormater from "@/helpers/priceFormater.helper";
 import CakePlaceholder from "@/assets/images/cake1.jpg";
-import useFormTransaction from "../hooks/useFormTransaction";
 import { useNavigate } from "react-router-dom";
 import { transactionPath } from "@/path/transaction.path";
+import OrderStore from "@/store/OrderStore";
+import useFormTransaction from "../hooks/useFormTransaction";
 import { useEffect } from "react";
 
 const CakeMenu = () => {
     const navigate = useNavigate();
-    const { cakes, handleFetchCake } = useFormTransaction();
+    const { cakes } = OrderStore();
+    const {handleFetchCake} = useFormTransaction();
 
     useEffect(() => {
         handleFetchCake();
-    }, [])
+    }, []);
 
     return (
         <>

@@ -1,6 +1,6 @@
 const handleInput = <T extends object>(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-    setData: React.Dispatch<React.SetStateAction<T>>,
+    setData: React.Dispatch<React.SetStateAction<T>> | ((data: T) => void),
     input: T
 ) => {
     const { name, value } = e.target;

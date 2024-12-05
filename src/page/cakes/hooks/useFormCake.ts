@@ -1,4 +1,4 @@
-import { cakeForm } from "@/form/cake.form";
+import { cakeForm } from "@/param/cake.param";
 import { calculateCOGS, createCake, getCake, getIngredients, updateCake } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
 import { Cake, Ingredient } from "@/types/cake.type";

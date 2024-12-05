@@ -7,6 +7,7 @@ import CakePlaceholder from "@/assets/images/cake1.jpg";
 import priceFormater from "@/helpers/priceFormater.helper";
 import { getCake } from "@/service/api/cake.api";
 import useFormTransaction from "../hooks/useFormTransaction";
+import { ArrowLeft2 } from "iconsax-react";
 
 const CakeDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,10 +22,14 @@ const CakeDetail = () => {
 
     return (
         <>
-            <div className="mb-3">
+            <div className="mb-3 mt-2 hstack gap-3">
                 <Link to={transactionPath.cashier}>
-                    <Button>Back</Button>
+                    <Button>
+                        <ArrowLeft2 size={18} />
+                    </Button>
                 </Link>
+
+                <h4 className="no-spacing text-muted">{cake?.name}</h4>
             </div>
 
             <div className="row mt-2">
