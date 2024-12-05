@@ -1,16 +1,16 @@
-import { Cake, Ingredient } from "@/types/cake.type";
+import { Cake, CakeFilter, Ingredient } from "@/types/cake.type";
 import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (
     page?: number,
-    filters?: { [key: string]: string }
+    filters?: CakeFilter
 ) => {
     const params = new URLSearchParams();
     if (page !== undefined) params.append('page', page.toString());
     if (filters !== undefined) {
         for (const key in filters) {
-            if (filters[key] !== '') {
-                params.append(key, filters[key]);
+            if (filters[key as keyof CakeFilter] !== '') {
+                params.append(key, filters[key as keyof CakeFilter] as string);
             }
         }
     }

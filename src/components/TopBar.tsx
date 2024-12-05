@@ -20,7 +20,7 @@ const TopBar = () => {
       return "Dashboard";
     }
     
-    return cleanPath.map((path) => path.charAt(0).toUpperCase() + path.slice(1)).join(" ");
+    return cleanPath[0];
   }
 
   return (

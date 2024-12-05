@@ -21,13 +21,16 @@ type Grouped = {
 }
 
 const Form = () => {
-  const { transaction } = OrderStore();
+  const { transaction, filters, setFilters } = OrderStore();
   const [grouped, setGrouped] = useState<Grouped[]>([]);
-  const { filters, setFilters, fetchVariants, handleProcess, tax, handleOrderChange } = useFormTransaction();
+  const { 
+      handleFetchCake, 
+      handleProcess, tax, 
+      handleOrderChange } = useFormTransaction();
 
   const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchVariants();
+    handleFetchCake();
   };
 
   useEffect(() => {

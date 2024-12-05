@@ -4,19 +4,15 @@ import { getSettings } from "@/service/api/setting.api";
 import { createTransaction } from "@/service/api/transaction.api";
 import AuthStore from "@/store/AuthStore";
 import OrderStore from "@/store/OrderStore";
-import { Cake, CakeFilter, CakeVariant } from "@/types/cake.type";
-import { Transaction } from "@/types/transaction.type";
+import { CakeVariant } from "@/types/cake.type";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const useFormTransaction = () => {
     const authStore = AuthStore();
-    const {transaction, setTransaction} = OrderStore();
-    const [cakes, setCakes] = useState<Cake[]>([]);
-    const [receipt, setReceipt] = useState<Transaction | null>(null);
+    const {transaction, setTransaction, filters, setFilters, cakes, setCakes} = OrderStore();
     const [loading, setLoading] = useState<boolean>(false);
     const [cakeVariants, setCakeVariants] = useState<CakeVariant[]>([]);
-    const [filters, setFilters] = useState<CakeFilter>(cakeVariantFilterForm);
     const [tax, setTax] = useState<number>(0);
 
     useEffect(() => {
@@ -40,8 +36,9 @@ const useFormTransaction = () => {
     }
 
     const handleFetchCake = () => {
-        getCakes().then((res) => {
+        getCakes(0, filters).then((res) => {
             setCakes(res.result);
+            console.log('cake');
         });
     }
 
@@ -109,12 +106,6 @@ const useFormTransaction = () => {
         });
     }
 
-    const fetchVariants = () => {
-        getVariants(filters).then((res) => {
-            setCakeVariants(res.result);
-        });
-    }
-
     const clearInput = () => {
         setTransaction({
             ...transactionForm,
@@ -126,7 +117,7 @@ const useFormTransaction = () => {
         const id = toast.loading("Processing...");
         setLoading(true);
 
-        createTransaction(transaction).then((res) => {
+        createTransaction(transaction).then(() => {
             setLoading(false);
             toast.update(id, {
                 render: "Transaction Created",
@@ -136,8 +127,6 @@ const useFormTransaction = () => {
             });
 
             clearInput();
-
-            setReceipt(res.result);
         })
     };
 
@@ -145,14 +134,12 @@ const useFormTransaction = () => {
         tax,
         cakes,
         filters,
-        receipt,
         loading,
         cakeVariants,
         setFilters,
         setCakeVariants,
         hanldeFetchMargin,
         clearFilter,
-        fetchVariants,
         clearInput,
         handleProcess,
         handleFetchCake,

@@ -1,4 +1,4 @@
-import { Cake } from "@/types/cake.type";
+import { Cake, CakeFilter } from "@/types/cake.type";
 
 export const cakeForm: Cake =  {
   name: "",
@@ -7,11 +7,25 @@ export const cakeForm: Cake =  {
   sellingPrice: 0,
   images: [],
   ingredients: [],
-  stock: 0,
+  stockSell: 0,
+  stockNonSell: 0,
+  isSell: false,
+  totalDiscount: 0,
 };
 
-export const cakeFilter = {
+export const cakeFilter: CakeFilter = {
     search: "",
+    searchIn: "",
     orderBy: "",
     orderType: "",
+    fromCOGS: "",
+    toCOGS: "",
+    fromSellingPrice: "",
+    toSellingPrice: "",
+    fromTotalDiscount: "",
+    toTotalDiscount: "",
+    fromStockSell: "",
+    toStockSell: "",
+    fromStockNonSell: "",
+    toStockNonSell: "",
 }
