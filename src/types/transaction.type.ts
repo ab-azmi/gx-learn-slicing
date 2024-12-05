@@ -68,3 +68,10 @@ export type TransactionFilter = {
     toQuantity?: string;
     employeeId?: string;
 }
+
+export type TransactionSummary = {
+    transactionToday: number;
+    transactionThisMonth: number;
+    cakeSoldToday: number;
+    cakeSoldThisMonth: number;
+}

@@ -222,29 +222,6 @@ const TableTransaction = ({
           onFilter();
           setShowModal(false);
         }}>
-          <div className="hstack gap-1 mb-2">
-            <Select
-              placeholder="Order By"
-              name="orderBy"
-              onChange={(e) => handleInput(e, setFilters, filters)}
-              value={filters.orderBy}
-              options={[
-                { name: "Quantity", value: "quantity" },
-                { name: "Total Price", value: "totalPrice" },
-                { name: "Created At", value: "createdAt" },
-              ]}
-            />
-            <Select
-              placeholder="Order Type"
-              name="orderType"
-              onChange={(e) => handleInput(e, setFilters, filters)}
-              value={filters.orderType}
-              options={[
-                { name: "ASC", value: "asc" },
-                { name: "DESC", value: "desc" },
-              ]}
-            />
-          </div>
           <div className="mb-2 w-50">
             <DatePicker
               label="Created At Range"
@@ -256,9 +233,34 @@ const TableTransaction = ({
                 })
               }} />
           </div>
+          <div className="hstack gap-1 mb-2">
+            <Select
+              placeholder="Order By"
+              label="Order By"
+              name="orderBy"
+              onChange={(e) => handleInput(e, setFilters, filters)}
+              value={filters.orderBy}
+              options={[
+                { name: "Quantity", value: "quantity" },
+                { name: "Total Price", value: "totalPrice" },
+                { name: "Created At", value: "createdAt" },
+              ]}
+            />
+            <Select
+              placeholder="Order Type"
+              label="Order Type"
+              name="orderType"
+              onChange={(e) => handleInput(e, setFilters, filters)}
+              value={filters.orderType}
+              options={[
+                { name: "ASC", value: "asc" },
+                { name: "DESC", value: "desc" },
+              ]}
+            />
+          </div>
           <div className="flex-between gap-1 mb-2">
             <Input
-              placeholder="0"
+              placeholder="Rp 0"
               name="fromTotalPrice"
               label="From Total Price"
               value={filters.fromTotalPrice}
@@ -266,7 +268,7 @@ const TableTransaction = ({
               type="number"
             />
             <Input
-              placeholder="1.000.000"
+              placeholder="Rp 1.000.000"
               name="toTotalPrice"
               label="To Total Price"
               value={filters.toTotalPrice}
@@ -276,7 +278,7 @@ const TableTransaction = ({
           </div>
           <div className="flex-between gap-1 mb-2">
             <Input
-              placeholder="0"
+              placeholder="Rp 0"
               name="fromOrderPrice"
               label="From Order Price"
               value={filters.fromOrderPrice}
@@ -284,7 +286,7 @@ const TableTransaction = ({
               type="number"
             />
             <Input
-              placeholder="1.000.000"
+              placeholder="Rp 1.000.000"
               name="toOrderPrice"
               label="To Order Price"
               value={filters.toOrderPrice}

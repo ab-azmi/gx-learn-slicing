@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import {
   deleteTransaction,
   getTransactions,
+  getTransactionSummary,
 } from "@/service/api/transaction.api";
-import { Transaction, TransactionFilter } from "@/types/transaction.type";
+import { Transaction, TransactionFilter, TransactionSummary } from "@/types/transaction.type";
 import { transactionFilterParam, transactionParam } from "@/param/transaction.param";
 
 const useTransaction = () => {
@@ -17,6 +18,7 @@ const useTransaction = () => {
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState<TransactionFilter>(transactionFilterParam);
   const [input, setInput] = useState<Transaction>(transactionParam);
+  const [summary, setSummary] = useState<TransactionSummary>();
 
   useEffect(() => {
     setLoading(true);
@@ -59,9 +61,16 @@ const useTransaction = () => {
     setInput(transactionParam);
   };
 
+  const handleFetchTransactionSummary = () => {
+    getTransactionSummary().then((res) => {
+      setSummary(res.result);
+    });
+  }
+
   return {
     transactions,
     setTransactions,
+    summary,
     input,
     loading,
     filters,
@@ -70,6 +79,7 @@ const useTransaction = () => {
     setInput,
     setFilters,
     handleDelete,
+    handleFetchTransactionSummary,
     refetchTransaction,
     clearFilter,
     clearInput,
