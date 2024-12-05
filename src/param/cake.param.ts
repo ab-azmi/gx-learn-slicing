@@ -26,4 +26,5 @@ export const cakeFilter: CakeFilter = {
     toStockSell: "",
     fromStockNonSell: "",
     toStockNonSell: "",
+    archived: "",
 }

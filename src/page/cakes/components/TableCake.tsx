@@ -14,6 +14,7 @@ import { CakeFilter, Cake as CakeType } from "@/types/cake.type";
 import Modal from "@/components/Modal";
 import Switch from "@/components/Switch";
 import { getSettings } from "@/service/api/setting.api";
+import { getCake } from "@/service/api/cake.api";
 
 type TableProps = {
   data?: Paginate<CakeType>;
@@ -25,6 +26,7 @@ type TableProps = {
   onFilter: () => void;
   onClearFilter: () => void;
   onChangePage: (page?: number) => void;
+  onSelected?: (cake: CakeType) => void;
 };
 
 const TableCake = ({
@@ -37,18 +39,27 @@ const TableCake = ({
   onDelete,
   onClearFilter,
   onChangePage,
+  onSelected,
 }: TableProps) => {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const selected = useRef<CakeType | null>(null);
   const [defaultMargin, setDefaultMargin] = useState<number>(0);
+  const selected = useRef<CakeType | null>(null);
 
   useEffect(() => {
     getSettings({ key: 'profit_margin' }).then((res) => {
       setDefaultMargin(res.result[0].value);
     })
   }, [])
+
+  const selectCake = (id: number) => {
+    getCake(id).then((res) => {
+      if (onSelected) {
+        onSelected(res.result);
+      }
+    });
+  }
 
   return (
     <div className="card-secondary">
@@ -172,7 +183,10 @@ const TableCake = ({
 
                   <td>
                     <div className="hstack gap-1">
-                      <Button className="bg-transparent border-0 text-primary" size="sm">
+                      <Button
+                        onClick={() => selectCake(item.id!)}
+                        className="bg-transparent border-0 text-primary"
+                        size="sm">
                         <Cake size="24" variant="Bulk" />
                       </Button>
                       <button
@@ -224,8 +238,8 @@ const TableCake = ({
       <ModalConfirm
         show={confirm}
         onClose={() => setConfirm(false)}
-        title="Delete Confirm"
-        message="This cannot be undone!"
+        title="Archived Confirm"
+        message={`${selected.current?.name} will be archived`}
         onConfirm={() => {
           if (onDelete && selected.current) {
             onDelete(selected.current.id!);
@@ -240,6 +254,11 @@ const TableCake = ({
           onFilter();
           setShowModal(false);
         }}>
+          <div className="mb-2">
+            <Switch label="Is Archived" checked={!!filters.archived} onChange={() =>
+              setFilters({ ...filters, archived: filters.archived ? "" : "1" })
+            } />
+          </div>
           <div className="hstack gap-1 mb-2">
             <Select
               placeholder="Order By"

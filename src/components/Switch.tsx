@@ -10,11 +10,13 @@ const Switch = ({
     label
 }: Props) => {
     return (
-        <label className="switch">
-            <input type="checkbox" checked={checked} onChange={onChange} />
-            <span className="slider"></span>
-            {label}
-        </label>
+        <div className="hstack gap-2">
+            <label className="switch hstack">
+                <input type="checkbox" checked={checked} onChange={onChange} />
+                <span className="slider"></span>
+            </label>
+            {label && <span>{label}</span>}
+        </div>
     )
 }
 

@@ -57,4 +57,5 @@ export type CakeFilter = {
     'toStockNonSell'?: string;
     'hasDiscount'?: string;
     'isSell'?: string;
+    'archived'? : string;
 };
