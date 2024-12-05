@@ -17,7 +17,7 @@ const Select = ({
   placeholder,
 }: Props) => {
   return (
-    <div className="d-flex flex-column gap-1 form-group">
+    <div className="vstack gap-1 form-group w-auto">
       {label && (
         <label htmlFor={name} className="fw-light fs-xs text-capitalize">
           {label}
@@ -28,7 +28,7 @@ const Select = ({
         value={value}
         name={name}
         id={name}
-        className="form-select text-capitalize"
+        className="form-select text-capitalize w-auto"
         aria-label="Default select example"
       >
         <option value={-1}>{placeholder}</option>

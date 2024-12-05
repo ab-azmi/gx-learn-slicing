@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 import {
   deleteTransaction,
   getTransactions,
+  getTransactionSummary,
 } from "@/service/api/transaction.api";
-import { Transaction } from "@/types/transaction.type";
-import { transactionForm } from "@/param/transaction.param";
+import { Transaction, TransactionFilter, TransactionSummary } from "@/types/transaction.type";
+import { transactionFilterParam, transactionParam } from "@/param/transaction.param";
 
 const useTransaction = () => {
 
@@ -15,12 +16,9 @@ const useTransaction = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
-  const [filters, setFilters] = useState<{ [key: string]: string }>({
-    search: "",
-    fromDate: "",
-    toDate: "",
-  });
-  const [input, setInput] = useState<Transaction>(transactionForm);
+  const [filters, setFilters] = useState<TransactionFilter>(transactionFilterParam);
+  const [input, setInput] = useState<Transaction>(transactionParam);
+  const [summary, setSummary] = useState<TransactionSummary>();
 
   useEffect(() => {
     setLoading(true);
@@ -47,7 +45,7 @@ const useTransaction = () => {
   };
 
   const clearFilter = () => {
-    setFilters({});
+    setFilters(transactionFilterParam);
     setTransactions(backupTransactions.current);
   };
 
@@ -60,12 +58,19 @@ const useTransaction = () => {
   };
 
   const clearInput = () => {
-    setInput(transactionForm);
+    setInput(transactionParam);
   };
+
+  const handleFetchTransactionSummary = () => {
+    getTransactionSummary().then((res) => {
+      setSummary(res.result);
+    });
+  }
 
   return {
     transactions,
     setTransactions,
+    summary,
     input,
     loading,
     filters,
@@ -74,6 +79,7 @@ const useTransaction = () => {
     setInput,
     setFilters,
     handleDelete,
+    handleFetchTransactionSummary,
     refetchTransaction,
     clearFilter,
     clearInput,

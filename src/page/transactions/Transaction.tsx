@@ -1,6 +1,10 @@
+import Modal from "@/components/Modal";
 import TableTransaction from "./components/TableTransaction";
 import useTransaction from "./hooks/useTransaction";
-import React from "react";
+import React, { useState } from "react";
+import { Transaction as TransactionType } from "@/types/transaction.type";
+import Bento from "./components/Bento";
+import priceFormater from "@/helpers/priceFormater.helper";
 
 const Transaction = () => {
 
@@ -14,49 +18,12 @@ const Transaction = () => {
     refetchTransaction,
   } = useTransaction();
 
-  const bento = [
-    {
-      label: "Transaction",
-      value: transactions?.result?.length || 0,
-    },
-    {
-      label: "Transaction This Month",
-      value: 47,
-    },
-    {
-      label: "Cake Sold",
-      value: transactions?.result?.reduce((acc, item) => acc + item.quantity, 0) || 0,
-    },
-    {
-      label: "Cake Sold This Month",
-      value: 17,
-    },
-  ];
+  const [selected, setSelected] = useState<TransactionType | null>(null);
 
   return (
     <div className="p-4">
-      <div className="d-flex gap-3 w-100 mb-3 flex-wrap flex-md-nowrap">
-        {bento.map((item, index) => (
-          <React.Fragment key={index}>
-            {loading ? (
-              <div className="w-100 card-secondary">
-                <div className="bg-muted rounded-2 w-20" style={{ height: '10px' }}></div>
-                <div className="bg-muted rounded-2 w-100 mt-4" style={{ height: '8px' }}></div>
-              </div>
-            ) : (
-              <div className="w-100 card-secondary">
-                <h3 className="fw-bold">{item.value}</h3>
-                <h6>
-                  {item.label} &nbsp;
-                  <span className="text-muted">
-                    (Today<span className="text-danger">*</span>)
-                  </span>
-                </h6>
-              </div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+      <Bento />
+
       <TableTransaction
         data={transactions}
         columns={5}
@@ -67,7 +34,62 @@ const Transaction = () => {
         onFilter={refetchTransaction}
         filters={filters}
         setFilters={setFilters}
+        onSelect={(item) => setSelected(item)}
       />
+
+      <Modal show={selected !== null} onClose={() => setSelected(null)} title="Transaction Detail">
+        <h6 className="text-muted mb-3">{selected?.number}</h6>
+
+        <table className="mb-3 w-50">
+          <tbody>
+            <tr>
+              <td>Sub Total :</td>
+              <td>{priceFormater(selected?.orderPrice)}</td>
+            </tr>
+            <tr>
+              <td className="text-muted">Discount :</td>
+              <td className="text-muted">- {priceFormater(selected?.totalDiscount)}</td>
+            </tr>
+            <tr>
+              <td className="text-muted">Tax :</td>
+              <td className="text-muted">{priceFormater(selected?.tax)}</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="fs-5">Total :</p>
+              </td>
+              <td>
+                <p className="fs-5">{priceFormater(selected?.totalPrice)}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p className="fs-6 fw-semibold">Orders :</p>
+
+        <table className="w-100 mb-3">
+          <thead>
+            <tr>
+              <th>Cake</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Discount</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {selected?.orders.map((item, index) => (
+              <tr key={index}>
+                <td>{item.cakeVariant?.name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.price}</td>
+                <td>{item.discount}</td>
+                <td>{item.totalPrice}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Modal>
     </div>
   );
 };

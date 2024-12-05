@@ -203,7 +203,7 @@ const TableCake = ({
                       </td>
                       <td className="px-3">
                         <div>
-                          <p className="text-muted">{item['stock']}</p>
+                          <p className="text-muted">{item.stockSell}</p>
                         </div>
                       </td>
                       <td>
@@ -281,7 +281,7 @@ const TableCake = ({
           <div className="mt-2">
             {data?.result?.length && (
               <TablePagination
-                total={data.pagination?.count || 0}
+                total={data.pagination?.totalPage || 0}
                 limit={data.pagination?.perPage || 0}
                 page={data.pagination?.currentPage || 0}
                 setPage={(page) => onChangePage(page)}

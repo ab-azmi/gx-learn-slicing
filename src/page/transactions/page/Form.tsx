@@ -119,7 +119,7 @@ const Form = () => {
 
         <div className="w-30">
           <div className="card-secondary">
-            <h1 className="mb-3">Orders</h1>
+            <h3 className="mb-3">Orders</h3>
             {grouped.length > 0 && (
               <div className="border-top-dashed vstack gap-3 py-3">
                 {grouped.map((group, index) => (

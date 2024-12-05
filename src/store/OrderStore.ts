@@ -1,5 +1,5 @@
 import { cakeFilter } from "@/param/cake.param";
-import { transactionForm } from "@/param/transaction.param";
+import { transactionParam } from "@/param/transaction.param";
 import { Cake, CakeFilter } from "@/types/cake.type";
 import { Transaction } from "@/types/transaction.type";
 import { create } from "zustand";
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const OrderStore = create<Props>((set) => ({
-    transaction: transactionForm,
+    transaction: transactionParam,
     setTransaction: (transaction) => set({ transaction }),
     cakes: [],
     setCakes: (cakes) => set({ cakes }),
