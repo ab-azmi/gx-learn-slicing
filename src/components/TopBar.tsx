@@ -2,16 +2,18 @@ import { HambergerMenu, Logout, Moon, Sun } from "iconsax-react";
 import User from "@/assets/images/user.jpg";
 import sideBarStore from "@/store/SidebarStore";
 import useLogout from "@/hooks/useLogout";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkModeContext } from "@/context/DarkModeProvider";
 import useGlobalContext from "@/hooks/useGlobalContext";
 import { useLocation } from "react-router-dom";
+import ModalConfirm from "./ModalConfirm";
 
 const TopBar = () => {
   const {pathname} = useLocation();
   const { signout } = useLogout();
   const { expand, setExpand } = sideBarStore();
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  const [confirm, setConfirm] = useState(false);
   const {state} = useGlobalContext();
 
   const getPathName = () => {
@@ -33,13 +35,6 @@ const TopBar = () => {
       </div>
 
       <div className="d-flex gap-4 align-items-center">
-        {/* <div className="position-relative">
-          <span
-            className="position-absolute translate-middle text-xs bg-danger rounded-circle"
-            style={{ width: "10px", height: "10px", top: "0", right: "-4px" }}
-          ></span>
-          <Notification size="24" className="text-muted" variant="Bulk" />
-        </div> */}
         <button
           onClick={() => setDarkMode(darkMode == "dark" ? "light" : "dark")}
           type="button"
@@ -84,7 +79,7 @@ const TopBar = () => {
             </li>
             <li>
               <button
-                onClick={signout}
+                onClick={() => setConfirm(true)}
                 className="dropdown-item d-flex justify-content-between text-danger"
               >
                 Logout
@@ -94,6 +89,16 @@ const TopBar = () => {
           </ul>
         </div>
       </div>
+
+      <ModalConfirm
+        show={confirm}
+        onClose={() => setConfirm(false)}
+        title="Logout Confirm"
+        message="Are you sure want to logout?"
+        onConfirm={() => {
+          signout();
+        }}
+      />
     </div>
   );
 };
