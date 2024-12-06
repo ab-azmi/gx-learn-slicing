@@ -3,16 +3,21 @@ import CakePlaceholder from "@/assets/images/cake1.jpg";
 import { useNavigate } from "react-router-dom";
 import { transactionPath } from "@/path/transaction.path";
 import OrderStore from "@/store/OrderStore";
-import useFormTransaction from "../hooks/useFormTransaction";
 import { useEffect } from "react";
+import { getCakes } from "@/service/api/cake.api";
 
 const CakeMenu = () => {
     const navigate = useNavigate();
-    const { cakes } = OrderStore();
-    const {handleFetchCake} = useFormTransaction();
+    const { cakes, filters, setCakes } = OrderStore();
 
     useEffect(() => {
-        handleFetchCake();
+        getCakes(0, {
+            ...filters,
+            isSell: "1",
+
+        }).then((res) => {
+            setCakes(res.result);
+        });
     }, []);
 
     return (
