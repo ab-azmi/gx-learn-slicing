@@ -7,7 +7,7 @@ import Input from "@/components/Input";
 import ModalConfirm from "@/components/ModalConfirm";
 import TablePagination from "@/components/TablePagination";
 import priceFormater from "@/helpers/priceFormater.helper";
-import { cakePath } from "@/path/cakes.path";
+import cakePath from "@/path/cakes.path";
 import handleInput from "@/helpers/input.helper";
 import Select from "@/components/Select";
 import { CakeFilter, Cake as CakeType } from "@/types/cake.type";
@@ -231,7 +231,7 @@ const TableCake = ({
       </div>
 
       <div className="mt-2">
-        {data?.result?.length && (
+        {(data?.result?.length && data?.result?.length > data?.pagination?.perPage) && (
           <TablePagination
             total={data.pagination?.totalPage || 0}
             limit={data.pagination?.perPage || 0}

@@ -8,6 +8,8 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Add, Minus } from "iconsax-react";
 import handleInput from "@/helpers/input.helper";
+import { restockCake } from "@/service/api/cake.api";
+import { cakeRestockParam } from "@/param/cake.param";
 
 const Cakes = () => {
   const {
@@ -25,6 +27,18 @@ const Cakes = () => {
   const [selected, setSelected] = useState<Cake | null>(null);
   const [modalDetail, setModalDetail] = useState<boolean>(false);
   const [modalRestock, setModalRestock] = useState<boolean>(false);
+
+  const handleRestockRequest = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (selected) {
+      restockCake(selected.id!, restock).then(() => {
+        fetchCakes();
+        setModalRestock(false);
+        setRestock(cakeRestockParam);
+      });
+    }
+  }
 
   return (
     <div className="p-4">
@@ -117,11 +131,12 @@ const Cakes = () => {
       </Modal>
 
       <Modal show={modalRestock} onClose={() => setModalRestock(false)} title="Restock Cake">
-        <form action="">
+        <form onSubmit={(e) => handleRestockRequest(e)}>
           <div className="hstack w-100 align-items-end gap-3 mb-3">
             <Button size="sm" onClick={() => handleAdjustStock(1, null)}>
               <Add />
             </Button>
+            
             <Input
               type="number"
               label="Adjust Stock Sell"

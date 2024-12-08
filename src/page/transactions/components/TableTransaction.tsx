@@ -206,7 +206,7 @@ const TableTransaction = ({
       </div>
 
       <div className="mt-2">
-        {data?.result?.length && (
+        {(data?.result?.length && data?.pagination?.totalPage >= data?.pagination?.perPage) && (
           <TablePagination
             total={data.pagination?.totalPage || 0}
             limit={data.pagination?.perPage || 0}

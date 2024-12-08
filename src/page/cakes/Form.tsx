@@ -1,12 +1,13 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { cakePath } from "@/path/cakes.path";
+import cakePath from "@/path/cakes.path";
 import { useLocation, useNavigate } from "react-router-dom";
 import priceFormater from "@/helpers/priceFormater.helper";
 import useFormCake from "@/page/cakes/hooks/useFormCake";
 import handleInput from "@/helpers/input.helper";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AddSquare, Trash } from "iconsax-react";
+import ModalConfirm from "@/components/ModalConfirm";
 
 const Form = () => {
   const {
@@ -25,6 +26,7 @@ const Form = () => {
 
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     fetchIngredients();
@@ -34,6 +36,7 @@ const Form = () => {
       fetchCake(state.id);
     }
   }, []);
+
 
   return (
     <section className="p-4">
@@ -87,7 +90,7 @@ const Form = () => {
 
         <div className="col-md-6">
           <div className="card-secondary">
-            <form onSubmit={handleSubmit} className="vstack gap-2">
+            <form className="vstack gap-2">
               <Input
                 type="string"
                 label={`Profit Margin (default ${defaultMargin}%)`}
@@ -106,32 +109,6 @@ const Form = () => {
                 value={input?.name}
                 onChange={(e) => handleInput(e, setInput, input)}
               />
-
-              {input.id && (
-                <>
-                  <Input
-                    disabled
-                    type="number"
-                    label="Stock Sell"
-                    required
-                    placeholder="0"
-                    name="stockSell"
-                    value={input?.stockSell.toString()}
-                    onChange={(e) => handleInput(e, setInput, input)}
-                  />
-
-                  <Input
-                    disabled
-                    type="number"
-                    label="Stock Non Sell"
-                    required
-                    placeholder="0"
-                    name="stockNonSell"
-                    value={input?.stockNonSell.toString()}
-                    onChange={(e) => handleInput(e, setInput, input)}
-                  />
-                </>
-              )}
 
               <Input
                 type="string"
@@ -187,7 +164,7 @@ const Form = () => {
                 <Button type="button" disabled={loading} onClick={fetchCOGS}>
                   {loading ? "Loading..." : "Calculate Selling Price"}
                 </Button>
-                <Button type="submit" disabled={input.sellingPrice == 0}>
+                <Button type="button" disabled={input.sellingPrice == 0} onClick={() => setConfirm(true)}>
                   {loading ? "Loading..." : "Submit"}
                 </Button>
               </div>
@@ -196,6 +173,17 @@ const Form = () => {
 
         </div>
       </div>
+
+      <ModalConfirm
+        show={confirm}
+        onClose={() => setConfirm(false)}
+        title="Edit Confirm"
+        message="Are you sure want Edit this cake?"
+        onConfirm={() => {
+          handleSubmit();
+          setConfirm(false);
+        }}
+      />
     </section>
   );
 };

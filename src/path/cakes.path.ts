@@ -1,3 +1,5 @@
-import { crudPath } from "./config.path";
+import crudPath from "./config.path";
 
-export const cakePath = crudPath('cakes');
+const cakePath = crudPath('cakes');
+
+export default cakePath;

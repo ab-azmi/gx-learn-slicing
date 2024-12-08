@@ -67,7 +67,7 @@ const useCakes = () => {
       });
     }
 
-    if (nonSellNum !== null && (restock.addStockNonSell + nonSellNum >= 0)) {
+    if (nonSellNum !== null) {
       setRestock({
         ...restock,
         addStockNonSell: (

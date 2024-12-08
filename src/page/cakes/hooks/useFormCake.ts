@@ -81,9 +81,8 @@ const useFormCake = () => {
         setInput(cakeForm);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log(input);
+    const handleSubmit = (e?: React.FormEvent) => {
+        e?.preventDefault();
 
         const id = toast.loading("Submitting...");
         setLoading(true);
@@ -119,24 +118,24 @@ const useFormCake = () => {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
         const newImages = [...input.images || []];
-    
+
         files.forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            newImages.push({
-              link: '',
-              path: '',
-              file: file,
-            });
-            setInput((prev) => ({
-                ...prev,
-                images: [...newImages],
-            }));
-          };
-          reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onload = () => {
+                newImages.push({
+                    link: '',
+                    path: '',
+                    file: file,
+                });
+                setInput((prev) => ({
+                    ...prev,
+                    images: [...newImages],
+                }));
+            };
+            reader.readAsDataURL(file);
         });
-    
-      }
+
+    }
 
     return {
         ingredients,

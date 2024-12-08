@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { Paginate } from "@/types/wraper";
 import ModalConfirm from "./ModalConfirm";
 import { useNavigate } from "react-router-dom";
-import { leadPath } from "@/path/lead.path";
+import leadPath from "@/path/lead.path";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getNestedValue = (obj: any, path: string): any => {

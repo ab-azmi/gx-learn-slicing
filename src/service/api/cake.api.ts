@@ -1,4 +1,4 @@
-import { Cake, CakeFilter, Ingredient } from "@/types/cake.type";
+import { Cake, CakeFilter, CakeRestock, Ingredient } from "@/types/cake.type";
 import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (
@@ -24,6 +24,8 @@ export const createCake = (data: Cake) => endpointWrapper(API_ENDPOINTS.cake, "P
 export const updateCake = (data: Cake) => endpointWrapper(`${API_ENDPOINTS.cake}/${data.id}`, "PUT", data);
 
 export const deleteCake = (id: number) => endpointWrapper(`${API_ENDPOINTS.cake}/${id}`, "DELETE");
+
+export const restockCake = (id: number, data: CakeRestock) => endpointWrapper(`${API_ENDPOINTS.cake}/restock/${id}`, "POST", data);
 
 
 export const getVariants = (filters?: { [key: string]: string }) => {

@@ -1,3 +1,5 @@
-import { crudPath } from "./config.path";
+import crudPath from "./config.path";
 
-export const leadPath = crudPath('leads');
+const leadPath = crudPath('leads');
+
+export default leadPath;
