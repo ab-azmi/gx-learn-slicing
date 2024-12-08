@@ -18,9 +18,10 @@ type Props = {
   }[]
 };
 
-function ContextAwareToggle({ children, eventKey, callback }: {
+function ContextAwareToggle({ children, eventKey, isExpand, callback }: {
   children: ReactNode;
   eventKey: string;
+  isExpand: boolean;
   callback?: (eventKey: string) => void;
 }) {
   const { activeEventKey } = useContext(AccordionContext);
@@ -39,9 +40,11 @@ function ContextAwareToggle({ children, eventKey, callback }: {
       onClick={decoratedOnClick}
     >
       {children}
-      <span>
-        {isCurrentEventKey ? <ArrowUp2 size="24" variant="Bulk" /> : <ArrowDown2 size="24" variant="Bulk" />}
-      </span>
+      {isExpand && (
+        <span>
+          {isCurrentEventKey ? <ArrowUp2 size="24" variant="Bulk" /> : <ArrowDown2 size="24" variant="Bulk" />}
+        </span>
+      )}
     </button>
   );
 }
@@ -59,7 +62,7 @@ const SideBarLink = ({
       {childrens ? (
         <>
           <Accordion>
-            <ContextAwareToggle eventKey="0" callback={() => { }}>
+            <ContextAwareToggle eventKey="0" callback={() => { }} isExpand={isExpand}>
               {icon}
               {isExpand && title}
             </ContextAwareToggle>

@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   lead: `${API_URL}/leads`,
   variant: `${API_URL}/variants`,
   setting: `${API_URL}/settings`,
+  fixedCost: `${API_URL}/settings/fixed-costs`,
   login: `${API_URL}/auth/login`,
   logout: `${API_URL}/auth/logout`,
   refresh: `${API_URL}/auth/refresh`,

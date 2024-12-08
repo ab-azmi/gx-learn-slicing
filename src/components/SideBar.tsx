@@ -15,6 +15,8 @@ import { ReactNode } from "react";
 import clsx from "clsx";
 import transactionPath from "@/path/transaction.path";
 import cakePath from "@/path/cakes.path";
+import settingPath from "@/path/setting.path";
+import fixedCostPath from "@/path/fixedCost.path";
 
 const menuObject = ({
   title,
@@ -82,17 +84,17 @@ const SideBar = () => {
     menuObject({
       title: "Settings",
       icon: <Setting size="24" variant="Bulk" />,
-      link: cakePath.index,
+      link: settingPath.index,
       childrens: [
         {
           title: "Setting",
           icon: <Setting size="24" variant="Bulk" />,
-          link: cakePath.index,
+          link: settingPath.index,
         },
         {
-          title: "Fixed Cost",
+          title: "Monthly Bills",
           icon: <DollarCircle size="24" variant="Bulk" />,
-          link: cakePath.index,
+          link: fixedCostPath.index,
         }
       ]
     }),
