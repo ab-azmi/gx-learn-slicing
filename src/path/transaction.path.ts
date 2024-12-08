@@ -1,7 +1,9 @@
-import { crudPath } from "./config.path";
+import crudPath from "./config.path";
 
-export const transactionPath = {
+const transactionPath = {
     ...crudPath('transactions'),
     cashier: '/cashier',
     cashierCake: '/cashier/cake',
 };
+
+export default transactionPath;

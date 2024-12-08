@@ -1,7 +1,7 @@
 import priceFormater from "@/helpers/priceFormater.helper";
 import CakePlaceholder from "@/assets/images/cake1.jpg";
 import { useNavigate } from "react-router-dom";
-import { transactionPath } from "@/path/transaction.path";
+import transactionPath from "@/path/transaction.path";
 import OrderStore from "@/store/OrderStore";
 import { useEffect } from "react";
 import { getCakes } from "@/service/api/cake.api";

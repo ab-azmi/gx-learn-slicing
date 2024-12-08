@@ -1,7 +1,7 @@
 import Modal from "@/components/Modal";
 import TableTransaction from "./components/TableTransaction";
 import useTransaction from "./hooks/useTransaction";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Transaction as TransactionType } from "@/types/transaction.type";
 import Bento from "./components/Bento";
 import priceFormater from "@/helpers/priceFormater.helper";

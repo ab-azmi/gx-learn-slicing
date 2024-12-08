@@ -136,6 +136,7 @@ const Cakes = () => {
             <Button size="sm" onClick={() => handleAdjustStock(1, null)}>
               <Add />
             </Button>
+            
             <Input
               type="number"
               label="Adjust Stock Sell"

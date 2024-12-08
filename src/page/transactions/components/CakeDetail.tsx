@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { transactionPath } from "@/path/transaction.path";
+import transactionPath from "@/path/transaction.path";
 import { Cake } from "@/types/cake.type";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
