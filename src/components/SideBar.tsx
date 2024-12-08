@@ -1,11 +1,14 @@
 import SideBarLink from "@/components/SideBarLink";
 import Logo from '@/assets/images/logo.png';
 import {
+  Bag2,
   Cake,
   Calculator,
+  DollarCircle,
   Home,
   ReceiptItem,
   Setting,
+  TicketDiscount,
 } from "iconsax-react";
 import sideBarStore from "@/store/SidebarStore";
 import { ReactNode } from "react";
@@ -53,13 +56,6 @@ const SideBar = () => {
       title: "Transactions",
       icon: <ReceiptItem size="24" variant="Bulk" />,
       link: transactionPath.index,
-      childrens: [
-        {
-          title: "Manage Transaction",
-          icon: <ReceiptItem size="24" variant="Bulk" />,
-          link: transactionPath.index,
-        }
-      ]
     }),
     menuObject({
       title: "Cakes",
@@ -67,8 +63,18 @@ const SideBar = () => {
       link: cakePath.index,
       childrens: [
         {
-          title: "Manage Cake",
+          title: "Cake",
           icon: <Cake size="24" variant="Bulk" />,
+          link: cakePath.index,
+        },
+        {
+          title: "Ingredient",
+          icon: <Bag2 size="24" variant="Bulk" />,
+          link: cakePath.index,
+        },
+        {
+          title: "Discount",
+          icon: <TicketDiscount size="24" variant="Bulk" />,
           link: cakePath.index,
         }
       ]
@@ -76,7 +82,19 @@ const SideBar = () => {
     menuObject({
       title: "Settings",
       icon: <Setting size="24" variant="Bulk" />,
-      link: "/sett",
+      link: cakePath.index,
+      childrens: [
+        {
+          title: "Setting",
+          icon: <Setting size="24" variant="Bulk" />,
+          link: cakePath.index,
+        },
+        {
+          title: "Fixed Cost",
+          icon: <DollarCircle size="24" variant="Bulk" />,
+          link: cakePath.index,
+        }
+      ]
     }),
   ];
 

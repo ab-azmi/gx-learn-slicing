@@ -64,7 +64,7 @@ const SideBarLink = ({
               {isExpand && title}
             </ContextAwareToggle>
             <Accordion.Collapse eventKey='0'>
-              <div className='py-2 ms-3'>
+              <div className='py-2 ms-3 vstack gap-2'>
                 {childrens.map((child, index) => (
                   <NavLink
                     key={index}
