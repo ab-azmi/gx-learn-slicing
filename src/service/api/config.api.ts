@@ -14,7 +14,7 @@ export const API_ENDPOINTS = {
   refresh: `${API_URL}/auth/refresh`,
   transaction: `${API_URL}/transactions`,
   probability: `${API_URL}/probabilities`,
-  ingidient: `${API_URL}/components/ingredients`,
+  ingredient: `${API_URL}/components/ingredients`,
 };
 
 const getToken = () => {

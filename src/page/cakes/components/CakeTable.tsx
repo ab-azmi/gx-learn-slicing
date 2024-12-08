@@ -30,7 +30,7 @@ type TableProps = {
   onRestock?: (cake: CakeType) => void;
 };
 
-const TableCake = ({
+const CakeTable = ({
   data,
   columns,
   loading,
@@ -378,4 +378,4 @@ const TableCake = ({
   );
 };
 
-export default TableCake;
+export default CakeTable;

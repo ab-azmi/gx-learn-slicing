@@ -35,7 +35,7 @@ const useFixedCost = () => {
     const hanldeFetchFixedCostById = (id: number) => {
         getFixedCostById(id)
             .then((res) => {
-                setInput(res)
+                setInput(res.result)
             })
     }
 
