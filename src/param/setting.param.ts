@@ -6,3 +6,16 @@ export const settingParam = {
 export const settingFilterParam = {
     search: "",
 }
+
+export const fixedCostParam = {
+    name: "",
+    description: "",
+    amount: 0,
+    frequencyId: 0,
+}
+
+export const fixedCostFilterParam = {
+    search: "",
+    orderBy: "",
+    orderType: "",
+}

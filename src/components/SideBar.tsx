@@ -16,6 +16,7 @@ import clsx from "clsx";
 import transactionPath from "@/path/transaction.path";
 import cakePath from "@/path/cakes.path";
 import settingPath from "@/path/setting.path";
+import fixedCostPath from "@/path/fixedCost.path";
 
 const menuObject = ({
   title,
@@ -91,9 +92,9 @@ const SideBar = () => {
           link: settingPath.index,
         },
         {
-          title: "Fixed Cost",
+          title: "Monthly Bills",
           icon: <DollarCircle size="24" variant="Bulk" />,
-          link: '/',
+          link: fixedCostPath.index,
         }
       ]
     }),
