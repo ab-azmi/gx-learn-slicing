@@ -51,6 +51,8 @@ const useFormTransaction = () => {
         variant: CakeVariant,
         quantity: number
     ) => {
+        handleStockChange(variant.cakeId, -quantity);
+
         const orderExist = transaction.orders.find((order) => order.cakeVariantId === variant.id);
         let newOrders = [...transaction.orders];
 
@@ -98,6 +100,14 @@ const useFormTransaction = () => {
         })
     };
 
+    const handleStockChange = (cakeId: number, num: number) => {
+        const newCakes = [...cakes];
+        const cakeIndex = newCakes.findIndex((cake) => cake.id === cakeId);
+
+        newCakes[cakeIndex].stockSell += num;
+        setCakes(newCakes);
+    };
+
     const clearInput = () => {
         setTransaction({
             ...transactionParam,
@@ -133,6 +143,7 @@ const useFormTransaction = () => {
         handleProcess,
         handleFetchCake,
         handleOrderChange,
+        handleStockChange,
         handleFetchCakeVariant,
     };
 };

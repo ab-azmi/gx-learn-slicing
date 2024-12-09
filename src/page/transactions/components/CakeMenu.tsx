@@ -3,22 +3,10 @@ import CakePlaceholder from "@/assets/images/cake1.jpg";
 import { useNavigate } from "react-router-dom";
 import transactionPath from "@/path/transaction.path";
 import OrderStore from "@/store/OrderStore";
-import { useEffect } from "react";
-import { getCakes } from "@/service/api/cake.api";
 
 const CakeMenu = () => {
     const navigate = useNavigate();
-    const { cakes, filters, setCakes } = OrderStore();
-
-    useEffect(() => {
-        getCakes(0, {
-            ...filters,
-            isSell: "1",
-
-        }).then((res) => {
-            setCakes(res.result);
-        });
-    }, []);
+    const { cakes } = OrderStore();
 
     return (
         <>
@@ -26,9 +14,12 @@ const CakeMenu = () => {
                 {cakes?.map((cake) => (
                     <div key={cake.id} className="col-md-6 col-12 col-lg-4 mb-4">
                         <div
-                            className="card-secondary h-100 cursor-pointer"
+                            className="card-secondary h-100 cursor-pointer position-relative"
                             onClick={() => navigate(`${transactionPath.cashierCake}/${cake.id}`)}
                         >
+                            <span className="badge bg-primary position-absolute top-0 start-0">
+                                Stock : {cake.stockSell}
+                            </span>
                             <img
                                 src={cake.images?.length ? cake.images[0].link : CakePlaceholder}
                                 alt={cake.name}

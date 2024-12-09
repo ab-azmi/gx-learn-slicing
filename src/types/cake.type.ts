@@ -13,6 +13,7 @@ export type Ingredient = {
         id: number;
         name: string;
     };
+    unitId?: number;
     price?: number;
     expirationDate?: string;
     quantity: number;
@@ -20,6 +21,13 @@ export type Ingredient = {
     pivot? : {
         quantity: number;
     }
+    createdAt?: string;
+}
+
+export type IngredientFilter = {
+    search: string;
+    orderBy?: string;
+    orderType?: string;
 }
 
 export type Cake = {

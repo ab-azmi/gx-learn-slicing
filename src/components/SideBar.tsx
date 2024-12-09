@@ -17,6 +17,7 @@ import transactionPath from "@/path/transaction.path";
 import cakePath from "@/path/cakes.path";
 import settingPath from "@/path/setting.path";
 import fixedCostPath from "@/path/fixedCost.path";
+import ingredientPath from "@/path/ingredient.path";
 
 const menuObject = ({
   title,
@@ -72,12 +73,12 @@ const SideBar = () => {
         {
           title: "Ingredient",
           icon: <Bag2 size="24" variant="Bulk" />,
-          link: cakePath.index,
+          link: ingredientPath.index,
         },
         {
           title: "Discount",
           icon: <TicketDiscount size="24" variant="Bulk" />,
-          link: cakePath.index,
+          link: '/discount',
         }
       ]
     }),

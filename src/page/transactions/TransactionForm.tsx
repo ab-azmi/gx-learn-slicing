@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Input from "@/components/Input";
 import handleInput from "@/helpers/input.helper";
 import Button from "@/components/Button";
-import { Filter, Minus } from "iconsax-react";
+import { Add, Filter, Minus } from "iconsax-react";
 import priceFormater from "@/helpers/priceFormater.helper";
 import OrderStore from "@/store/OrderStore";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { Order } from "@/types/transaction.type";
 import Modal from "@/components/Modal";
 import Select from "@/components/Select";
 import useFormTransaction from "./hooks/useFormTransaction";
+import { getCakes } from "@/service/api/cake.api";
 
 type Grouped = {
   cakeId: number;
@@ -22,14 +23,24 @@ type Grouped = {
   quantity: number;
 }
 
-const Form = () => {
-  const { transaction, filters, setFilters, clearFilters } = OrderStore();
+const TransactionForm = () => {
+  const { transaction, filters, setCakes, setFilters, clearFilters } = OrderStore();
   const [grouped, setGrouped] = useState<Grouped[]>([]);
   const {
     handleFetchCake,
     handleProcess, tax,
     handleOrderChange } = useFormTransaction();
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+      getCakes(0, {
+          ...filters,
+          isSell: "1",
+
+      }).then((res) => {
+          setCakes(res.result);
+      });
+  }, []);
 
   const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,8 +108,8 @@ const Form = () => {
                 />
               </div>
               <Button type="submit">Search</Button>
-              <Button 
-                type="button" 
+              <Button
+                type="button"
                 isOutline onClick={() => clearFilters()}>Reset</Button>
             </form>
             <Button
@@ -130,10 +141,14 @@ const Form = () => {
                         <div className="flex-between">
                           <p className="text-muted no-spacing">{order.cakeVariant?.name}</p>
                           <div className="hstack gap-2">
-                            <p className="text-muted no-spacing">{order.quantity} pcs</p>
                             <Button size="sm" onClick={() => handleOrderChange(order.cakeVariant!, -1)}>
                               <Minus />
                             </Button>
+                            <p className="text-muted no-spacing">{order.quantity}</p>
+                            <Button size="sm" onClick={() => handleOrderChange(order.cakeVariant!, 1)}>
+                              <Add />
+                            </Button>
+
                           </div>
                         </div>
                         {order.cakeVariant?.cake?.totalDiscount !== 0 ? (
@@ -305,4 +320,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default TransactionForm;

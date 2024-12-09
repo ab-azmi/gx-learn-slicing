@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { AddSquare, Trash } from "iconsax-react";
 import ModalConfirm from "@/components/ModalConfirm";
 
-const Form = () => {
+const CakeForm = () => {
   const {
     input,
     loading,
@@ -188,4 +188,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CakeForm;

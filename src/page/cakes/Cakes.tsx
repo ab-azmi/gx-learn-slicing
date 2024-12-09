@@ -1,5 +1,4 @@
 import Modal from "@/components/Modal";
-import TableCake from "./components/TableCake";
 import useCakes from "./hooks/useCakes";
 import { useState } from "react";
 import { Cake } from "@/types/cake.type";
@@ -10,6 +9,7 @@ import { Add, Minus } from "iconsax-react";
 import handleInput from "@/helpers/input.helper";
 import { restockCake } from "@/service/api/cake.api";
 import { cakeRestockParam } from "@/param/cake.param";
+import CakeTable from "./components/CakeTable";
 
 const Cakes = () => {
   const {
@@ -42,7 +42,7 @@ const Cakes = () => {
 
   return (
     <div className="p-4">
-      <TableCake
+      <CakeTable
         data={cakes}
         columns={5}
         onDelete={(id) => handleDelete(id)}

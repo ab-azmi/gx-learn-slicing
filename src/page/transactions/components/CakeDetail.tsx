@@ -8,17 +8,20 @@ import priceFormater from "@/helpers/priceFormater.helper";
 import { getCake } from "@/service/api/cake.api";
 import useFormTransaction from "../hooks/useFormTransaction";
 import { ArrowLeft2 } from "iconsax-react";
+import OrderStore from "@/store/OrderStore";
 
 const CakeDetail = () => {
     const { id } = useParams<{ id: string }>();
     const [cake, setCake] = useState<Cake>();
-    const {handleOrderChange} = useFormTransaction();
+    const {cakes} = OrderStore();
+    const { handleOrderChange } = useFormTransaction();
 
     useEffect(() => {
         getCake(parseInt(id || "0")).then((res) => {
             setCake(res.result);
         });
     }, [id]);
+
 
     return (
         <>
@@ -36,9 +39,16 @@ const CakeDetail = () => {
                 {cake?.variants?.map((variant) => (
                     <div key={variant.id} className="col-md-6 col-12 col-lg-4 mb-4">
                         <div
-                            className="card-secondary h-100 cursor-pointer"
-                            onClick={() => handleOrderChange(variant, 1)}
+                            className="card-secondary h-100 cursor-pointer position-relative"
+                            onClick={() => {
+                                if (cake.stockSell > 0) {
+                                    handleOrderChange(variant, 1);
+                                }
+                            }}
                         >
+                            <span className="badge bg-primary position-absolute top-0 start-0">
+                                Stock : {cakes.find((c) => c.id === cake.id)?.stockSell}
+                            </span>
                             <img
                                 src={CakePlaceholder}
                                 alt={variant.name}

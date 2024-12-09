@@ -1,4 +1,4 @@
-import { Cake, CakeFilter, CakeRestock } from "@/types/cake.type";
+import { Cake, CakeFilter, CakeRestock, Ingredient } from "@/types/cake.type";
 
 export const cakeForm: Cake =  {
   name: "",
@@ -32,4 +32,20 @@ export const cakeFilter: CakeFilter = {
 export const cakeRestockParam: CakeRestock = {
   addStockNonSell: 0,
   addStockSell: 0,
+}
+
+
+export const IngredientParam: Ingredient = {
+  name: "",
+  unitId: 0,
+  price: 0,
+  expirationDate: "",
+  quantity: 0,
+  supplier: "",
+}
+
+export const IngredientFilterParam = {
+  search: "",
+  orderBy: "",
+  orderType: "",
 }
