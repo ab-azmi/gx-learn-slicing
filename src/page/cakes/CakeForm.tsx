@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { Add, AddSquare, Trash } from "iconsax-react";
 import ModalConfirm from "@/components/ModalConfirm";
 import Modal from "@/components/Modal";
-import { CakeVariant } from "@/types/cake.type";
-import { variantParam } from "@/param/cake.param";
+import { CakeVariant, Discount } from "@/types/cake.type";
+import { discountParam, variantParam } from "@/param/cake.param";
 
 const CakeForm = () => {
   const {
@@ -30,10 +30,16 @@ const CakeForm = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [confirm, setConfirm] = useState(false);
+
   const [confirmVariant, setConfirmVariant] = useState(false);
   const [variant, setVariant] = useState<CakeVariant>(variantParam);
-  const [showModal, setShowModal] = useState(false);
-  const selectedVariant = useRef<{index: number, name: string}>();
+  const [variantModal, setVariantModal] = useState(false);
+  const selectedVariant = useRef<{ index: number, name: string }>();
+
+  const [confirmDiscount, setConfirmDiscount] = useState(false);
+  const [discount, setDiscount] = useState<Discount>(discountParam);
+  const [discountModal, setDiscountModal] = useState(false);
+  const selectedDiscount = useRef<{ index: number, name: string }>();
 
   useEffect(() => {
     fetchIngredients();
@@ -46,7 +52,7 @@ const CakeForm = () => {
 
 
   const handleAddVariant = () => {
-    setShowModal(false);
+    setVariantModal(false);
     setInput({
       ...input,
       variants: [...(input?.variants || []), variant]
@@ -57,6 +63,21 @@ const CakeForm = () => {
     setInput({
       ...input,
       variants: input?.variants?.filter((_, i) => i !== index)
+    });
+  }
+
+  const handleAddDiscount = () => {
+    setDiscountModal(false);
+    setInput({
+      ...input,
+      discounts: [...(input?.discounts || []), discount]
+    });
+  }
+
+  const handleRemoveDiscount = (index: number) => {
+    setInput({
+      ...input,
+      discounts: input?.discounts?.filter((_, i) => i !== index)
     });
   }
 
@@ -253,7 +274,84 @@ const CakeForm = () => {
             </tbody>
           </table>
           <div className="w-100 hstack justify-content-center">
-            <button className="bg-transparent border-0" onClick={() => setShowModal(true)}>
+            <button className="bg-transparent border-0" onClick={() => setVariantModal(true)}>
+              <Add size={24} variant="Bulk" className="text-primary" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="card-secondary mt-3">
+        <h4 className="mb-3">Cake Discounts</h4>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Value</th>
+                <th>Active Period</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {input?.discounts?.length ? (
+                input?.discounts.map((item, index) => (
+                  <tr key={index}>
+                    <td>
+                      <p className="text-capitalize">
+                        #{index + 1}
+                      </p>
+                    </td>
+                    <td className="px-3">
+                      <div>
+                        {item.name}
+                      </div>
+                    </td>
+                    <td className="px-3">
+                      <div>
+                        {item.description}
+                      </div>
+                    </td>
+                    <td className="px-3">
+                      <div>
+                        {priceFormater(item.value)}
+                      </div>
+                    </td>
+
+                    <td className="px-3">
+                      <div>
+                        {item.fromDate} - {item.toDate}
+                      </div>
+                    </td>
+
+                    <td>
+                      <div className="hstack gap-1">
+                        <Button
+                          className="bg-transparent border-0 text-danger"
+                          onClick={() => {
+                            selectedDiscount.current = { index, name: item.name };
+                            setConfirmDiscount(true);
+                          }}
+                        >
+                          <Trash size="24" variant="Bulk" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={3} className="text-center">
+                    {loading ? "Loading..." : " No data available"}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className="w-100 hstack justify-content-center">
+            <button className="bg-transparent border-0" onClick={() => setDiscountModal(true)}>
               <Add size={24} variant="Bulk" className="text-primary" />
             </button>
           </div>
@@ -284,8 +382,21 @@ const CakeForm = () => {
         }}
       />
 
-      <Modal title="Add Variant" show={showModal} onClose={() => setShowModal(false)}>
-        <form>
+      <ModalConfirm
+        show={confirmDiscount}
+        onClose={() => setConfirmDiscount(false)}
+        title="Archive Discount"
+        message={`Are you sure want to remove ${selectedDiscount.current?.name} discount?`}
+        onConfirm={() => {
+          if (selectedDiscount.current) {
+            handleRemoveDiscount(selectedDiscount.current.index);
+          }
+          setConfirmDiscount(false);
+        }}
+      />
+
+      <Modal title="Add Variant" show={variantModal} onClose={() => setVariantModal(false)}>
+        <form className="vstack gap-2">
           <Input
             type="text"
             label="Variant Name"
@@ -305,6 +416,60 @@ const CakeForm = () => {
             onChange={(e) => handleInput(e, setVariant, variant)}
           />
           <Button onClick={() => handleAddVariant()} className="w-100 mt-3">
+            Add
+          </Button>
+        </form>
+      </Modal>
+
+      <Modal title="Add Discount" show={discountModal} onClose={() => setDiscountModal(false)}>
+        <form className="vstack gap-2">
+          <Input
+            type="text"
+            label="Discount Name"
+            required
+            placeholder="Chocolate"
+            name="name"
+            value={discount.name}
+            onChange={(e) => handleInput(e, setDiscount, discount)}
+          />
+          <Input
+            type="text"
+            label="Discount Description"
+            placeholder="Chocolate"
+            name="description"
+            value={discount.description}
+            onChange={(e) => handleInput(e, setDiscount, discount)}
+          />
+          <Input
+            type="number"
+            label="Discount Value (Rp)"
+            required
+            placeholder="100"
+            name="value"
+            value={discount.value?.toString()}
+            onChange={(e) => handleInput(e, setDiscount, discount)}
+          />
+          <div className="flex-between gap-1 mb-2">
+            <Input
+              placeholder=""
+              required
+              name="fromDate"
+              label="Start Period"
+              value={discount.fromDate}
+              onChange={(e) => handleInput(e, setDiscount, discount)}
+              type="date"
+            />
+            <Input
+              placeholder=""
+              required
+              name="toDate"
+              label="End Period"
+              value={discount.toDate}
+              onChange={(e) => handleInput(e, setDiscount, discount)}
+              type="date"
+            />
+          </div>
+          <Button onClick={() => handleAddDiscount()} className="w-100 mt-3">
             Add
           </Button>
         </form>

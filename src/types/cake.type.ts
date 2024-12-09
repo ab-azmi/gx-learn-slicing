@@ -47,6 +47,7 @@ export type Cake = {
         file?: File;
     }[];
     variants?: CakeVariant[];
+    discounts?: Discount[];
 }
 
 export type CakeFilter = {
