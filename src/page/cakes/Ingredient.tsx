@@ -6,6 +6,8 @@ import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import handleInput from "@/helpers/input.helper";
+import Select from "@/components/Select";
+import { systemDate } from "@/helpers/dateFormater.helper";
 
 const Ingredient = () => {
     const {
@@ -23,6 +25,7 @@ const Ingredient = () => {
     const [showModal, setShowModal] = useState(false);
 
     const handleSubmit = () => {
+        setShowModal(false);
         if (input.id) {
             handleUpdateIngredient();
         } else {
@@ -50,7 +53,7 @@ const Ingredient = () => {
                 }}
                 onDelete={handleDeleteIngredient}
                 onSelected={(item) => {
-                    setInput(item);
+                    setInput({ ...item, unitId: item.unit?.id, expirationDate: systemDate(item.expirationDate) });
                     setShowModal(true);
                 }}
             />
@@ -81,6 +84,20 @@ const Ingredient = () => {
                         value={input.quantity.toString()}
                         onChange={(e) => handleInput(e, setInput, input)}
                     />
+                    <Select
+                        placeholder="Select Unit"
+                        label="Unit"
+                        name="unitId"
+                        value={input.unit?.id.toString()}
+                        onChange={(e) => handleInput(e, setInput, input)}
+                        options={[
+                            { name: "Gram", value: "1" },
+                            { name: "Kilogram", value: "2" },
+                            { name: "Liter", value: "3" },
+                            { name: "Piece", value: "4" },
+                            { name: "Pack", value: "5" }
+                        ]}
+                    />
                     <Input
                         placeholder="PT Telur Asin"
                         label="Supplier"
@@ -97,7 +114,7 @@ const Ingredient = () => {
                         value={input.expirationDate}
                         onChange={(e) => handleInput(e, setInput, input)}
                     />
-                    <Button className="w-100 mt-3" type="button" onClick={() => handleSubmit}>
+                    <Button className="w-100 mt-3" type="button" onClick={() => handleSubmit()}>
                         Submit
                     </Button>
                 </form>

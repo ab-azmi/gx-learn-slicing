@@ -29,6 +29,7 @@ const useIngredient = () => {
 
         createIngredient(input)
         .then(() => {
+            setInput(IngredientParam)
             handleGetIngredients()
             toast.update(id, {
                 render: "Ingredient created",
@@ -44,6 +45,7 @@ const useIngredient = () => {
 
         updateIngredient(input)
         .then(() => {
+            setInput(IngredientParam)
             handleGetIngredients()
             toast.update(id, {
                 render: "Ingredient updated",

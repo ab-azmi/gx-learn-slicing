@@ -9,7 +9,7 @@ import { Transaction, TransactionFilter } from "@/types/transaction.type";
 import priceFormater from "@/helpers/priceFormater.helper";
 import getNestedValue from "@/helpers/getNestedValue.helper";
 import handleInput from "@/helpers/input.helper";
-import formatDate from "@/helpers/dateFormater.helper";
+import {formatDate} from "@/helpers/dateFormater.helper";
 import Select from "@/components/Select";
 import Modal from "@/components/Modal";
 import { getTransaction } from "@/service/api/transaction.api";
