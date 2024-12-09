@@ -72,3 +72,22 @@ export type CakeRestock = {
     addStockSell: number;
     addStockNonSell: number;
 }
+
+export type Discount = {
+    id?: number;
+    name: string;
+    description: string;
+    value: number;
+    fromDate: string;
+    toDate: string;
+    cakeId: number;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export type DiscountFilter = {
+    search: string;
+    fromDate?: string;
+    toDate?: string;
+    cakeId?: string;
+}

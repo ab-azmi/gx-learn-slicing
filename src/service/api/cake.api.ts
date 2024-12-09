@@ -1,4 +1,4 @@
-import { Cake, CakeFilter, CakeRestock, Ingredient, IngredientFilter } from "@/types/cake.type";
+import { Cake, CakeFilter, CakeRestock, Discount, Ingredient, IngredientFilter } from "@/types/cake.type";
 import { API_ENDPOINTS, endpointWrapper } from "./config.api";
 
 export const getCakes = (
@@ -66,3 +66,26 @@ export const createIngredient = (data: Ingredient) => endpointWrapper(API_ENDPOI
 export const updateIngredient = (data: Ingredient) => endpointWrapper(`${API_ENDPOINTS.ingredient}/${data.id}`, "PUT", data);
 
 export const deleteIngredient = (id: number) => endpointWrapper(`${API_ENDPOINTS.ingredient}/${id}`, "DELETE");
+
+
+export const getDiscounts = (page?: number, filters?: { [key: string]: string }) => {
+    const params = new URLSearchParams();
+    if (page !== undefined) params.append('page', page.toString());
+    if (filters !== undefined) {
+        for (const key in filters) {
+            if (filters[key] !== '') {
+                params.append(key, filters[key]);
+            }
+        }
+    }
+
+    return endpointWrapper(`${API_ENDPOINTS.discount}?${params.toString()}`, "GET");
+};
+
+export const getDiscountById = (id: number) => endpointWrapper(`${API_ENDPOINTS.discount}/${id}`, "GET");
+
+export const createDiscount = (data: Discount) => endpointWrapper(API_ENDPOINTS.discount, "POST", data);
+
+export const updateDiscount = (data: Discount) => endpointWrapper(`${API_ENDPOINTS.discount}/${data.id}`, "PUT", data);
+
+export const deleteDiscount = (id: number) => endpointWrapper(`${API_ENDPOINTS.discount}/${id}`, "DELETE");

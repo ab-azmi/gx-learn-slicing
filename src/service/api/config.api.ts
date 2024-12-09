@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { loginPath } from "@/path/auth.path";
 import AuthStore from "@/store/AuthStore";
+import { toast } from "react-toastify";
 
 export const API_URL = import.meta.env.VITE_BE_URL;
 
@@ -15,6 +17,7 @@ export const API_ENDPOINTS = {
   transaction: `${API_URL}/transactions`,
   probability: `${API_URL}/probabilities`,
   ingredient: `${API_URL}/components/ingredients`,
+  discount: `${API_URL}/discounts`,
 };
 
 const getToken = () => {
@@ -57,17 +60,13 @@ export const endpointWrapper = async (
       return response.json();
     } else {
       if (response.status === 401) {
-        history.pushState({}, "", "/auth/login");
+        history.pushState({}, "", loginPath);
         window.location.reload();
-
-        throw new Error("Unauthorized");
-
       }
-      throw new Error("An error occured");
+      throw new Error(response.statusText);
     }
 
   } catch (error) {
-    console.error("Error: ", error);
-    alert(error);
+    toast.error("" + error);
   }
 }

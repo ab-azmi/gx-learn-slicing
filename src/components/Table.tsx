@@ -2,7 +2,7 @@ import { Edit, Filter, Trash } from "iconsax-react";
 import TablePagination from "./TablePagination";
 import { useState } from "react";
 import Select from "./Select";
-import formatDate from "@/helpers/dateFormater.helper";
+import {formatDate} from "@/helpers/dateFormater.helper";
 import Input from "./Input";
 import DatePicker from "./DatePicker";
 

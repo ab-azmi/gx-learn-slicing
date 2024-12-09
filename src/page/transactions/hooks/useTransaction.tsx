@@ -23,7 +23,8 @@ const useTransaction = () => {
   useEffect(() => {
     setLoading(true);
 
-    getTransactions().then((res) => {
+    getTransactions()
+    .then((res) => {
       setTransactions(res);
       backupTransactions.current = res;
       setLoading(false);

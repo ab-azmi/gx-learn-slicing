@@ -5,7 +5,7 @@ export const variantParam = {
   price: 0,
 }
 
-export const cakeForm: Cake =  {
+export const cakeParam: Cake =  {
   name: "",
   profitMargin: 0,
   COGS: 0,
@@ -53,4 +53,20 @@ export const IngredientFilterParam = {
   search: "",
   orderBy: "",
   orderType: "",
+}
+
+export const discountParam = {
+  name: "",
+  description: "",
+  value: 0,
+  fromDate: "",
+  toDate: "",
+  cakeId: 0,
+}
+
+export const discountFilter = {
+  search: "",
+  fromDate: "",
+  toDate: "",
+  cakeId: "",
 }
