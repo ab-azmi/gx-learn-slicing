@@ -22,6 +22,7 @@ const Cakes = () => {
     fetchCakes,
     handleDelete,
     handleAdjustStock,
+    handleUpdateIsSell,
     clearFilter } = useCakes();
 
   const [selected, setSelected] = useState<Cake | null>(null);
@@ -60,6 +61,7 @@ const Cakes = () => {
           setSelected(cake);
           setModalRestock(true);
         }}
+        onUpdateIsSell={(cake) => handleUpdateIsSell(cake)}
       />
 
       <Modal size="lg" show={modalDetail} onClose={() => setModalDetail(false)} title="Cake Detail">

@@ -28,6 +28,7 @@ type TableProps = {
   onChangePage: (page?: number) => void;
   onSelected?: (cake: CakeType) => void;
   onRestock?: (cake: CakeType) => void;
+  onUpdateIsSell: (cake: CakeType) => void;
 };
 
 const CakeTable = ({
@@ -42,6 +43,7 @@ const CakeTable = ({
   onChangePage,
   onRestock,
   onSelected,
+  onUpdateIsSell
 }: TableProps) => {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
@@ -153,7 +155,7 @@ const CakeTable = ({
                   </td>
                   <td className="px-3">
                     <div>
-                      <Switch checked={item.isSell} onChange={() => { }} />
+                      <Switch checked={item.isSell} onChange={() => onUpdateIsSell(item)} />
                     </div>
                   </td>
                   <td className="px-3">

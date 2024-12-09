@@ -2,6 +2,7 @@ import { cakeFilter, cakeRestockParam } from "@/param/cake.param";
 import {
   deleteCake,
   getCakes,
+  updateCake,
 } from "@/service/api/cake.api";
 import { Cake, CakeFilter, CakeRestock } from "@/types/cake.type";
 import { Paginate } from "@/types/wraper";
@@ -79,6 +80,16 @@ const useCakes = () => {
     }
   }
 
+  const handleUpdateIsSell = (cake: Cake) => {
+    updateCake({
+      ...cake,
+      isSell: !cake.isSell,
+    }).then(() => {
+      fetchCakes();
+      toast.success("Status updated");
+    });
+  }
+
   return {
     cakes,
     loading,
@@ -89,7 +100,8 @@ const useCakes = () => {
     clearFilter,
     fetchCakes,
     handleDelete,
-    handleAdjustStock
+    handleAdjustStock,
+    handleUpdateIsSell,
   };
 };
 

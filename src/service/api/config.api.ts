@@ -63,7 +63,8 @@ export const endpointWrapper = async (
         history.pushState({}, "", loginPath);
         window.location.reload();
       }
-      throw new Error(response.statusText);
+      const errorBody = await response.json();
+      throw new Error(errorBody.status.message);
     }
 
   } catch (error) {

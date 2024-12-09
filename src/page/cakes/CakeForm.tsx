@@ -263,8 +263,8 @@ const CakeForm = () => {
       <ModalConfirm
         show={confirm}
         onClose={() => setConfirm(false)}
-        title="Edit Confirm"
-        message="Are you sure want Edit this cake?"
+        title={state ? "Edit Cake" : "Create Cake"}
+        message={`Are you sure want to ${state ? "edit" : "create"} ${input.name} cake?`}
         onConfirm={() => {
           handleSubmit();
           setConfirm(false);
