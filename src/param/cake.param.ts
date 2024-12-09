@@ -1,5 +1,10 @@
 import { Cake, CakeFilter, CakeRestock, Ingredient } from "@/types/cake.type";
 
+export const variantParam = {
+  name: "",
+  price: 0,
+}
+
 export const cakeForm: Cake =  {
   name: "",
   profitMargin: 0,

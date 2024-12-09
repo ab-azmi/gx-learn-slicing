@@ -83,7 +83,7 @@ const useFormCake = () => {
 
     const handleSubmit = (e?: React.FormEvent) => {
         e?.preventDefault();
-
+        
         const id = toast.loading("Submitting...");
         setLoading(true);
 

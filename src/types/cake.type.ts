@@ -1,8 +1,8 @@
 export type CakeVariant = {
-    id: number;
+    id?: number;
     name: string;
     price: number;
-    cakeId: number;
+    cakeId?: number;
     cake?: Cake;
 }
 
