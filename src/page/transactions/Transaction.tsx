@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal";
-import TableTransaction from "./components/TableTransaction";
+import TransactionTable from "./components/TransactionTable";
 import useTransaction from "./hooks/useTransaction";
 import { useState } from "react";
 import { Transaction as TransactionType } from "@/types/transaction.type";
@@ -24,7 +24,7 @@ const Transaction = () => {
     <div className="p-4">
       <Bento />
 
-      <TableTransaction
+      <TransactionTable
         data={transactions}
         columns={5}
         onDelete={handleDelete}

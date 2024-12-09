@@ -6,7 +6,7 @@ import Layout from "@/components/Layout";
 import { loginPath } from "@/path/auth.path";
 import transactionPath from "./path/transaction.path";
 import Transaction from "./page/transactions/Transaction";
-import FormTransaction from "./page/transactions/Form";
+import TransactionForm from "./page/transactions/TransactionForm";
 import CakeForm from './page/cakes/CakeForm';
 import cakePath from "./path/cakes.path";
 import Cakes from "./page/cakes/Cakes";
@@ -26,7 +26,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path={transactionPath.index} element={<Transaction />} />
 
-          <Route path={transactionPath.cashier} element={<FormTransaction />}>
+          <Route path={transactionPath.cashier} element={<TransactionForm />}>
             <Route index element={<CakeMenu />} />
             <Route path={`${transactionPath.cashierCake}/:id`} element={<CakeDetail />} />
           </Route>

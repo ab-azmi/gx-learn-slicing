@@ -27,7 +27,7 @@ type TableProps = {
   onSelect: (item: Transaction) => void;
 };
 
-const TableTransaction = ({
+const TransactionTable = ({
   data,
   columns,
   filters,
@@ -326,4 +326,4 @@ const TableTransaction = ({
   );
 };
 
-export default TableTransaction;
+export default TransactionTable;

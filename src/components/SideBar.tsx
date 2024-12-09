@@ -78,7 +78,7 @@ const SideBar = () => {
         {
           title: "Discount",
           icon: <TicketDiscount size="24" variant="Bulk" />,
-          link: cakePath.index,
+          link: '/discount',
         }
       ]
     }),
