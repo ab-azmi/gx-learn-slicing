@@ -20,4 +20,6 @@ export const systemDate = (date?: string | Date) => {
         }
         return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
     }
+
+    return '2020-10-10';
 };

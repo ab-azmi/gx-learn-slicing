@@ -51,7 +51,7 @@ const useFormTransaction = () => {
         variant: CakeVariant,
         quantity: number
     ) => {
-        handleStockChange(variant.cakeId, -quantity);
+        handleStockChange(variant.cakeId!, -quantity);
 
         const orderExist = transaction.orders.find((order) => order.cakeVariantId === variant.id);
         let newOrders = [...transaction.orders];
@@ -77,7 +77,7 @@ const useFormTransaction = () => {
             const price = variant.price + (variant.cake?.sellingPrice || 0);
 
             newOrders.push({
-                cakeVariantId: variant.id,
+                cakeVariantId: variant.id!,
                 price: price,
                 totalPrice: price * quantity,
                 quantity: quantity,
