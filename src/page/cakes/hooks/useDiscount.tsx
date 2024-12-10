@@ -1,8 +1,9 @@
 import { discountFilter, discountParam } from "@/param/cake.param"
-import { getDiscounts } from "@/service/api/cake.api";
+import { createDiscount, getDiscounts, updateDiscount } from "@/service/api/cake.api";
 import { Discount, DiscountFilter } from "@/types/cake.type";
 import { Paginate } from "@/types/wraper";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const useDiscount = () => {
     const [input, setInput] = useState<Discount>(discountParam);
@@ -19,6 +20,24 @@ const useDiscount = () => {
             .then((res) => setDiscounts(res))
     }
 
+    const handleCreateDiscount = () => {
+        createDiscount(input)
+            .then(() => {
+                handleGetDiscounts()
+                setInput(discountParam)
+                toast.success('Discount created')
+            })
+    }
+
+    const handleUpdateDiscount = () => {
+        updateDiscount(input)
+            .then(() => {
+                handleGetDiscounts()
+                setInput(discountParam)
+                toast.success('Discount updated')
+            })
+    }
+
     return {
         input,
         setInput,
@@ -27,7 +46,9 @@ const useDiscount = () => {
         filters,
         setFilters,
         clearFilter,
-        handleGetDiscounts
+        handleCreateDiscount,
+        handleGetDiscounts,
+        handleUpdateDiscount
     }
 }
 

@@ -173,7 +173,7 @@ const DiscountTable = ({
                 }}
             />
 
-            <Modal show={showModal} onClose={() => setShowModal(false)} title="Fixed Cost Filter">
+            <Modal show={showModal} onClose={() => setShowModal(false)} title="Discount Filter">
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     onFilter();
@@ -190,6 +190,7 @@ const DiscountTable = ({
                                 })
                             }} />
                     </div>
+                    
                     <div className="hstack gap-2">
                         <Button type="submit" className="w-100">Filter</Button>
                         <Button
