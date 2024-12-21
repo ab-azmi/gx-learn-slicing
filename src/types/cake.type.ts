@@ -1,3 +1,5 @@
+import { Options } from "./wraper";
+
 export type CakeVariant = {
     id?: number;
     name: string;
@@ -67,6 +69,7 @@ export type CakeFilter = {
     hasDiscount?: string;
     isSell?: string;
     archived? : string;
+    limit?: number;
 };
 
 export type CakeRestock = {
@@ -81,7 +84,8 @@ export type Discount = {
     value: number;
     fromDate: string;
     toDate: string;
-    cakeId: number;
+    cakeId?: number;
+    cakes?: Options[]
     createdAt?: string;
     updatedAt?: string;
 }
