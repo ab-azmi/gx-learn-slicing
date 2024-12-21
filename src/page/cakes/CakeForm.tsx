@@ -223,7 +223,7 @@ const CakeForm = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>No</th>
+                <th>#No</th>
                 <th>Name</th>
                 <th>Additional Price</th>
                 <th></th>
@@ -287,7 +287,7 @@ const CakeForm = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>No</th>
+                <th>#No</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Value</th>
