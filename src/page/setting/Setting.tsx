@@ -44,7 +44,7 @@ const Setting = () => {
       />
 
       <Modal
-        title="Update Setting Value"
+        title="Update Setting Data"
         show={showModal}
         onClose={() => setShowModal(false)}>
         <form>
@@ -69,7 +69,7 @@ const Setting = () => {
           <Button className="mt-2 w-100" type="button" onClick={() => {
             handleUpdateSetting();
             setShowModal(false);
-          }}>Submit</Button>
+          }}>Save</Button>
         </form>
       </Modal>
     </div>
