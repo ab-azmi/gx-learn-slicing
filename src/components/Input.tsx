@@ -11,6 +11,7 @@ type Props = {
   required?: boolean;
   errors?: string;
   autocomplete?: string;
+  disabled?: boolean;
 };
 const Input = ({
   value,
@@ -22,23 +23,25 @@ const Input = ({
   name,
   errors,
   autocomplete = "on",
+  disabled = false,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="d-flex flex-column gap-1 form-group">
+    <div className="d-flex flex-column gap-1 form-group w-100">
       {label && (
-        <label htmlFor={name} className="fw-light fs-xs">
+        <label htmlFor={name} className="text-muted fs-xs">
           {label}
           {required && <span className="text-danger">*</span>}
         </label>
       )}
       <div className="position-relative">
         <input
+          disabled={disabled}
           autoComplete={autocomplete}
           value={value}
           onChange={onChange}
-          type={type === "password" && showPassword ? "text" : type}
+          type={(type === "password" && showPassword) ? "text" : type}
           className="form-control"
           placeholder={placeholder}
           required={required}

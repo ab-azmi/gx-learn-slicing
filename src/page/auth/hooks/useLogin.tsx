@@ -6,6 +6,7 @@ import { login } from "@/service/api/auth.api";
 type params = {
   email: string;
   password: string;
+  remember?: boolean;
 };
 
 const useLogin = () => {
@@ -18,6 +19,7 @@ const useLogin = () => {
   const [input, setInput] = useState<params>({
     email: "",
     password: "",
+    remember: false,
   });
 
   const validate = () => {
@@ -50,7 +52,7 @@ const useLogin = () => {
       return;
     }
 
-    login({ email: input.email, password: input.password })
+    login({ email: input.email, password: input.password, remember: input.remember })
       .then((res) => {
         if (res?.result?.token) {
           store.setToken(res.result.token);
@@ -61,21 +63,12 @@ const useLogin = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
   return {
     input,
     loading,
     errors,
     setInput,
     handleSubmit,
-    handleInput,
   };
 };
 

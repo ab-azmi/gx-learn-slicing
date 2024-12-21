@@ -1,31 +1,45 @@
 import SideBarLink from "@/components/SideBarLink";
-import LogoHitam from "@/assets/images/logo-hitam.svg";
-import SimpleLogo from "@/assets/images/simple-logo.svg";
+import Logo from '@/assets/images/logo.png';
 import {
+  Bag2,
   Cake,
   Calculator,
+  DollarCircle,
   Home,
   ReceiptItem,
   Setting,
+  TicketDiscount,
 } from "iconsax-react";
 import sideBarStore from "@/store/SidebarStore";
 import { ReactNode } from "react";
 import clsx from "clsx";
-import { transactionPath } from "@/path/transaction.path";
+import transactionPath from "@/path/transaction.path";
+import cakePath from "@/path/cakes.path";
+import settingPath from "@/path/setting.path";
+import fixedCostPath from "@/path/fixedCost.path";
+import ingredientPath from "@/path/ingredient.path";
+import discountPath from "@/path/discount.path";
 
 const menuObject = ({
   title,
   icon,
   link,
+  childrens,
 }: {
   title: string;
   icon: ReactNode;
   link: string;
+  childrens?: {
+    link: string;
+    icon?: ReactNode;
+    title: string;
+  }[];
 }) => {
   return {
     title,
     icon,
     link,
+    childrens,
   };
 };
 
@@ -45,59 +59,81 @@ const SideBar = () => {
     menuObject({
       title: "Transactions",
       icon: <ReceiptItem size="24" variant="Bulk" />,
-      link: "/transactions",
+      link: transactionPath.index,
     }),
     menuObject({
-      title: "Employee Attendance",
+      title: "Cakes",
       icon: <Cake size="24" variant="Bulk" />,
-      link: "/cakes",
+      link: cakePath.index,
+      childrens: [
+        {
+          title: "Cake",
+          icon: <Cake size="24" variant="Bulk" />,
+          link: cakePath.index,
+        },
+        {
+          title: "Ingredient",
+          icon: <Bag2 size="24" variant="Bulk" />,
+          link: ingredientPath.index,
+        },
+        {
+          title: "Discount",
+          icon: <TicketDiscount size="24" variant="Bulk" />,
+          link: discountPath.index,
+        }
+      ]
     }),
     menuObject({
       title: "Settings",
       icon: <Setting size="24" variant="Bulk" />,
-      link: "/sett",
+      link: settingPath.index,
+      childrens: [
+        {
+          title: "Setting",
+          icon: <Setting size="24" variant="Bulk" />,
+          link: settingPath.index,
+        },
+        {
+          title: "Monthly Bills",
+          icon: <DollarCircle size="24" variant="Bulk" />,
+          link: fixedCostPath.index,
+        }
+      ]
     }),
   ];
 
   return (
     <>
-      {/* DONE : Responsive Sidebar */}
-      <nav className="py-4 bg-secondary min-vh-100 sidenav d-sm-block d-none">
-        {/* DONE : Sticky sidebar */}
+      <nav className="py-4 bg-white min-vh-100 sidenav d-sm-block d-none">
         <div className="w-100 d-flex justify-content-center mb-5">
-          {expand ? (
-            <img src={LogoHitam} alt="" style={{ width: "9rem" }} />
-          ) : (
-            <img src={SimpleLogo} alt="" style={{ width: "1.4rem" }} />
-          )}
+          <img src={Logo} alt="" style={{ width: "2rem" }} />
         </div>
         <ul className="px-4 d-flex flex-column gap-4">
           {menus.map((menu, index) => (
             <li key={index}>
-              <SideBarLink tooltip={menu.title} link={menu.link}>
-                {menu.icon}
-                {expand && menu.title}
-              </SideBarLink>
+              <SideBarLink
+                icon={menu.icon}
+                link={menu.link}
+                title={menu.title}
+                isExpand={expand}
+                childrens={menu.childrens} />
             </li>
           ))}
         </ul>
       </nav>
       <nav className={clsx("py-4 bg-secondary min-vh-100 sidenav position-fixed z-2", expand ? "d-block" : "d-none")}>
-        {/* DONE : Sticky sidebar */}
         <div className="w-100 d-flex justify-content-center mb-5">
-          {expand ? (
-            <img src={LogoHitam} alt="" style={{ width: "9rem" }} />
-          ) : (
-            <img src={SimpleLogo} alt="" style={{ width: "1.4rem" }} />
-          )}
+          <img src={Logo} alt="" style={{ width: "2rem" }} />
         </div>
         <ul className="px-4 d-flex flex-column gap-4">
           {menus.map((menu, index) => (
             <li key={index}>
-              <SideBarLink tooltip={menu.title} link={menu.link}>
-                {menu.icon}
-                {expand && menu.title}
-              </SideBarLink>
+              <SideBarLink
+                icon={menu.icon}
+                link={menu.link}
+                title={menu.title}
+                isExpand={expand} 
+                childrens={menu.childrens}/>
             </li>
           ))}
         </ul>

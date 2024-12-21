@@ -32,6 +32,8 @@ export const getTransactions = (
 
 export const getTransaction = (id: number) => endpointWrapper(`${API_ENDPOINTS.transaction}/${id}`, "GET");
 
+export const getTransactionSummary = () => endpointWrapper(`${API_ENDPOINTS.transaction}/monthly-summary`, "GET");
+
 export const createTransaction = (data: Transaction) => endpointWrapper(API_ENDPOINTS.transaction, "POST", data);
 
 export const updateTransaction = (data: Transaction) => endpointWrapper(`${API_ENDPOINTS.transaction}/${data.id}`, "PATCH", data);

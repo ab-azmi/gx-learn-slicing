@@ -6,7 +6,7 @@ export type Paginate<T> = {
         internalMsg: string | null;
         attributes: Array<string> | null;
     },
-    pagination?: {
+    pagination: {
         count: number;
         currentPage: number;
         perPage: number;

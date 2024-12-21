@@ -3,14 +3,15 @@ import Picker from "react-datepicker";
 
 type Props = {
   onChange: (date: [Date | null, Date | null]) => void; 
+  label?: string;
 }
 
-const DatePicker = ({onChange}: Props) => {
+const DatePicker = ({onChange, label}: Props) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [startDate, endDate] = dateRange;
   return (
     <div className="d-flex flex-column gap-1 form-group">
-      <label htmlFor="date" className="fw-light">Date Range</label>
+      {label && <label htmlFor="date" className="text-muted">{label}</label>}
       <Picker
         id="date"
         autoComplete="off"

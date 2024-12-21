@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Pakis from "@/assets/images/pakis.jpg";
-import Mountain from "@/assets/images/mountain.jpg";
-import Cat from "@/assets/images/cat.jpg";
+import CakeOne from "@/assets/images/cake1.jpg";
+import CakeTwo from "@/assets/images/cake2.jpg";
+import CakeThree from "@/assets/images/cake3.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 
 const carouselObj = (image: string, caption: string, by: string) => {
@@ -17,17 +17,17 @@ const Carousel = () => {
 
   const slides = [
     carouselObj(
-      Pakis,
+      CakeOne,
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, maiores!",
       "Gordon B. Hinckley"
     ),
     carouselObj(
-      Mountain,
+      CakeTwo,
       "Seperti masyarakat di wilayah terpencil lainnya, disini juga sama",
       "John D Doe"
     ),
     carouselObj(
-      Cat,
+      CakeThree,
       "Consectetur adipisicing elit. Eveniet, lainnya, disini juga sama",
       "Meaowrice L"
     ),

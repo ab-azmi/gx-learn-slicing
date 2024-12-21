@@ -2,7 +2,7 @@ import { Edit, Filter, Trash } from "iconsax-react";
 import TablePagination from "./TablePagination";
 import { useState } from "react";
 import Select from "./Select";
-import formatDate from "@/helpers/dateFormater.helper";
+import {formatDate} from "@/helpers/dateFormater.helper";
 import Input from "./Input";
 import DatePicker from "./DatePicker";
 
@@ -16,7 +16,7 @@ const getNestedValue = (obj: any, path: string) => {
 };
 
 type TableFilter = {
-  options: Array<{ id: number; name: string; created_at?: string }>;
+  options: Array<{ value: number; name: string; created_at?: string }>;
   name: string;
   onSelect: (name: string, value: string) => void;
 };
@@ -116,7 +116,7 @@ const Table = <T,>({
                 value={filterValue[idx].value.toString()}
               />
             ))}
-            <DatePicker />
+            <DatePicker onChange={() => {}}/>
             <button
               type="button"
               className="btn btn-primary"

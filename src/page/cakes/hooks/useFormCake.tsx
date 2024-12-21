@@ -1,4 +1,4 @@
-import { cakeForm } from "@/form/cake.form";
+import { cakeParam } from "@/param/cake.param";
 import { calculateCOGS, createCake, getCake, getIngredients, updateCake } from "@/service/api/cake.api";
 import { getSettings } from "@/service/api/setting.api";
 import { Cake, Ingredient } from "@/types/cake.type";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const useFormCake = () => {
     const [loading, setLoading] = useState(false);
-    const [input, setInput] = useState<Cake>(cakeForm);
+    const [input, setInput] = useState<Cake>(cakeParam);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [defaultMargin, setDefaultMargin] = useState(0);
 
@@ -78,12 +78,12 @@ const useFormCake = () => {
     }
 
     const clearInput = () => {
-        setInput(cakeForm);
+        setInput(cakeParam);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const handleSubmit = (e?: React.FormEvent) => {
+        e?.preventDefault();
+        
         const id = toast.loading("Submitting...");
         setLoading(true);
 
@@ -115,6 +115,28 @@ const useFormCake = () => {
         });
     }
 
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        const newImages = [...input.images || []];
+
+        files.forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                newImages.push({
+                    link: '',
+                    path: '',
+                    file: file,
+                });
+                setInput((prev) => ({
+                    ...prev,
+                    images: [...newImages],
+                }));
+            };
+            reader.readAsDataURL(file);
+        });
+
+    }
+
     return {
         ingredients,
         input,
@@ -125,6 +147,7 @@ const useFormCake = () => {
         fetchCake,
         clearInput,
         handleSubmit,
+        handleImageUpload,
         fetchIngredients,
         fetchProfitMargin,
         handleIngredientChange,

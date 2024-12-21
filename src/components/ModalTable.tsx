@@ -26,7 +26,7 @@ const ModalTable = <T,>({
 }: Props<T>) => {
   return (
     <>
-      <Modal show={show} onHide={onClose}>
+      <Modal show={show} onHide={onClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
