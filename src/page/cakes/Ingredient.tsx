@@ -115,7 +115,7 @@ const Ingredient = () => {
                         onChange={(e) => handleInput(e, setInput, input)}
                     />
                     <Button className="w-100 mt-3" type="button" onClick={() => handleSubmit()}>
-                        Submit
+                        Process
                     </Button>
                 </form>
             </Modal>
