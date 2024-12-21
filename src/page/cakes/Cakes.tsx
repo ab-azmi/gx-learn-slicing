@@ -77,13 +77,13 @@ const Cakes = () => {
               <td>{priceFormater(selected?.sellingPrice)}</td>
             </tr>
             <tr>
-              <td>Total Discount</td>
+              <td>Sum of Discount</td>
               <td>{priceFormater(selected?.totalDiscount)}</td>
             </tr>
           </tbody>
         </table>
 
-        <h6>Variants :</h6>
+        <h6>Cake Variants :</h6>
         <table className="w-100 mb-3">
           <thead>
             <tr>
