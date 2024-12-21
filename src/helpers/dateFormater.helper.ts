@@ -12,9 +12,7 @@ export const formatDate = (date?: string | Date, outFormat: string = 'dd-MM-yyy 
 
 export const systemDate = (date?: string | Date) => {
     if (date) {
-        console.log(date);
         if (typeof date === 'string') {
-            console.log(date);
             const parsed = parse(date, 'dd/MM/yyyy HH:mm', new Date());
             return format(parsed, 'yyyy-MM-dd');
         }

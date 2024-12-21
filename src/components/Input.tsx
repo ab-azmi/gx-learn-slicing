@@ -4,6 +4,9 @@ import { useState } from "react";
 type Props = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onKeyUp?: (e?: React.KeyboardEvent<HTMLInputElement>) => void;
   label?: string;
   placeholder: string;
   type: string;
@@ -16,6 +19,9 @@ type Props = {
 const Input = ({
   value,
   onChange,
+  onFocus,
+  onBlur,
+  onKeyUp,
   label,
   required,
   placeholder,
@@ -41,6 +47,9 @@ const Input = ({
           autoComplete={autocomplete}
           value={value}
           onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onKeyUp={onKeyUp}
           type={(type === "password" && showPassword) ? "text" : type}
           className="form-control"
           placeholder={placeholder}

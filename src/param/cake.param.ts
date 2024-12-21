@@ -61,7 +61,6 @@ export const discountParam = {
   value: 0,
   fromDate: "",
   toDate: "",
-  cakeId: 0,
 }
 
 export const discountFilter = {

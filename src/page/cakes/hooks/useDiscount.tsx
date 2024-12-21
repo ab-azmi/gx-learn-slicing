@@ -38,6 +38,14 @@ const useDiscount = () => {
             })
     }
 
+    const handleSubmit = () => {
+        if (input.id) {
+            handleUpdateDiscount()
+        } else {
+            handleCreateDiscount()
+        }
+    }
+
     return {
         input,
         setInput,
@@ -46,6 +54,7 @@ const useDiscount = () => {
         filters,
         setFilters,
         clearFilter,
+        handleSubmit,
         handleCreateDiscount,
         handleGetDiscounts,
         handleUpdateDiscount
