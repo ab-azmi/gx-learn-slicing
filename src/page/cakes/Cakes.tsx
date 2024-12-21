@@ -167,7 +167,7 @@ const Cakes = () => {
               <Minus />
             </Button>
           </div>
-          <Button type="submit" className="w-100">Adjust</Button>
+          <Button type="submit" className="w-100">Adjust Stock</Button>
         </form>
       </Modal>
     </div>
