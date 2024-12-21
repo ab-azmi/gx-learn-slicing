@@ -33,7 +33,7 @@ const SettingTable = ({
     return (
         <div className="card-secondary">
             <section className="flex-between gap-3 mb-4">
-                <h4 className="fw-bold">Manage Setting</h4>
+                <h4 className="fw-bold">Manage Setting List</h4>
             </section>
 
             <form
