@@ -282,7 +282,7 @@ const CakeForm = () => {
       </div>
 
       <div className="card-secondary mt-3">
-        <h4 className="mb-3">Cake Discounts</h4>
+        <h4 className="mb-3">Cake Discount</h4>
         <div className="table-responsive">
           <table className="table">
             <thead>
